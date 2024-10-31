@@ -13,6 +13,15 @@ public class AppController {
         return "index"; // Loads index.html from the templates folder
     }
 
+    @RequestMapping("/schedule")
+    public String schedule() {
+        return "schedule"; // Loads index.html from the templates folder
+    }
+
+    @RequestMapping("/performance")
+    public String performance() {
+        return "performance"; // Loads index.html from the templates folder
+    }
 
     @RequestMapping("/")
     @ResponseBody
