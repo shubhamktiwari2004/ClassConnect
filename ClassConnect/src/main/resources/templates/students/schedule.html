@@ -81,14 +81,14 @@
                 </a>
               </li>
               <!-- Schedule Tile -->
-              <li class="nav-item">
+              <li class="nav-item active">
                 <a href="/schedule">
                   <i class="fas fa-calendar-alt"></i>
                   <p>Schedule</p>
                 </a>
               </li>
               <!-- Performance Tile -->
-              <li class="nav-item active">
+              <li class="nav-item">
                 <a href="/performance">
                   <i class="fas fa-chart-line"></i>
                   <p>Performance</p>
@@ -243,7 +243,7 @@
               class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
             >
               <div>
-                <h3 class="fw-bold mb-3">Performance</h3>
+                <h3 class="fw-bold mb-3">Schedule</h3>
               </div>
             </div>
 
@@ -289,6 +289,28 @@
     <!-- Kaiadmin DEMO methods, don't include it in your project! -->
     <script src="/js/setting-demo.js"></script>
     <script src="/js/demo.js"></script>
+    <script>
+      $(document).ready(function() {
+        $.notify({
+          // Notification content
+          icon: 'fa fa-info-circle', // Optional icon
+          title: 'Welcome!',
+          message: 'Welcome to Schedule.',
+        }, {
+          // Notification options
+          type: 'info',  // Type can be 'info', 'success', 'warning', 'danger'
+          delay: 2000,  // Time in milliseconds before it disappears
+          placement: {
+            from: "top",
+            align: "right"
+          },
+          offset: {
+            x: 20, // X offset for positioning
+            y: 60  // Y offset for positioning
+          }
+        });
+      });
+    </script>
     <script>
       $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
         type: "line",

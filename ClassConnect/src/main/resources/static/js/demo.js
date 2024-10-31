@@ -18,7 +18,7 @@ const modalShowcase = `
 <div class="modal fade" tabindex="-1" id="modalShowcase">
 	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen p-5">
 		<div class="modal-content rounded-4">
-			<div class="modal-header px-md-5 py-md-4 mt-2 mb-3 shadow-sm border-0">
+			<div class="modal-header px-fmd-5 py-md-4 mt-2 mb-3 shadow-sm border-0">
 				<h3 class="h5 fw-extrabold mb-0">Choose Layouts Dashboard</h3>
 				<button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
 				<path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clip-rule="evenodd" />
@@ -190,18 +190,7 @@ Circles.create({
 })
 
 //Notify
-$.notify({
-	icon: 'icon-bell',
-	title: 'Kaiadmin',
-	message: 'Premium Bootstrap 5 Admin Dashboard',
-},{
-	type: 'secondary',
-	placement: {
-		from: "bottom",
-		align: "right"
-	},
-	time: 1000,
-});
+
 
 // Jsvectormap
 var world_map = new jsVectorMap({
