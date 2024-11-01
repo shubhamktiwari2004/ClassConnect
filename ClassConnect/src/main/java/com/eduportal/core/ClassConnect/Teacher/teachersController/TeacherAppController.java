@@ -1,4 +1,4 @@
-package com.eduportal.core.ClassConnect.teachersController;
+package com.eduportal.core.ClassConnect.Teacher.teachersController;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +20,10 @@ public class TeacherAppController {
     @RequestMapping("/teachers/students")
     public String performance() {
         return "teachers/students"; // Loads index.html from the templates folder
+    }
+    @RequestMapping("/teachers/addSchedule")
+    public String addSchedule() {
+        return "teachers/addSchedule"; // Loads index.html from the templates folder
     }
 
     @RequestMapping("/teachers")
