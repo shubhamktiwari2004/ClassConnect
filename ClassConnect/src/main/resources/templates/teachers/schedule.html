@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>ClassConnect </title>
@@ -42,6 +42,68 @@
     <link rel="stylesheet" href="/css/demo.css" />
   </head>
   <body>
+
+  <style>
+    .cards-container {
+       display: flex;
+       flex-direction: column;
+       gap: 20px;
+       padding: 20px;
+       width: 100%;
+       box-sizing: border-box; /* Ensure padding is included in width calculations */
+
+   }
+
+   .card {
+       display: flex;
+       flex-direction: column;
+       background-color: #fff;
+       border-radius: 10px;
+       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+       padding: 20px;
+       transition: transform 0.2s ease-in-out;
+       max-width: 100%;
+       width: 100%;
+       background: linear-gradient(135deg, #f5f5f5 0%, #eaeaea 100%);
+
+   }
+
+   .card:hover {
+       transform: scale(1.02);
+       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+
+   }
+
+   .date-highlight {
+       color: orange;
+       font-weight: bold;
+       margin-bottom: 10px;
+   }
+
+   .card-content {
+       display: flex;
+       flex-direction: column;
+       gap: 8px;
+   }
+
+   .time-info {
+       display: flex;
+       justify-content: space-between;
+       margin-top: 10px;
+   }
+
+   .card p {
+       margin: 5px 0;
+       font-size: 1em;
+   }
+
+   .card p strong {
+       color: #333;
+   }
+
+  </style>
+
+
     <div class="wrapper">
       <!-- Sidebar -->
       <div class="sidebar" data-background-color="dark">
@@ -90,8 +152,8 @@
               <!-- Performance Tile -->
               <li class="nav-item">
                 <a href="/teachers/students">
-                  <i class="fas fa-chart-line"></i>
-                  <p>Performance</p>
+                  <i class="fas fa-user-graduate"></i>
+                  <p>Students</p>
                 </a>
               </li>
             </ul>
@@ -238,15 +300,45 @@
         </div>
 
         <div class="container">
+
           <div class="page-inner">
             <div class="d-flex align-items-center justify-content-between flex-wrap pt-2 pb-4">
               <h3 class="fw-bold mb-0 me-3">Schedule</h3>
               <button class="btn btn-success" onclick="window.location.href='/teachers/addSchedule'">Add Schedule</button>
             </div>
           </div>
+
+          <div class="cards-container">
+            <div th:each="schedule : ${schedules}" class="card">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 class="date-highlight" th:text="${schedule.date}" style="color: orange; font-weight: bold;"></h3>
+                <button class="edit-button" onclick="">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+              </div>
+              <div class="card-content">
+                <p><strong>📘 Subject:</strong> <span th:text="${schedule.subject}"></span></p>
+                <p><strong>🏫 Class:</strong> <span th:text="${schedule.className}"></span></p>
+                <p><strong>📑 Topic:</strong> <span th:text="${schedule.topic}"></span></p>
+                <p><strong>📍 Room Number:</strong> <span th:text="${schedule.roomNumber}"></span></p>
+                <p><strong>📝 Notes:</strong> <span th:text="${schedule.notes}"></span></p>
+                <div class="time-info">
+                  <p><strong>⏰ Start Time:</strong> <span th:text="${schedule.startTime}"></span></p>
+                  <p><strong>⏰ End Time:</strong> <span th:text="${schedule.endTime}"></span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
 
+
+
+
       </div>
+
+
+
 
 
     </div>

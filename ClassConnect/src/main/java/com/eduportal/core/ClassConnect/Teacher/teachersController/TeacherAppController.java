@@ -12,10 +12,10 @@ public class TeacherAppController {
         return "teachers/index"; // Loads index.html from the templates folder
     }
 
-    @RequestMapping("/teachers/schedule")
-    public String schedule() {
-        return "teachers/schedule"; // Loads index.html from the templates folder
-    }
+//    @RequestMapping("/teachers/schedule")
+//    public String schedule() {
+//        return "teachers/schedule"; // Loads index.html from the templates folder
+//    }
 
     @RequestMapping("/teachers/students")
     public String performance() {

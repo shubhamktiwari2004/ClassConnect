@@ -15,7 +15,6 @@ public class ScheduleModel {
     private Long id;
 
     private long teacherId = 1; // Assuming you want to link the schedule to a teacher
-
     private String className;
     private String subject;
     private LocalDate date;
