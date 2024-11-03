@@ -3,7 +3,6 @@ package com.eduportal.core.ClassConnect.Teacher.teacherModel;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -12,7 +11,8 @@ public class ScheduleModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "schedule_id")
+    private int schedule_id;
 
     private long teacherId = 1; // Assuming you want to link the schedule to a teacher
     private String className;
@@ -37,12 +37,12 @@ public class ScheduleModel {
     // Getters and Setters
 
 
-    public Long getId() {
-        return id;
+    public int getSchedule_id() {
+        return schedule_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setSchedule_id(int id) {
+        this.schedule_id = id;
     }
 
     public Long getTeacherId() {

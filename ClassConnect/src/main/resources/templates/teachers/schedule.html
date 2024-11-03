@@ -332,6 +332,9 @@
             </div>
           </div>
 
+          <div th:if="${message}" th:text="${message}" id="popup-message" style="display: none;"></div>
+
+
         </div>
 
 
@@ -431,5 +434,14 @@
         fillColor: "rgba(255, 165, 52, .14)",
       });
     </script>
+    <script>
+      window.addEventListener("DOMContentLoaded", function() {
+          var messageElement = document.getElementById("popup-message");
+          if (messageElement && messageElement.textContent.trim() !== "") {
+              alert(messageElement.textContent);
+          }
+      });
+    </script>
+
     </body>
   </html>

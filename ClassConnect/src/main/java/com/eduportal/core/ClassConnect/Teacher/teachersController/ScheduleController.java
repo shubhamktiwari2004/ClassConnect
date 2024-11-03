@@ -19,8 +19,9 @@ public class ScheduleController {
 
     @PostMapping("/teachers/schedule/post")
     public String postScheduleForm(@ModelAttribute ScheduleModel scheduleModel, RedirectAttributes redirectAttributes) {
+        System.out.println(scheduleModel);
         scheduleService.createSchedule(scheduleModel);
         redirectAttributes.addFlashAttribute("message", "Data inserted successfully!");
-        return "redirect:/teachers/addSchedule";
+        return "redirect:/teachers/schedule";
     }
 }
