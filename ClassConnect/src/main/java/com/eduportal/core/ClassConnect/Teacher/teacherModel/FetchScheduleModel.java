@@ -11,7 +11,7 @@ public class FetchScheduleModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long schedule_id;
     private long teacherId; // Assuming you want to link the schedule to a teacher
     private String className;
     private String subject;
@@ -31,12 +31,12 @@ public class FetchScheduleModel {
         this.teacherId = teacherId;
     }
 
-    public Long getId() {
-        return id;
+    public Long getSchedule_id() {
+        return schedule_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setSchedule_id(Long id) {
+        this.schedule_id = id;
     }
 
     public String getClassName() {

@@ -16,4 +16,9 @@ public class FetchScheduleService {
     public List<FetchScheduleModel> getAllSchedules() {
         return scheduleRepository.getAllSchedule();
     }
+
+    public List<FetchScheduleModel> getScheduleById(int scheduleId){
+        return scheduleRepository.getScheduleById(scheduleId);
+
+    }
 }

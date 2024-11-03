@@ -312,9 +312,11 @@
             <div th:each="schedule : ${schedules}" class="card">
               <div style="display: flex; justify-content: space-between; align-items: center;">
                 <h3 class="date-highlight" th:text="${schedule.date}" style="color: orange; font-weight: bold;"></h3>
-                <button class="edit-button" onclick="">
+                <p>Schedule ID: [[${schedule.schedule_id}]] </p>
+                <a th:href="@{/teachers/schedule/edit/{schedule_id}(schedule_id=${schedule.schedule_id})}" class="edit-button">
                   <i class="fas fa-edit"></i> Edit
-                </button>
+                </a>
+
               </div>
               <div class="card-content">
                 <p><strong>📘 Subject:</strong> <span th:text="${schedule.subject}"></span></p>
@@ -429,5 +431,5 @@
         fillColor: "rgba(255, 165, 52, .14)",
       });
     </script>
-  </body>
-</html>
+    </body>
+  </html>
