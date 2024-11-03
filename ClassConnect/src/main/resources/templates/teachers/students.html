@@ -12,7 +12,30 @@
       href="/img/kaiadmin/favicon.ico"
       type="image/x-icon"
     />
+  <style>
+    .card-container {
+       display: flex;
+       flex-wrap: wrap;
+       gap: 20px; /* Space between the cards */
+     }
 
+   .card {
+     display: flex;
+     flex-direction: column;
+     background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
+     border-radius: 10px;
+     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+     padding: 20px;
+     transition: transform 0.2s ease-in-out;
+     width: calc(50% - 10px); /* Adjust width to take up half the container */
+     max-width: 100%;
+   }
+
+   .card-content h3 {
+     margin: 0;
+   }
+
+  </style>
     <!-- Fonts and icons -->
     <script src="/js/plugin/webfont/webfont.min.js"></script>
     <script>
@@ -239,20 +262,44 @@
 
         <div class="container">
           <div class="page-inner">
-            <div
-              class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
-            >
+            <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
               <div>
                 <h3 class="fw-bold mb-3">Students</h3>
               </div>
             </div>
 
+            <div class="card-container">
+              <div class="card" onclick="redirectToStudentList()">
+                <div class="card-content">
+                  <h3 class="fw-bold mb-3">Class 10</h3>
+                  <p>Division A</p>
+                </div>
+              </div>
+              <div class="card" onclick="redirectToStudentList()">
+                <div class="card-content">
+                  <h3 class="fw-bold mb-3">Class 10</h3>
+                  <p>Division B</p>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-content">
+                  <h3 class="fw-bold mb-3">Class 10</h3>
+                  <p>Division C</p>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-content">
+                  <h3 class="fw-bold mb-3">Class 10</h3>
+                  <p>Division D</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+
+
+
       </div>
-
-
-    </div>
     <!--   Core JS Files   -->
     <script src="/js/core/jquery-3.7.1.min.js"></script>
     <script src="/js/core/popper.min.js"></script>
@@ -339,6 +386,12 @@
         lineColor: "#ffa534",
         fillColor: "rgba(255, 165, 52, .14)",
       });
+    </script>
+      <!-- JavaScript function for redirection -->
+    <script>
+      function redirectToStudentList() {
+        window.location.href = "/teachers/students_list";
+      }
     </script>
   </body>
 </html>

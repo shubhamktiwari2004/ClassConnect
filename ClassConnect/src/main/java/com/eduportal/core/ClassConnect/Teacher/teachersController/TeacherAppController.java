@@ -26,6 +26,11 @@ public class TeacherAppController {
         return "teachers/addSchedule"; // Loads index.html from the templates folder
     }
 
+//    @RequestMapping("/teachers/students_list")
+//    public String student_list() {
+//        return "teachers/students_list"; // Loads index.html from the templates folder
+//    }
+//
     @RequestMapping("/teachers")
     @ResponseBody
     public String greet(){
