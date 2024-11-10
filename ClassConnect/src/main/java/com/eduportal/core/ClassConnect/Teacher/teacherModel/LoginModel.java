@@ -3,11 +3,11 @@ package com.eduportal.core.ClassConnect.Teacher.teacherModel;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "teacherUser")
+@Table(name = "teacher_user")
 public class LoginModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
 
