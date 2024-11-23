@@ -35,27 +35,27 @@ public class LoginController {
 
         try {
             loginService.signUp(username, email, password);  // Assuming this service handles user registration logic
-            return "/teachers/login"; // Redirect to login page after successful signup
+            return "redirect:/teachers/login"; // Redirect to login page after successful signup
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());  // Add the error message to the model
             return "/teachers/signup";
         }
     }
 
-    @PostMapping("teachers/login")
-    public String login(
-            @RequestParam String username,
-            @RequestParam String password,
-            Model model){
-
-        try {
-            loginService.login(username, password);  // Assuming this service handles user registration logic
-            return "/teachers/index";// Redirect to login page after successful signup
-        }catch (Exception e) {
-        model.addAttribute("errorMessage", e.getMessage());  // Add the error message to the model
-        return "/teachers/login";
-        }
-    }
+//    @PostMapping("teachers/login")
+//    public String login(
+//            @RequestParam String username,
+//            @RequestParam String password,
+//            Model model){
+//
+//        try {
+//            loginService.login(username, password);  // Assuming this service handles user registration logic
+//            return "/teachers/index";// Redirect to login page after successful signup
+//        }catch (Exception e) {
+//        model.addAttribute("errorMessage", e.getMessage());  // Add the error message to the model
+//        return "/teachers/login";
+//        }
+//    }
 
 
 
