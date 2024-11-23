@@ -3,15 +3,18 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>ClassConnect </title>
-    <meta
-      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
-      name="viewport"
-    />
-    <link
-      rel="icon"
-      href="/img/kaiadmin/favicon.ico"
-      type="image/x-icon"
-    />
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport"/>
+    <link rel="icon" href="/img/kaiadmin/favicon.ico" type="image/x-icon"/>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
+    <!-- Include Bootstrap CSS & JavaScript for Modal Functionality -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Include Bootstrap CSS & JavaScript for Modal Functionality -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <!-- Fonts and icons -->
     <script src="/js/plugin/webfont/webfont.min.js"></script>
     <script>
@@ -48,12 +51,7 @@
           <!-- Logo Header -->
           <div class="logo-header" data-background-color="dark">
             <a href="/home" class="logo">
-              <img
-                      src="/img/kaiadmin/logo_light.svg"
-                      alt="navbar brand"
-                      class="navbar-brand"
-                      height="20"
-              />
+              <img src="/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand" height="20"/>
             </a>
             <div class="nav-toggle">
               <button class="btn btn-toggle toggle-sidebar">
@@ -105,12 +103,7 @@
             <!-- Logo Header -->
             <div class="logo-header" data-background-color="dark">
               <a href="index.html" class="logo">
-                <img
-                  src="/img/kaiadmin/logo_light.svg"
-                  alt="navbar brand"
-                  class="navbar-brand"
-                  height="20"
-                />
+                <img src="/img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand" height="20"/>
               </a>
               <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">
@@ -140,11 +133,7 @@
                       <i class="fa fa-search search-icon"></i>
                     </button>
                   </div>
-                  <input
-                    type="text"
-                    placeholder="Search ..."
-                    class="form-control"
-                  />
+                  <input type="text" placeholder="Search ..."class="form-control"/>
                 </div>
               </nav>
 
@@ -243,26 +232,78 @@
                   <h3 class="fw-bold mb-3">Students</h3>
                 </div>
               </div>
-            <table class="table">
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Maths Marks</th>
-                <th>Science Marks</th>
-                <th>Hindi Marks</th>
-                <th>English Marks</th>
-                <th>Total Marks</th>
-              </tr>
-              <tr th:each="student : ${students}">
-                <td th:text="${student.id}">ID</td>
-                <td th:text="${student.students_name}">Name</td>
-                <td th:text="${student.maths_marks}">Maths Marks</td>
-                <td th:text="${student.science_marks}">Science Marks</td>
-                <td th:text="${student.hindi_marks}">Hindi Marks</td>
-                <td th:text="${student.english_marks}">English Marks</td>
-                <td th:text="${student.total_marks}">Total Marks</td>
-              </tr>
-            </table>
+            <div style="display: flex; justify-content: flex-end;">
+              <button class="btn btn-primary" id="addStudentModalLabel" data-toggle="modal" data-target="#addStudentModal">
+                <i class="fas fa-plus" style="margin-right: 5px;"></i> Add Student
+              </button>
+
+            </div>
+              <div class="table-responsive mt-4">
+                <table class="table">
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Maths Marks</th>
+                    <th>Science Marks</th>
+                    <th>Hindi Marks</th>
+                    <th>English Marks</th>
+                    <th>Total Marks</th>
+                  </tr>
+                  <tr th:each="student : ${students}">
+                    <td th:text="${student.roll_no}">Roll No.</td>
+                    <td th:text="${student.students_name}">Name</td>
+                    <td th:text="${student.maths_marks}">Maths Marks</td>
+                    <td th:text="${student.science_marks}">Science Marks</td>
+                    <td th:text="${student.hindi_marks}">Hindi Marks</td>
+                    <td th:text="${student.english_marks}">English Marks</td>
+                    <td th:text="${student.total_marks}">Total Marks</td>
+                  </tr>
+                </table>
+              </div>
+
+            <!-- Modal Structure -->
+            <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                  </div>
+                  <div class="modal-body">
+                    <!-- Form Inside Modal -->
+                    <form id="studentform">
+                      <div class="form-group">
+                        <label for="studentName">Student Name</label>
+                        <input type="text" class="form-control" id="studentName" placeholder="Enter name">
+                      </div>
+                      <div class="form-group">
+                        <label for="mathsMarks">Maths Marks</label>
+                        <input type="number" class="form-control" id="mathsMarks" placeholder="Maths marks">
+                      </div>
+                      <div class="form-group">
+                        <label for="scienceMarks">Science Marks</label>
+                        <input type="number" class="form-control" id="scienceMarks" placeholder="Science marks">
+                      </div>
+                      <div class="form-group">
+                        <label for="hindiMarks">Hindi Marks</label>
+                        <input type="number" class="form-control" id="hindiMarks" placeholder="Hindi marks">
+                      </div>
+                      <div class="form-group">
+                        <label for="englishMarks">English Marks</label>
+                        <input type="number" class="form-control" id="englishMarks" placeholder="English marks">
+                      </div>
+                      <div class="form-group">
+                        <label for="totalMarks">Total Marks</label>
+                        <input type="number" class="form-control" id="totalMarks" placeholder="Total marks">
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="save" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -305,7 +346,15 @@
     <!-- Kaiadmin DEMO methods, don't include it in your project! -->
     <script src="/js/setting-demo.js"></script>
     <script src="/js/demo.js"></script>
-    <script>
+    <!-- jQuery (required by DataTables) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <!-- Include Bootstrap CSS & JavaScript for Modal Functionality -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <script>
       $(document).ready(function() {
         $.notify({
           // Notification content
@@ -325,6 +374,17 @@
             y: 60  // Y offset for positioning
           }
         });
+
+         // Initialize DataTable with pagination and search functionality
+    $('.table').DataTable({
+      "paging": true, // Enable pagination
+      "searching": true, // Enable search
+      "lengthChange": true, // Show entries dropdown
+      "pageLength": 5, // Number of rows per page
+      "language": {
+        "search": "Search students:" // Customize search placeholder text
+      }
+    });
       });
     </script>
 
@@ -355,6 +415,46 @@
         lineColor: "#ffa534",
         fillColor: "rgba(255, 165, 52, .14)",
       });
+   document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector("#save").addEventListener("click", function () {
+        const formData = {
+            studentName: document.getElementById("studentName").value,
+            mathsMarks: parseInt(document.getElementById("mathsMarks").value),
+            scienceMarks: parseInt(document.getElementById("scienceMarks").value),
+            hindiMarks: parseInt(document.getElementById("hindiMarks").value),
+            englishMarks: parseInt(document.getElementById("englishMarks").value),
+            totalMarks: parseInt(document.getElementById("totalMarks").value)
+        };
+
+        // Send AJAX request to save data
+        fetch('/students/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.text(); // if server responds with plain text
+            }
+            throw new Error('Failed to save student');
+        })
+        .then(data => {
+            // Handle success
+            alert("Student saved successfully!");
+            // Hide the modal
+            $('#addStudentModal').modal('hide');
+            // Reset the form
+            document.getElementById("studentform").reset();
+        })
+        .catch(error => {
+            console.error("Error saving student:", error);
+        });
+    });
+});
+
+
     </script>
   </body>
 </html>
