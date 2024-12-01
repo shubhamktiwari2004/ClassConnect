@@ -4,15 +4,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>ClassConnect </title>
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport"/>
-    <link rel="icon" href="/img/kaiadmin/favicon.ico" type="image/x-icon"/>
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
-    <!-- Include Bootstrap CSS & JavaScript for Modal Functionality -->
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- Include Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Include Bootstrap CSS & JavaScript for Modal Functionality -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- Fonts and icons -->
@@ -260,6 +255,7 @@
                   </tr>
                 </table>
               </div>
+            <input type="hidden" id="classDivisionId" th:value="${classDivisionId}">
 
             <!-- Modal Structure -->
             <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="addStudentModalLabel" aria-hidden="true">
@@ -273,6 +269,10 @@
                       <div class="form-group">
                         <label for="studentName">Student Name</label>
                         <input type="text" class="form-control" id="studentName" placeholder="Enter name">
+                      </div>
+                      <div class="form-group">
+                        <label for="RollNo">Roll No.</label>
+                        <input type="text" class="form-control" id="RollNo" placeholder="Enter name">
                       </div>
                       <div class="form-group">
                         <label for="mathsMarks">Maths Marks</label>
@@ -309,154 +309,50 @@
 
 
 
+</div>
+</div>
+<!--      <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>-->
 
-      </div>
-    <!--   Core JS Files   -->
-    <script src="/js/core/jquery-3.7.1.min.js"></script>
-    <script src="/js/core/popper.min.js"></script>
-    <script src="/js/core/bootstrap.min.js"></script>
-
-    <!-- jQuery Scrollbar -->
-    <script src="/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-
-    <!-- Chart JS -->
-    <script src="/js/plugin/chart.js/chart.min.js"></script>
-
-    <!-- jQuery Sparkline -->
-    <script src="/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
-
-    <!-- Chart Circle -->
-    <script src="/js/plugin/chart-circle/circles.min.js"></script>
-
-    <!-- Datatables -->
-    <script src="/js/plugin/datatables/datatables.min.js"></script>
-
-    <!-- Bootstrap Notify -->
-    <script src="/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
-
-    <!-- jQuery Vector Maps -->
-    <script src="/js/plugin/jsvectormap/jsvectormap.min.js"></script>
-    <script src="/js/plugin/jsvectormap/world.js"></script>
-
-    <!-- Sweet Alert -->
-    <script src="/js/plugin/sweetalert/sweetalert.min.js"></script>
-
-    <!-- Kaiadmin JS -->
-    <script src="/js/kaiadmin.min.js"></script>
-
-    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
-    <script src="/js/setting-demo.js"></script>
-    <script src="/js/demo.js"></script>
-    <!-- jQuery (required by DataTables) -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <!-- Include Bootstrap CSS & JavaScript for Modal Functionality -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-      <script>
-      $(document).ready(function() {
-        $.notify({
-          // Notification content
-          icon: 'fa fa-info-circle', // Optional icon
-          title: 'Welcome!',
-          message: 'Welcome to Students.',
-        }, {
-          // Notification options
-          type: 'info',  // Type can be 'info', 'success', 'warning', 'danger'
-          delay: 2000,  // Time in milliseconds before it disappears
-          placement: {
-            from: "top",
-            align: "right"
-          },
-          offset: {
-            x: 20, // X offset for positioning
-            y: 60  // Y offset for positioning
-          }
-        });
-
-         // Initialize DataTable with pagination and search functionality
-    $('.table').DataTable({
-      "paging": true, // Enable pagination
-      "searching": true, // Enable search
-      "lengthChange": true, // Show entries dropdown
-      "pageLength": 5, // Number of rows per page
-      "language": {
-        "search": "Search students:" // Customize search placeholder text
-      }
-    });
-      });
-    </script>
-
+<!--      &lt;!&ndash;    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>&ndash;&gt;-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>-->
+<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
     <script>
-      $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#177dff",
-        fillColor: "rgba(23, 125, 255, 0.14)",
-      });
-
-      $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#f3545d",
-        fillColor: "rgba(243, 84, 93, .14)",
-      });
-
-      $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#ffa534",
-        fillColor: "rgba(255, 165, 52, .14)",
-      });
-   document.addEventListener("DOMContentLoaded", function () {
-    document.querySelector("#save").addEventListener("click", function () {
+      // Attach click event to the save button
+      $('#save').on('click', function () {
+        // Gather form data
         const formData = {
-            studentName: document.getElementById("studentName").value,
-            mathsMarks: parseInt(document.getElementById("mathsMarks").value),
-            scienceMarks: parseInt(document.getElementById("scienceMarks").value),
-            hindiMarks: parseInt(document.getElementById("hindiMarks").value),
-            englishMarks: parseInt(document.getElementById("englishMarks").value),
-            totalMarks: parseInt(document.getElementById("totalMarks").value)
+          RollNo:$('#RollNo').val(),
+          classDivisionsId:$('#classDivisionId').val(),
+          studentName: $('#studentName').val(),
+          mathsMarks: $('#mathsMarks').val(),
+          scienceMarks: $('#scienceMarks').val(),
+          hindiMarks: $('#hindiMarks').val(),
+          englishMarks: $('#englishMarks').val(),
+          totalMarks: $('#totalMarks').val(),
         };
+        console.log(formData);
 
-        // Send AJAX request to save data
-        fetch('/students/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.text(); // if server responds with plain text
-            }
-            throw new Error('Failed to save student');
-        })
-        .then(data => {
-            // Handle success
+        // Send data to the controller via AJAX
+        $.ajax({
+          type: "POST", // Use POST to send data
+          url: "/teachers/saveStudent", // URL to the controller endpoint
+          contentType: "application/json", // Send data as JSON
+          data: JSON.stringify(formData), // Serialize form data to JSON
+          success: function (response) {
+            // Handle successful response
             alert("Student saved successfully!");
-            // Hide the modal
-            $('#addStudentModal').modal('hide');
-            // Reset the form
-            document.getElementById("studentform").reset();
-        })
-        .catch(error => {
-            console.error("Error saving student:", error);
+            console.log("Response:", response);
+            location.reload();
+          },
+          error: function (error) {
+            // Handle errors
+            alert("Error saving student.");
+            console.log("Error:", error);
+          },
         });
-    });
-});
-
-
+      });
     </script>
-    </div>
+
+
   </body>
 </html>

@@ -38,6 +38,7 @@ public class FetchStudentslistController {
         List<FetchStudentsModel> students = studentsService.getAllStudentsByClassDivisionId(id);  // Assuming you filter by `classDivisionId`
         System.out.println("Fetched students for class division ID " + id + ": " + students);
         model.addAttribute("students", students);
+        model.addAttribute("classDivisionId", id);
         return "teachers/students_list";
     }
 
