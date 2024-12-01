@@ -14,8 +14,8 @@ public class ProfileService {
     @Autowired
     ProfileRepo profile;
 
-    public List<ProfileModel> viewProfile(int teacher_id){
-        List<ProfileModel> prof =profile.getByTeacherId(teacher_id);
+    public List<ProfileModel> viewProfile(int teacherId){
+        List<ProfileModel> prof =profile.getByTeacherId(teacherId);
         return prof;
     }
 }

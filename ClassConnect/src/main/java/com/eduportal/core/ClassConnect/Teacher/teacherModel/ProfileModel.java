@@ -12,7 +12,7 @@ public class ProfileModel {
     int teacher_id;
     String name;
     String email;
-    int mobile;
+    long mobile;
     String address;
 
     public int getId() {
@@ -47,7 +47,7 @@ public class ProfileModel {
         this.email = email;
     }
 
-    public int getMobile() {
+    public long getMobile() {
         return mobile;
     }
 
