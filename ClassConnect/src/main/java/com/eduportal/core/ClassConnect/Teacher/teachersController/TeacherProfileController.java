@@ -18,8 +18,8 @@ public class TeacherProfileController {
 
     @GetMapping("/teachers/profile/{teacherId}")
     @ResponseBody
-    public List<ProfileModel> profile(@PathVariable int teacherId){
-        List<ProfileModel> prof = profile.viewProfile(teacherId);
+    public List<ProfileModel> profile(@PathVariable int teacher_id){
+        List<ProfileModel> prof = profile.viewProfile(teacher_id);
         return prof;
     }
 
