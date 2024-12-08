@@ -9,11 +9,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 
@@ -23,6 +19,18 @@ public class SecurityConfig {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private CustomSuccessHandler customSuccessHandler;
+
+    @Autowired
+    private CustomLogoutSuccessHandler customLogoutSuccessHandler;
+
+    public SecurityConfig(LoginService loginService, CustomSuccessHandler customSuccessHandler, CustomLogoutSuccessHandler customLogoutSuccessHandler) {
+        this.loginService = loginService;
+        this.customSuccessHandler = customSuccessHandler;
+        this.customLogoutSuccessHandler = customLogoutSuccessHandler;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
@@ -35,17 +43,19 @@ public class SecurityConfig {
         http.formLogin(form -> form
                 .loginPage("/teachers/login") // URL for your custom login page
                 .loginProcessingUrl("/teachers/login") // URL to submit the login form
-                .defaultSuccessUrl("/teachers/home", true) // Redirect after successful login
+                .successHandler(customSuccessHandler)
+//                .defaultSuccessUrl("/teachers/home", true) // Redirect after successful login
                 .failureUrl("/login?error=true") // Redirect after failed login
                 .permitAll()
         );
         http.logout(logout -> logout
                 .logoutUrl("/teachers/logout") // Logout endpoint
-                .logoutSuccessUrl("/teachers/login") // Redirect after logout
+                .logoutSuccessHandler(customLogoutSuccessHandler)
+//                .logoutSuccessUrl("/teachers/login") // Redirect after logout
                 .permitAll()
         );
 
-//        http.sessionManagement(customizer -> customizer.sessionFixation().newSession());
+        http.sessionManagement(session -> session.sessionFixation().newSession());
         return http.build();
 
     }

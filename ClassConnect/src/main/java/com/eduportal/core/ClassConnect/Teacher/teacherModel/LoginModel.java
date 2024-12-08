@@ -2,6 +2,8 @@ package com.eduportal.core.ClassConnect.Teacher.teacherModel;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "teacher_user")
 public class LoginModel {
@@ -18,11 +20,24 @@ public class LoginModel {
 
     private String password;
 
+    private String session_id;
+
     private String email;
 
     private Boolean isActive = true;
 
     private Boolean isDeleted = false;
+
+    private LocalDateTime loginTimestamp;
+    private LocalDateTime logoutTimestamp;
+
+    public String getSession_id() {
+        return session_id;
+    }
+
+    public void setSession_id(String session_id) {
+        this.session_id = session_id;
+    }
 
     public int getId() {
         return id;
@@ -81,7 +96,10 @@ public class LoginModel {
         this.teacher_id = teacher_id;
     }
 
+    public LocalDateTime getLoginTimestamp() { return loginTimestamp; }
+    public void setLoginTimestamp(LocalDateTime loginTimestamp) { this.loginTimestamp = loginTimestamp; }
 
-
+    public LocalDateTime getLogoutTimestamp() { return logoutTimestamp; }
+    public void setLogoutTimestamp(LocalDateTime logoutTimestamp) { this.logoutTimestamp = logoutTimestamp; }
 
 }

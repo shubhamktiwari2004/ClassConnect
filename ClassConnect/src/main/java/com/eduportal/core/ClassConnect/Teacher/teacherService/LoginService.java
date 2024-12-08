@@ -1,19 +1,16 @@
 package com.eduportal.core.ClassConnect.Teacher.teacherService;
-
-import com.eduportal.core.ClassConnect.Config.SecurityConfig;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.LoginModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherRepository.LoginRepo;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.time.Instant;
-import java.util.Objects;
+import java.time.LocalDateTime;
 
 @Service
 public class LoginService implements UserDetailsService {
@@ -22,6 +19,10 @@ public class LoginService implements UserDetailsService {
     private LoginRepo loginRepo;
 
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
+
+    public LoginService(LoginRepo loginRepo) {
+        this.loginRepo = loginRepo;
+    }
 
     public LoginModel signUp(String username , String email , String password){
         if(loginRepo.existsByUsername(username)){
@@ -72,6 +73,33 @@ public class LoginService implements UserDetailsService {
                 .password(loginModel.getPassword()) // Ideally, encode the password
                 .roles("USER") // Add roles if applicable
                 .build();
+    }
+
+    //storing session and login time stamp when login
+    public void storeUserDataInSession(HttpSession session, String username) {
+        LoginModel user = loginRepo.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        session.setAttribute("username", user.getUsername());
+        session.setAttribute("email", user.getEmail());
+        session.setAttribute("teacher_id", user.getTeacher_id());
+        session.setAttribute("sessionId", session.getId());
+        System.out.println("setting session id inside table.");
+        user.setSession_id(session.getId());
+        user.setLoginTimestamp(LocalDateTime.now());
+        loginRepo.save(user);
+    }
+
+    //when logout chechking if the username is not null
+    public LoginModel getUserByUsername(String username) {
+        return loginRepo.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
+
+    //storing logout timestamp when logout.
+    public void saveUser(LoginModel user) {
+        loginRepo.save(user);
     }
 }
 
