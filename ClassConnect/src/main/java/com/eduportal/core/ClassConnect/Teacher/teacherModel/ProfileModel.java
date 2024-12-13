@@ -12,10 +12,10 @@ public class ProfileModel {
     int teacher_id;
     String name;
     String email;
-    long mobile;
+    Long mobile;
     String address;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -51,7 +51,7 @@ public class ProfileModel {
         return mobile;
     }
 
-    public void setMobile(int mobile) {
+    public void setMobile(long mobile) {
         this.mobile = mobile;
     }
 

@@ -158,7 +158,12 @@
                   <hr>
                   <div class="row">
                     <div class="col-sm-12">
-                      <a class="btn btn-info " href="/teachers/editProfile">Edit</a>
+                      <form action="/teachers/editProfile" method="POST" style="display: inline;">
+                        <input type="hidden" name="teacherId" value="1731348323">
+                        <button type="submit" class="btn btn-info">Edit</button>
+                      </form>
+<!--                      <input type="hidden" name="teacherId" value="1731348323">-->
+<!--                      <a class="btn btn-info " href="/teachers/editProfile">Edit</a>-->
                     </div>
                   </div>
                 </div>
@@ -230,8 +235,19 @@
     </div>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+
 <script type="text/javascript">
-	
+    // Check if the page has been loaded before
+        if (!sessionStorage.getItem("reloaded")) {
+            sessionStorage.setItem("reloaded", "true");
+            window.location.reload();
+        } else {
+            sessionStorage.removeItem("reloaded");
+        }
+
+
 </script>
 </body>
 </html>
