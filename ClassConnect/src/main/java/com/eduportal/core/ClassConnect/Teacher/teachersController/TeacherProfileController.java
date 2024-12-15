@@ -4,6 +4,7 @@ import com.eduportal.core.ClassConnect.Teacher.teacherModel.ProfileModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.TeacherModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherService.ProfileService;
 import com.eduportal.core.ClassConnect.Teacher.teacherService.TeacherService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.UserTransaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,25 +20,24 @@ public class TeacherProfileController {
     private ProfileService profile;
 
     @PostMapping("/teachers/profile")
-    public String profile(@RequestParam int teacherId , Model model){
+    public String profile(Model model ,HttpSession session){
+        Integer teacherId = (Integer) session.getAttribute("teacher_id");
+
         List<ProfileModel> prof = profile.viewProfile(teacherId);
         model.addAttribute("profile" , prof.getFirst());
         return "teachers/profile";
     }
 
     @PostMapping("/teachers/editProfile")
-    public String editProfile(@RequestParam int teacherId, Model model) {
+    public String editProfile(Model model,HttpSession session) {
+        Integer teacherId = (Integer) session.getAttribute("teacher_id");
+
         List<ProfileModel> prof = profile.viewProfile(teacherId);
 
         if (prof.isEmpty()) {
             System.out.println("Profile not found for teacherId: " + teacherId);
         } else {
             ProfileModel profile = prof.get(0);
-            System.out.println("Profile found: " + profile);
-            System.out.println("Name: " + profile.getName());
-            System.out.println("Email: " + profile.getEmail());
-            System.out.println("Mobile: " + profile.getMobile());
-            System.out.println("Address: " + profile.getAddress());
         }
 
         model.addAttribute("profile", prof.isEmpty() ? new ProfileModel() : prof.get(0));
@@ -45,28 +45,41 @@ public class TeacherProfileController {
     }
 
     @PostMapping("/teachers/updateProfile")
-    public String updateProfile(@RequestParam int teacherId,
-                                @RequestParam String name,
+    public String updateProfile(@RequestParam String name,
                                 @RequestParam String email,
                                 @RequestParam Long mobile,
-                                @RequestParam String address, Model model) {
+                                @RequestParam String address, Model model, HttpSession session) {
+        Integer teacherId = (Integer) session.getAttribute("teacher_id");
+
+        // Logging for debugging
+        System.out.println("Teacher ID from session: " + teacherId);
+
         try {
             // Check if the profile exists before updating
             List<ProfileModel> prof = profile.viewProfile(teacherId);
+
             if (prof.isEmpty()) {
-                model.addAttribute("error", "Profile not found for update.");
-                return "teachers/errorPage";
+                System.out.println("Profile not found for teacher ID: " + teacherId);
+                model.addAttribute("error", "Profile not found.");
+                return "error";
             }
 
-            // Update the profile using the custom query
+            // Logging before updating
+            System.out.println("Updating profile for teacher ID: " + teacherId);
+
+            // Update the profile
             profile.updateProfile(teacherId, name, email, mobile, address);
 
-            model.addAttribute("profile" , prof.getFirst());
+            // Return updated profile page
+            model.addAttribute("profile", prof.get(0)); // Assuming prof.get(0) is the updated profile
             return "teachers/profile";
         } catch (Exception e) {
+            // Log the error stack trace for debugging
+            e.printStackTrace();
             model.addAttribute("error", "Failed to update profile: " + e.getMessage());
-            return "teachers/errorPage";
+            return "error";
         }
     }
+
 
 }
