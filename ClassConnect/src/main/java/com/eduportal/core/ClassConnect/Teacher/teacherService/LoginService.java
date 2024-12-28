@@ -4,7 +4,6 @@ import com.eduportal.core.ClassConnect.Teacher.teacherModel.RegistrationProfileD
 import com.eduportal.core.ClassConnect.Teacher.teacherRepository.LoginRepo;
 import com.eduportal.core.ClassConnect.Teacher.teacherRepository.RegistrationProfileDetailsRepo;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -46,14 +45,14 @@ public class LoginService implements UserDetailsService {
 
         System.out.println("in profile section2");
 
-        profileDetail(name , mobile , ((int) epochSeconds), email);
+        profileDetail(name , mobile , ((int) epochSeconds), email , username);
 
 
 
         return loginRepo.save(loginmodel);
     }
 
-    public RegistrationProfileDetails profileDetail(String name , long mobile , int teacher_id , String email){
+    public RegistrationProfileDetails profileDetail(String name , long mobile , int teacher_id , String email , String username){
 
 
         System.out.println("in profile section3");
@@ -63,25 +62,10 @@ public class LoginService implements UserDetailsService {
         profileDetails.setName(name);
         profileDetails.setEmail(email);
         profileDetails.setMobile(mobile);
+        profileDetails.setUsername(username);
         return profileDetailsRepo.save(profileDetails);
 
     }
-
-    /*public LoginModel login(String username , String password ){
-
-        LoginModel loginModel = loginRepo.findByUsername(username)
-                .or(() -> loginRepo.findByEmail(username))
-                .orElseThrow(() -> new IllegalArgumentException("Invalid Username"));
-
-//        if(!passwordEncoder.matches(password,loginModel.getPassword())){
-//            throw new IllegalArgumentException("Invalid password");
-//        }
-        if(!passwordEncoder.matches(password , loginModel.getPassword())){
-            throw new IllegalArgumentException("Invalid password");
-        }
-
-        return loginModel;
-    }*/
 
 
     @Override
@@ -90,6 +74,8 @@ public class LoginService implements UserDetailsService {
         LoginModel loginModel = loginRepo.findByUsername(username)
                 .or(() -> loginRepo.findByEmail(username))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+
 
         return User.builder()
                 .username(loginModel.getUsername())
@@ -101,15 +87,21 @@ public class LoginService implements UserDetailsService {
     //storing session and login time stamp when login
     public void storeUserDataInSession(HttpSession session, String username) {
 
-        RegistrationProfileDetails profileDetails =  new RegistrationProfileDetails();
+
+        System.out.println("hello");
+
+
         LoginModel user = loginRepo.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
+        RegistrationProfileDetails profileDetails = profileDetailsRepo.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         session.setAttribute("username", user.getUsername());
         session.setAttribute("email", user.getEmail());
         session.setAttribute("teacher_id", user.getTeacher_id());
         session.setAttribute("sessionId", session.getId());
-        session.setAttribute("teacher_name" , profileDetails.getName());
+        session.setAttribute("teacherName", profileDetails.getName());
+
         System.out.println("setting session id inside table.");
         user.setSession_id(session.getId());
         user.setLoginTimestamp(LocalDateTime.now());

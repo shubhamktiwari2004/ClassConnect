@@ -27,6 +27,7 @@ public class TestSessionController {
         userDetails.put("username", session.getAttribute("username"));
         userDetails.put("email", session.getAttribute("email"));
         userDetails.put("teacher_id", session.getAttribute("teacher_id"));
+        userDetails.put("teacherName", session.getAttribute("teacherName"));
         userDetails.put("sessionId", session.getId());
 
         sessionData.add(userDetails);

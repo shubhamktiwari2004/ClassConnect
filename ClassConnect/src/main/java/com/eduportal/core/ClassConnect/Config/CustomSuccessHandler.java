@@ -8,8 +8,13 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 
 @Component
 public class CustomSuccessHandler implements AuthenticationSuccessHandler {
@@ -24,8 +29,6 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         String username = authentication.getName();
-
-        System.out.println("This is the name :"+ username);
 
         // Store user details in session
         HttpSession session = request.getSession();
