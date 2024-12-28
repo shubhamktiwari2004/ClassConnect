@@ -47,7 +47,7 @@
                         </div>
                         <span class="profile-username">
               <span class="op-7">Hi,</span>
-              <span class="fw-bold" th:text="${profile.teacher_name}">User</span>
+              <span class="fw-bold" th:text="${session['teacherName']}">User</span>
             </span>
                     </a>
                     <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -57,8 +57,8 @@
                                     <img src="/img/profile.jpg" alt="image profile" class="avatar-img rounded" />
                                 </div>
                                 <div class="u-text">
-                                    <h4 th:text="${profile.teacher_name}">Hizrian</h4>
-                                    <p class="text-muted" th:text="${profile.email}">hello@example.com</p>
+                                    <h4 th:text="${session['teacherName']}">Hizrian</h4>
+                                    <p class="text-muted" th:text="${session['email']}">hello@example.com</p>
                                 </div>
                             </div>
                         </li>
