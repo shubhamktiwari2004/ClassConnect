@@ -39,6 +39,7 @@ public class FetchStudentslistController {
         System.out.println("Fetched students for class division ID " + id + ": " + students);
         model.addAttribute("students", students);
         model.addAttribute("classDivisionId", id);
+        model.addAttribute("currentPage", "students");
         return "teachers/students_list";
     }
 

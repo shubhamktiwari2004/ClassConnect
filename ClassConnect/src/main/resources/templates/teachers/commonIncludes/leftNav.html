@@ -43,7 +43,7 @@
                     </a>
                 </li>
                 <!-- Students Tile -->
-                <li class="nav-item active">
+                <li class="nav-item" th:classappend="${currentPage == 'students' ? 'active' : ''}">
                     <a href="/teachers/students">
                         <i class="fas fa-user-graduate"></i>
                         <p>Students</p>
