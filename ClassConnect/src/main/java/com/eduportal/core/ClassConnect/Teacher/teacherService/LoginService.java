@@ -100,6 +100,8 @@ public class LoginService implements UserDetailsService {
 
     //storing session and login time stamp when login
     public void storeUserDataInSession(HttpSession session, String username) {
+
+        RegistrationProfileDetails profileDetails =  new RegistrationProfileDetails();
         LoginModel user = loginRepo.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
@@ -107,6 +109,7 @@ public class LoginService implements UserDetailsService {
         session.setAttribute("email", user.getEmail());
         session.setAttribute("teacher_id", user.getTeacher_id());
         session.setAttribute("sessionId", session.getId());
+        session.setAttribute("teacher_name" , profileDetails.getName());
         System.out.println("setting session id inside table.");
         user.setSession_id(session.getId());
         user.setLoginTimestamp(LocalDateTime.now());
