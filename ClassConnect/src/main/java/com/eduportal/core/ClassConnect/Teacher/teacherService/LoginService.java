@@ -1,6 +1,8 @@
 package com.eduportal.core.ClassConnect.Teacher.teacherService;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.LoginModel;
+import com.eduportal.core.ClassConnect.Teacher.teacherModel.RegistrationProfileDetails;
 import com.eduportal.core.ClassConnect.Teacher.teacherRepository.LoginRepo;
+import com.eduportal.core.ClassConnect.Teacher.teacherRepository.RegistrationProfileDetailsRepo;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -15,16 +17,17 @@ import java.time.LocalDateTime;
 @Service
 public class LoginService implements UserDetailsService {
 
-    @Autowired
     private LoginRepo loginRepo;
+    private RegistrationProfileDetailsRepo profileDetailsRepo;
 
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
 
-    public LoginService(LoginRepo loginRepo) {
+    public LoginService(LoginRepo loginRepo ,RegistrationProfileDetailsRepo profileDetailsRepo) {
         this.loginRepo = loginRepo;
+        this.profileDetailsRepo = profileDetailsRepo;
     }
 
-    public LoginModel signUp(String username , String email , String password){
+    public LoginModel signUp(String name ,String username , String email , String password , long mobile){
         if(loginRepo.existsByUsername(username)){
             throw new IllegalArgumentException("username already exists");
         }
@@ -41,7 +44,27 @@ public class LoginService implements UserDetailsService {
         loginmodel.setPassword(passwordEncoder.encode(password));
         loginmodel.setTeacher_id((int) epochSeconds);
 
+        System.out.println("in profile section2");
+
+        profileDetail(name , mobile , ((int) epochSeconds), email);
+
+
+
         return loginRepo.save(loginmodel);
+    }
+
+    public RegistrationProfileDetails profileDetail(String name , long mobile , int teacher_id , String email){
+
+
+        System.out.println("in profile section3");
+        RegistrationProfileDetails profileDetails = new RegistrationProfileDetails();
+
+        profileDetails.setTeacher_id(teacher_id);
+        profileDetails.setName(name);
+        profileDetails.setEmail(email);
+        profileDetails.setMobile(mobile);
+        return profileDetailsRepo.save(profileDetails);
+
     }
 
     /*public LoginModel login(String username , String password ){

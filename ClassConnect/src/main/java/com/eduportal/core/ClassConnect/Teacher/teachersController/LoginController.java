@@ -28,13 +28,18 @@ public class LoginController {
 
     @PostMapping("teachers/signup")
     public String signUp(
+            @RequestParam String teachername,
             @RequestParam String username,
             @RequestParam String email,
             @RequestParam String password,
+            @RequestParam String phoneno,
             Model model) {
 
         try {
-            loginService.signUp(username, email, password);  // Assuming this service handles user registration logic
+            System.out.println("in profile section1");
+            long phoneNo = Long.parseLong(phoneno);
+            System.out.print(phoneNo);
+            loginService.signUp(teachername, username, email, password , phoneNo);  // Assuming this service handles user registration logic
             return "redirect:/teachers/login"; // Redirect to login page after successful signup
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());  // Add the error message to the model
