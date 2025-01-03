@@ -16,19 +16,20 @@
         <div class="bg-white p-4 p-md-5 rounded shadow-sm">
           <div class="row">
             <div class="col-12">
-              <!-- Display error message if present -->
-              <div class="alert alert-danger" th:if="${errorMessage}">
-                <p th:text="${errorMessage}"></p>
+              <div th:if="${param.error}" style="color: red;">
+                Invalid username or password. Please try again.
               </div>
+              <!-- Display error message if present -->
               <div class="mb-5">
                 <h3>Login</h3>
               </div>
             </div>
           </div>
           <form method="post" th:action="@{/teachers/login}">
+
             <div class="row gy-3 gy-md-4 overflow-hidden">
               <div class="col-12">
-                <label for="username" class="form-label">Emailor Username <span class="text-danger">*</span></label>
+                <label for="username" class="form-label">Email or Username <span class="text-danger">*</span></label>
                 <input type="username" class="form-control" name="username" id="username" placeholder="name@example.com" required>
               </div>
               <div class="col-12">

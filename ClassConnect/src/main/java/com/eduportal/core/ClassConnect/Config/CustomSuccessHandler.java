@@ -18,9 +18,7 @@ import org.springframework.ui.ModelMap;
 
 @Component
 public class CustomSuccessHandler implements AuthenticationSuccessHandler {
-
-    @Autowired
-    private LoginService loginService;
+    private final LoginService loginService;
 
     public CustomSuccessHandler(LoginService loginService) {
         this.loginService = loginService;

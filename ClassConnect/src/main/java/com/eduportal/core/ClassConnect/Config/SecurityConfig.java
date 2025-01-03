@@ -17,19 +17,16 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    @Autowired
-    private LoginService loginService;
+    private final LoginService loginService;
+    private final CustomSuccessHandler customSuccessHandler;
+    private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
+    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
-    @Autowired
-    private CustomSuccessHandler customSuccessHandler;
-
-    @Autowired
-    private CustomLogoutSuccessHandler customLogoutSuccessHandler;
-
-    public SecurityConfig(LoginService loginService, CustomSuccessHandler customSuccessHandler, CustomLogoutSuccessHandler customLogoutSuccessHandler) {
+    public SecurityConfig(LoginService loginService, CustomSuccessHandler customSuccessHandler, CustomLogoutSuccessHandler customLogoutSuccessHandler, CustomAuthenticationFailureHandler customAuthenticationFailureHandler) {
         this.loginService = loginService;
         this.customSuccessHandler = customSuccessHandler;
         this.customLogoutSuccessHandler = customLogoutSuccessHandler;
+        this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
     }
 
     @Bean
@@ -44,14 +41,13 @@ public class SecurityConfig {
                 .loginPage("/teachers/login") // URL for your custom login page
                 .loginProcessingUrl("/teachers/login") // URL to submit the login form
                 .successHandler(customSuccessHandler)
-//                .defaultSuccessUrl("/teachers/home", true) // Redirect after successful login
-                .failureUrl("/login?error=true") // Redirect after failed login
+                .failureHandler(customAuthenticationFailureHandler)
+                .failureUrl("/teachers/login?error=true") // Redirect after failed login
                 .permitAll()
         );
         http.logout(logout -> logout
                 .logoutUrl("/teachers/logout") // Logout endpoint
                 .logoutSuccessHandler(customLogoutSuccessHandler)
-//                .logoutSuccessUrl("/teachers/login") // Redirect after logout
                 .permitAll()
         );
 
