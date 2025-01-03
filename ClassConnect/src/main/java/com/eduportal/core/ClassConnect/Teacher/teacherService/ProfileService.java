@@ -19,7 +19,7 @@ public class ProfileService {
     }
 
     @Transactional
-    public void updateProfile(int teacherId, String name, String email, Long mobile, String address) {
-        profile.updateProfileById((long) teacherId, name, email, mobile, address);
+    public void updateProfile(int teacherId, String name, String email, Long mobile, String address , String image) {
+        profile.updateProfileById((long) teacherId, name, email, mobile, address , image);
     }
 }

@@ -14,6 +14,17 @@ public class ProfileModel {
     String email;
     Long mobile;
     String address;
+    String profile_image;
+
+
+    public String getProfile_image() {
+        return profile_image;
+    }
+
+    public void setProfile_image(String profile_image) {
+        this.profile_image = profile_image;
+    }
+
 
     public long getId() {
         return id;
