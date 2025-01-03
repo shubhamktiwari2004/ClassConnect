@@ -1,159 +1,182 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>ClassConnect </title>
-    <meta
-      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
-      name="viewport"
-    />
-    <link
-      rel="icon"
-      href="/img/kaiadmin/favicon.ico"
-      type="image/x-icon"
-    />
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>ClassConnect</title>
+  <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
+  <link rel="icon" href="/img/kaiadmin/favicon.ico" type="image/x-icon" />
 
-    <!-- Fonts and icons -->
-    <script src="/js/plugin/webfont/webfont.min.js"></script>
-    <script>
-      WebFont.load({
-        google: { families: ["Public Sans:300,400,500,600,700"] },
-        custom: {
-          families: [
-            "Font Awesome 5 Solid",
-            "Font Awesome 5 Regular",
-            "Font Awesome 5 Brands",
-            "simple-line-icons",
-          ],
-          urls: ["/css/fonts.min.css"],
-        },
-        active: function () {
-          sessionStorage.fonts = true;
-        },
-      });
-    </script>
+  <!-- Fonts and icons -->
+  <script src="/js/plugin/webfont/webfont.min.js"></script>
+  <script>
+    WebFont.load({
+      google: { families: ["Public Sans:300,400,500,600,700"] },
+      custom: {
+        families: [
+          "Font Awesome 5 Solid",
+          "Font Awesome 5 Regular",
+          "Font Awesome 5 Brands",
+          "simple-line-icons"
+        ],
+        urls: ["/css/fonts.min.css"]
+      },
+      active: function () {
+        sessionStorage.fonts = true;
+      }
+    });
+  </script>
 
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/css/plugins.min.css" />
-    <link rel="stylesheet" href="/css/kaiadmin.min.css" />
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/css/plugins.min.css" />
+  <link rel="stylesheet" href="/css/kaiadmin.min.css" />
+  <link rel="stylesheet" href="/css/demo.css" /> <!-- Demo purpose CSS -->
 
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="/css/demo.css" />
-  </head>
-  <body>
-    <div class="wrapper">
-      <!-- Sidebar -->
-      <!-- Include Sidebar -->
-      <div th:replace="~{'teachers/commonIncludes/leftNav.html' :: leftNavContent}"></div>
-      <!-- End Sidebar -->
+</head>
+<body>
+<div class="wrapper">
+  <!-- Sidebar -->
+  <div th:replace="~{'teachers/commonIncludes/leftNav.html' :: leftNavContent}"></div>
 
-      <div class="main-panel">
-        <!-- Include header -->
-        <div th:replace="~{'teachers/commonIncludes/header.html' :: headerContent}"></div>
+  <div class="main-panel">
+    <!-- Header -->
+    <div th:replace="~{'teachers/commonIncludes/header.html' :: headerContent}"></div>
 
-        <div class="container">
-          <div class="page-inner">
-            <div
-              class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
-            >
-              <div>
-                <h3 class="fw-bold mb-3">Dashboard</h3>
-              </div>
-            </div>
+    <div class="container">
+      <div class="page-inner">
+        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+          <h3 class="fw-bold mb-3">Dashboard</h3>
+        </div>
 
+        <div class="row">
+          <!-- Bar Chart -->
+          <div class="col-md-6">
+            <canvas id="barChart"></canvas>
+          </div>
+
+          <!-- Line Chart -->
+          <div class="col-md-6">
+            <canvas id="lineChart"></canvas>
+          </div>
+
+          <!-- Pie Chart -->
+          <div class="col-md-6">
+            <canvas id="pieChart"></canvas>
+          </div>
+
+          <!-- Doughnut Chart -->
+          <div class="col-md-6">
+            <canvas id="doughnutChart"></canvas>
           </div>
         </div>
       </div>
-
-
     </div>
-    <!--   Core JS Files   -->
-    <script src="/js/core/jquery-3.7.1.min.js"></script>
-    <script src="/js/core/popper.min.js"></script>
-    <script src="/js/core/bootstrap.min.js"></script>
+  </div>
+</div>
 
-    <!-- jQuery Scrollbar -->
-    <script src="/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<!-- Core JS Files -->
+<script src="/js/core/jquery-3.7.1.min.js"></script>
+<script src="/js/core/popper.min.js"></script>
+<script src="/js/core/bootstrap.min.js"></script>
 
-    <!-- Chart JS -->
-    <script src="/js/plugin/chart.js/chart.min.js"></script>
+<!-- Chart JS -->
+<script src="/js/plugin/chart.js/chart.min.js"></script>
 
-    <!-- jQuery Sparkline -->
-    <script src="/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+<!-- Other Plugins -->
+<script src="/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<script src="/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+<script src="/js/plugin/sweetalert/sweetalert.min.js"></script>
+<script src="/js/kaiadmin.min.js"></script>
 
-    <!-- Chart Circle -->
-    <script src="/js/plugin/chart-circle/circles.min.js"></script>
+<!-- Custom Script -->
+<script>
+  $(document).ready(function() {
+    $.notify({
+      icon: 'fa fa-info-circle',
+      title: 'Welcome!',
+      message: 'Welcome to Dashboard.'
+    }, {
+      type: 'info',
+      delay: 2000,
+      placement: {
+        from: "top",
+        align: "right"
+      },
+      offset: {
+        x: 20,
+        y: 60
+      }
+    });
+  });
+</script>
 
-    <!-- Datatables -->
-    <script src="/js/plugin/datatables/datatables.min.js"></script>
+<!-- Chart Configuration -->
+<script>
+  // Bar Chart
+  var ctx1 = document.getElementById("barChart").getContext("2d");
+  var barChart = new Chart(ctx1, {
+    type: "bar",
+    data: {
+      labels: ["January", "February", "March", "April", "May", "June", "July"],
+      datasets: [{
+        label: "Sales Data",
+        data: [12, 19, 3, 5, 2, 3, 8],
+        backgroundColor: "rgba(23, 125, 255, 0.6)",
+        borderColor: "rgba(23, 125, 255, 1)",
+        borderWidth: 1,
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: { beginAtZero: true }
+      }
+    }
+  });
 
-    <!-- Bootstrap Notify -->
-    <script src="/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+  // Line Chart
+  var ctx2 = document.getElementById("lineChart").getContext("2d");
+  var lineChart = new Chart(ctx2, {
+    type: "line",
+    data: {
+      labels: ["January", "February", "March", "April", "May", "June", "July"],
+      datasets: [{
+        label: "Revenue",
+        data: [5, 10, 8, 13, 15, 20, 22],
+        borderColor: "#177dff",
+        fill: false,
+      }]
+    },
+    options: { responsive: true }
+  });
 
-    <!-- jQuery Vector Maps -->
-    <script src="/js/plugin/jsvectormap/jsvectormap.min.js"></script>
-    <script src="/js/plugin/jsvectormap/world.js"></script>
+  // Pie Chart
+  var ctx3 = document.getElementById("pieChart").getContext("2d");
+  var pieChart = new Chart(ctx3, {
+    type: "pie",
+    data: {
+      labels: ["Red", "Blue", "Yellow"],
+      datasets: [{
+        data: [300, 50, 100],
+        backgroundColor: ["#FF0000", "#0000FF", "#FFFF00"],
+      }]
+    },
+    options: { responsive: true }
+  });
 
-    <!-- Sweet Alert -->
-    <script src="/js/plugin/sweetalert/sweetalert.min.js"></script>
-
-    <!-- Kaiadmin JS -->
-    <script src="/js/kaiadmin.min.js"></script>
-
-    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
-    <script src="/js/setting-demo.js"></script>
-    <script src="/js/demo.js"></script>
-    <script>
-      $(document).ready(function() {
-        $.notify({
-          // Notification content
-          icon: 'fa fa-info-circle', // Optional icon
-          title: 'Welcome!',
-          message: 'Welcome to DashBoard.',
-        }, {
-          // Notification options
-          type: 'info',  // Type can be 'info', 'success', 'warning', 'danger'
-          delay: 2000,  // Time in milliseconds before it disappears
-          placement: {
-            from: "top",
-            align: "right"
-          },
-          offset: {
-            x: 20, // X offset for positioning
-            y: 60  // Y offset for positioning
-          }
-        });
-      });
-    </script>
-
-    <script>
-      $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#177dff",
-        fillColor: "rgba(23, 125, 255, 0.14)",
-      });
-
-      $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#f3545d",
-        fillColor: "rgba(243, 84, 93, .14)",
-      });
-
-      $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#ffa534",
-        fillColor: "rgba(255, 165, 52, .14)",
-      });
-    </script>
-  </body>
+  // Doughnut Chart
+  var ctx4 = document.getElementById("doughnutChart").getContext("2d");
+  var doughnutChart = new Chart(ctx4, {
+    type: "doughnut",
+    data: {
+      labels: ["Apple", "Orange", "Banana"],
+      datasets: [{
+        data: [150, 200, 100],
+        backgroundColor: ["#FF4500", "#32CD32", "#FFD700"],
+      }]
+    },
+    options: { responsive: true }
+  });
+</script>
+</body>
 </html>
