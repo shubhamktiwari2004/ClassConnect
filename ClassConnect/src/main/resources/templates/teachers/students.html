@@ -14,27 +14,50 @@
     />
   <style>
     .card-container {
-       display: flex;
-       flex-wrap: wrap;
-       gap: 20px; /* Space between the cards */
-     }
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     margin: 20px;
+   }
 
    .card {
-     display: flex;
-     flex-direction: column;
-     background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
-     border-radius: 10px;
-     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 90%; /* Increase this value to make the card wider */
+    max-width: 1200px; /* Set a higher max-width to control the card's maximum size */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background-color: #fff;
+    margin: 0 auto; /* Center the card horizontally */
+}
+
+
+   .card-content {
      padding: 20px;
-     transition: transform 0.2s ease-in-out;
-     width: calc(50% - 10px); /* Adjust width to take up half the container */
-     max-width: 100%;
    }
 
-   .card-content h3 {
-     margin: 0;
+   table {
+     width: 100%;
+     border-collapse: collapse;
+     text-align: center;
    }
 
+   th, td {
+     padding: 12px;
+     border: 1px solid #ddd;
+   }
+
+   td img {
+     width: 50px;
+     height: 50px;
+     border-radius: 50%;
+     object-fit: cover;
+   }
+
+   th {
+     background-color: #f4f4f4;
+     color: #333;
+   }
   </style>
     <!-- Fonts and icons -->
     <script src="/js/plugin/webfont/webfont.min.js"></script>
@@ -82,35 +105,27 @@
             </div>
 
             <div class="card-container">
-              <div class="card" th:each="class_and_division : ${class_and_divisions}"
-                   th:onclick="'redirectToStudentList(' + ${class_and_division.id} + ')'">
+              <div class="card">
                 <div class="card-content">
-                  <input type="hidden" th:id="'class_and_division_' + ${class_and_division.id}" th:value="${class_and_division.id}">
-                  <h3 class="fw-bold mb-3" th:text="'Class ' + ${class_and_division.std}">Class</h3>
-                  <p th:text="'Division ' + ${class_and_division.division}">Division</p>
+
+                    <div class="table-responsive mt-4">
+                      <table class="table">
+                        <tr>
+                          <th>Image</th>
+                          <th>Roll No.</th>
+                          <th>Student Name</th>
+                          <th>Action</th>
+                        </tr>
+                        <tr>
+                          <td><img src="/uploads/images/1735388256/narutobayron.jpg" alt="Student 1"></td>
+                          <td>77</td>
+                          <td>Demo
+                          <td></td>
+                        </tr>
+                      </table>
+                    </div>
                 </div>
               </div>
-
-
-
-              <!--              <div class="card" onclick="redirectToStudentList()">-->
-<!--                <div class="card-content">-->
-<!--                  <h3 class="fw-bold mb-3">Class 10</h3>-->
-<!--                  <p>Division B</p>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="card">-->
-<!--                <div class="card-content">-->
-<!--                  <h3 class="fw-bold mb-3">Class 10</h3>-->
-<!--                  <p>Division C</p>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="card">-->
-<!--                <div class="card-content">-->
-<!--                  <h3 class="fw-bold mb-3">Class 10</h3>-->
-<!--                  <p>Division D</p>-->
-<!--                </div>-->
-<!--              </div>-->
             </div>
           </div>
         </div>
