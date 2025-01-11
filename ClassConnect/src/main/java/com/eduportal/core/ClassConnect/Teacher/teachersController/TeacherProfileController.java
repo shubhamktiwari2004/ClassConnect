@@ -56,7 +56,7 @@ public class TeacherProfileController {
 
     @Value("${file.upload-dir}")
     private String uploadDir;
-    @GetMapping("/teachers/updateProfile")
+    @PostMapping("/teachers/updateProfile")
     public String updateProfile(@RequestParam String name,
                                 @RequestParam String email,
                                 @RequestParam Long mobile,

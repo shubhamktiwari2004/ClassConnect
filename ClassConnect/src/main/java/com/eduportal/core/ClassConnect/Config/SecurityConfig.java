@@ -35,7 +35,7 @@ public class SecurityConfig {
 
         http.csrf(customizer -> customizer.disable());
         http.authorizeHttpRequests(request -> request
-                .requestMatchers("/teachers/signup" ,"/teachers/api/register" , "/teachers/api/login").permitAll()
+                .requestMatchers("/teachers/signup" ,"/teachers/api/**").permitAll()
                 .anyRequest().authenticated()); // Allow these files
         http.httpBasic(Customizer.withDefaults());
         http.formLogin(form -> form
