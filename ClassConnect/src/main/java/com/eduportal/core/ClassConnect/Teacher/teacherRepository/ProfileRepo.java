@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProfileRepo extends JpaRepository<ProfileModel, Long>{
@@ -21,5 +22,8 @@ public interface ProfileRepo extends JpaRepository<ProfileModel, Long>{
     @Transactional
     @Query(value = "UPDATE teacher_profile SET name = ?2, email = ?3, mobile = ?4, address = ?5 , profile_image = ?6 WHERE teacher_id = ?1", nativeQuery = true)
     void updateProfileById(Long teacherId, String name, String email, Long mobile, String address , String imageUrl);
+
+    @Query(value = "Select * from teacher_profile where username =?1", nativeQuery = true)
+    Optional<ProfileModel> findByUsername(String username);
 
 }

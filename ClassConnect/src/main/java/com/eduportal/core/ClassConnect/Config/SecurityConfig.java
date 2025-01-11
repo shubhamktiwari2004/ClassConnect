@@ -1,12 +1,13 @@
 package com.eduportal.core.ClassConnect.Config;
 
 import com.eduportal.core.ClassConnect.Teacher.teacherService.LoginService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,7 +35,7 @@ public class SecurityConfig {
 
         http.csrf(customizer -> customizer.disable());
         http.authorizeHttpRequests(request -> request
-                .requestMatchers("/teachers/signup" ,"/teachers/api/register").permitAll()
+                .requestMatchers("/teachers/signup" ,"/teachers/api/register" , "/teachers/api/login").permitAll()
                 .anyRequest().authenticated()); // Allow these files
         http.httpBasic(Customizer.withDefaults());
         http.formLogin(form -> form
@@ -62,6 +63,11 @@ public class SecurityConfig {
         provider.setUserDetailsService(loginService); // Set LoginService as UserDetailsService
         provider.setPasswordEncoder(new BCryptPasswordEncoder(12)); // Set PasswordEncoder
         return provider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
     }
 
 }
