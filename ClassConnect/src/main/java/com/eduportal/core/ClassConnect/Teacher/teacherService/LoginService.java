@@ -1,4 +1,5 @@
 package com.eduportal.core.ClassConnect.Teacher.teacherService;
+import com.eduportal.core.ClassConnect.Api.ApiResponse;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.LoginModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.RegistrationProfileDetails;
 import com.eduportal.core.ClassConnect.Teacher.teacherRepository.LoginRepo;
@@ -16,17 +17,17 @@ import java.time.LocalDateTime;
 @Service
 public class LoginService implements UserDetailsService {
 
-    private LoginRepo loginRepo;
-    private RegistrationProfileDetailsRepo profileDetailsRepo;
+    private final LoginRepo loginRepo;
+    private final RegistrationProfileDetailsRepo profileDetailsRepo;
 
-    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
 
     public LoginService(LoginRepo loginRepo ,RegistrationProfileDetailsRepo profileDetailsRepo) {
         this.loginRepo = loginRepo;
         this.profileDetailsRepo = profileDetailsRepo;
     }
 
-    public LoginModel signUp(String name ,String username , String email , String password , long mobile){
+    public ApiResponse signUp(String name , String username , String email , String password , long mobile){
         if(loginRepo.existsByUsername(username)){
             throw new IllegalArgumentException("username already exists");
         }
@@ -37,22 +38,22 @@ public class LoginService implements UserDetailsService {
         long epochSeconds = Instant.now().getEpochSecond();
 
 
-        LoginModel loginmodel = new LoginModel();
-        loginmodel.setUsername(username);
-        loginmodel.setEmail(email);
-        loginmodel.setPassword(passwordEncoder.encode(password));
-        loginmodel.setTeacher_id((int) epochSeconds);
+        LoginModel loginModel = new LoginModel();
+        loginModel.setUsername(username);
+        loginModel.setEmail(email);
+        loginModel.setPassword(passwordEncoder.encode(password));
+        loginModel.setTeacher_id((int) epochSeconds);
 
-        System.out.println("in profile section2");
-
-        profileDetail(name , mobile , ((int) epochSeconds), email , username);
-
-
-
-        return loginRepo.save(loginmodel);
+        try {
+            loginRepo.save(loginModel);
+            profileDetail(name , mobile , ((int) epochSeconds), email , username);
+            return new ApiResponse(true, "Teacher registration successful");
+        } catch (Exception e) {
+            return new ApiResponse(false, "Teacher registration failed: " + e.getMessage());
+        }
     }
 
-    public RegistrationProfileDetails profileDetail(String name , long mobile , int teacher_id , String email , String username){
+    public void profileDetail(String name , long mobile , int teacher_id , String email , String username){
 
 
         System.out.println("in profile section3");
@@ -63,7 +64,7 @@ public class LoginService implements UserDetailsService {
         profileDetails.setEmail(email);
         profileDetails.setMobile(mobile);
         profileDetails.setUsername(username);
-        return profileDetailsRepo.save(profileDetails);
+        profileDetailsRepo.save(profileDetails);
 
     }
 
@@ -86,10 +87,6 @@ public class LoginService implements UserDetailsService {
 
     //storing session and login time stamp when login
     public void storeUserDataInSession(HttpSession session, String username) {
-
-
-        System.out.println("hello");
-
 
         LoginModel user = loginRepo.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
