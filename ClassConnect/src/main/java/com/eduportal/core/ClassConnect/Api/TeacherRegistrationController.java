@@ -128,4 +128,55 @@ public class TeacherRegistrationController{
                     .body(message);
         }
     }
+
+
+
+    @PostMapping("/authentication")
+    public ResponseEntity<?> authentication(@RequestParam String username, @RequestParam String password) {
+        System.out.println("In login API");
+        HashMap<String , String> message =  new HashMap<>();
+
+
+        // Step 1: Check if the user exists
+        Optional<ProfileModel> profileOptional = profileRepo.findByUsername(username);
+        if (profileOptional.isEmpty()) {
+            System.out.println("User not found: " + username);
+            message.put("msg" , "User not found with username: "+ username);
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(message);
+        }
+
+        try {
+            // Step 2: Authenticate the user
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(username, password)
+            );
+            System.out.println("Authentication successful for user: " + username);
+
+            // Set authentication in security context
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            System.out.println("Authentication context set.");
+            message.put("msg" , "success");
+            message.put("status"  , "1");
+
+            // Step 3: Return the profile if authentication is successful
+            return ResponseEntity.ok(message);
+
+        } catch (BadCredentialsException ex) {
+            // Step 4: Handle wrong password
+            System.out.println("Invalid password for user: " + username);
+            message.put("msg" , "Invalid username or password. Please check your credentials.");
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(message);
+        } catch (Exception e) {
+            // Step 5: Handle unexpected errors
+            System.out.println("Authentication error: " + e.getMessage());
+            message.put("msg" , "Authentication failed. Please try again later.");
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(message);
+        }
+    }
 }
