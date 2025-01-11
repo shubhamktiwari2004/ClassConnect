@@ -22,6 +22,8 @@ public class FetchStudentslistController {
     public String getAllClassDivision(Model model) {
         List<FetchClassDivision> classdivision = studentsService.getAllClassDivision();
         model.addAttribute("class_and_divisions", classdivision);  // Add to model
+        model.addAttribute("currentPage", "students");
+
         return "teachers/students";  // Return the view name
     }
 

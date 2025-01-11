@@ -25,7 +25,7 @@ public class TeacherProfileController {
     @Autowired
     private ProfileService profile;
 
-    @PostMapping("/teachers/profile")
+    @GetMapping("/teachers/profile")
     public String profile(Model model ,HttpSession session){
         Integer teacherId = (Integer) session.getAttribute("teacher_id");
 
@@ -34,7 +34,7 @@ public class TeacherProfileController {
         return "teachers/profile";
     }
 
-    @PostMapping("/teachers/editProfile")
+    @GetMapping("/teachers/editProfile")
     public String editProfile(Model model,HttpSession session) {
         Integer teacherId = (Integer) session.getAttribute("teacher_id");
 
@@ -56,7 +56,7 @@ public class TeacherProfileController {
 
     @Value("${file.upload-dir}")
     private String uploadDir;
-    @PostMapping("/teachers/updateProfile")
+    @GetMapping("/teachers/updateProfile")
     public String updateProfile(@RequestParam String name,
                                 @RequestParam String email,
                                 @RequestParam Long mobile,
