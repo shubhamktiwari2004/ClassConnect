@@ -3,36 +3,23 @@ package com.eduportal.core.ClassConnect.Teacher.teacherModel;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "students") // Database table name
+@Table(name = "student_details") // Database table name
 public class AddStudentModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment primary key
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "class_and_divisions_id")
-    private Long classDivisionsId;
-
-    @Column(name = "roll_no")
-    private int RollNo;
-
-    @Column(name = "students_name")
-    private String studentName;
-
-    @Column(name = "maths_marks")
-    private int mathsMarks;
-
-    @Column(name = "science_marks")
-    private int scienceMarks;
-
-    @Column(name = "hindi_marks")
-    private int hindiMarks;
-
-    @Column(name = "english_marks")
-    private int englishMarks;
-
-    @Column(name = "total_marks")
-    private int totalMarks;
+    private Integer student_id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String address;
+    private Integer teacher_id;
+    private String image_url; // This will store the image URL or path
+    private String is_active;
+    private String user_name;
+    private String password;
 
     public Long getId() {
         return id;
@@ -42,67 +29,83 @@ public class AddStudentModel {
         this.id = id;
     }
 
-    public int getRollNo() {
-        return RollNo;
+    public Integer getStudent_id() {
+        return student_id;
     }
 
-    public void setRollNo(int RollNo) {
-        this.RollNo = RollNo;
+    public void setStudent_id(Integer student_id) {
+        this.student_id = student_id;
     }
 
-    public Long getClassDivisionsId() {
-        return classDivisionsId;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setClassDivisionsId(Long classDivisionsId) {
-        this.classDivisionsId = classDivisionsId;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getStudentName() {
-        return studentName;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public int getMathsMarks() {
-        return mathsMarks;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMathsMarks(int mathsMarks) {
-        this.mathsMarks = mathsMarks;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public int getScienceMarks() {
-        return scienceMarks;
+    public String getAddress() {
+        return address;
     }
 
-    public void setScienceMarks(int scienceMarks) {
-        this.scienceMarks = scienceMarks;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public int getHindiMarks() {
-        return hindiMarks;
+    public Integer getTeacher_id() {
+        return teacher_id;
     }
 
-    public void setHindiMarks(int hindiMarks) {
-        this.hindiMarks = hindiMarks;
+    public void setTeacher_id(Integer teacher_id) {
+        this.teacher_id = teacher_id;
     }
 
-    public int getEnglishMarks() {
-        return englishMarks;
+    public String getImage_url() {
+        return image_url;
     }
 
-    public void setEnglishMarks(int englishMarks) {
-        this.englishMarks = englishMarks;
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 
-    public int getTotalMarks() {
-        return totalMarks;
+    public String getIs_active() {
+        return is_active;
     }
 
-    public void setTotalMarks(int totalMarks) {
-        this.totalMarks = totalMarks;
+    public void setIs_active(String is_active) {
+        this.is_active = is_active;
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

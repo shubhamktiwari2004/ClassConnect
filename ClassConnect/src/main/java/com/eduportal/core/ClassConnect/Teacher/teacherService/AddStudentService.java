@@ -9,10 +9,9 @@ import org.springframework.stereotype.Service;
 public class AddStudentService {
 
     @Autowired
-    AddStudentRepository repository;
+    AddStudentRepository addStudentRepository;
 
     public AddStudentModel saveStudent(AddStudentModel student) {
-
-        return repository.save(student);
+        return addStudentRepository.save(student);
     }
 }

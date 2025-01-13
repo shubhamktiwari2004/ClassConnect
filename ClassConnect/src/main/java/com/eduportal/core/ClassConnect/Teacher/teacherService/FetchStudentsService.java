@@ -1,5 +1,6 @@
 package com.eduportal.core.ClassConnect.Teacher.teacherService;
 
+import com.eduportal.core.ClassConnect.Teacher.teacherModel.AddStudentModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.FetchClassDivision;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.FetchStudentsModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherRepository.FetchStudentsRepository;
@@ -12,16 +13,17 @@ import java.util.List;
 public class FetchStudentsService {
 
     @Autowired
-    private FetchStudentsRepository studentsRepository;
+    private FetchStudentsRepository fetchStudentsRepository;
 
     public List<FetchStudentsModel> getAllStudentsByClassDivisionId(int id) {
-        return studentsRepository.findStudentsByClassDivisionId(id);
+        return fetchStudentsRepository.findStudentsByClassDivisionId(id);
     }
-    public List<FetchClassDivision> getAllClassDivision() {
-        List<FetchClassDivision> classDivisions = studentsRepository.getAllClassDivision();
-        System.out.println("Fetched class divisions: " + classDivisions);
-        return classDivisions;
+    public List<AddStudentModel> getAllStudents() {
+        List<AddStudentModel> addStudentModel = fetchStudentsRepository.getAllStudents();
+        System.out.println("Fetched class divisions: " + addStudentModel);
+        return addStudentModel;
     }
+
 
 
 }

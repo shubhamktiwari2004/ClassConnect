@@ -1,5 +1,6 @@
 package com.eduportal.core.ClassConnect.Teacher.teacherRepository;
 
+import com.eduportal.core.ClassConnect.Teacher.teacherModel.AddStudentModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.FetchClassDivision;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.FetchScheduleModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.FetchStudentsModel;
@@ -16,6 +17,8 @@ public interface FetchStudentsRepository extends JpaRepository<FetchStudentsMode
     @Query(value = "SELECT * FROM class_connect.students WHERE class_and_divisions_id = :id ORDER BY roll_no ASC", nativeQuery = true)
     List<FetchStudentsModel> findStudentsByClassDivisionId(@Param("id") int id);
 
-    @Query("SELECT f FROM FetchClassDivision f ORDER BY f.id")
-    List<FetchClassDivision> getAllClassDivision();
+    @Query("SELECT sd FROM AddStudentModel sd WHERE sd.is_active = '0' ORDER BY sd.id")
+    List<AddStudentModel> getAllStudents();
+
+
 }
