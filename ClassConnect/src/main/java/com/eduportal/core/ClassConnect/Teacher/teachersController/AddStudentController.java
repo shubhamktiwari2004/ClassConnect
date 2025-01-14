@@ -126,24 +126,25 @@ public class AddStudentController {
         try {
             if (studentImage != null && !studentImage.isEmpty()) {
                 // Use the student_id as the image file name (e.g., student_id.jpg)
-                String imageDirectory = System.getProperty("user.dir") + "/uploads/images/students/";  // Path to the folder where images will be stored
+                String relativePath = "uploads/images/students/";  // Relative path for storing images
+                String absolutePath = System.getProperty("user.dir") + "/" + relativePath;  // Absolute path to the folder
 
                 // Create the image file name using the student_id
                 String imageName = student_id + ".jpg";  // Save the image as student_id.jpg
 
                 // Create the file object with the full path (image name + path)
-                File directory = new File(imageDirectory);
+                File directory = new File(absolutePath);
                 if (!directory.exists()) {
                     directory.mkdirs();  // Create the directory if it doesn't exist
                 }
 
-                File imageFile = new File(imageDirectory + imageName);
+                File imageFile = new File(absolutePath + imageName);
 
                 // Save the file to the specified directory
                 studentImage.transferTo(imageFile);
 
-                // Return the image URL or file path (relative or absolute path based on your setup)
-                return imageDirectory + imageName;  // This will be the file path or URL for the image
+                // Return only the relative path
+                return relativePath + imageName;  // Relative file path for the image
             }
         } catch (IOException e) {
             e.printStackTrace();

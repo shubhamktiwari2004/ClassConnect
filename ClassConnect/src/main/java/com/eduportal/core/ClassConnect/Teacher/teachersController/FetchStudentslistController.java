@@ -33,16 +33,6 @@ public class FetchStudentslistController {
             System.out.println("No students found.");
         } else {
             System.out.println("Updated Student Image URLs: " + getstudents.get(0).getImage_url());
-            for (AddStudentModel student : getstudents) {
-                System.out.println("Updated Student Image URLs: " + student);
-                String originalPath = student.getImage_url(); // Original path from the database
-                // Extract relative path and convert it to a URL format
-                if (originalPath != null && !originalPath.isEmpty()) {
-                    String relativePath = originalPath.replace("C:\\Spring Boot Project\\ClassConnect\\", ""); // Replace the local path
-                    String accessibleUrl = "http://localhost:8080/" + relativePath.replace("\\", "/"); // Build a web-accessible URL
-                    student.setImage_url(accessibleUrl); // Update the student object with the new URL
-                }
-            }
             System.out.println("Updated Student Image URLs: " + getstudents);
         }
         model.addAttribute("students", getstudents);
