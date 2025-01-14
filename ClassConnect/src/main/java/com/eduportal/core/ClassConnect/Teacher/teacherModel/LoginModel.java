@@ -24,6 +24,10 @@ public class LoginModel {
 
     private String email;
 
+
+
+    private String tokenNo;
+
     private Boolean isActive = true;
 
     private Boolean isDeleted = false;
@@ -101,5 +105,14 @@ public class LoginModel {
 
     public LocalDateTime getLogoutTimestamp() { return logoutTimestamp; }
     public void setLogoutTimestamp(LocalDateTime logoutTimestamp) { this.logoutTimestamp = logoutTimestamp; }
+
+
+    public String getTokenNo() {
+        return tokenNo;
+    }
+
+    public void setTokenNo(String tokenNo) {
+        this.tokenNo = tokenNo;
+    }
 
 }

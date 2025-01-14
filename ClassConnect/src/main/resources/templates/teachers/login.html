@@ -16,6 +16,12 @@
         <div class="bg-white p-4 p-md-5 rounded shadow-sm">
           <div class="row">
             <div class="col-12">
+              <div th:if="${successMessage}" class="alert alert-success">
+                <p th:text="${successMessage}"></p>
+              </div>
+              <div th:if="${errorMessage}" class="alert alert-danger">
+                <p th:text="${errorMessage}"></p>
+              </div>
               <div th:if="${param.error}" style="color: red;">
                 Invalid username or password. Please try again.
               </div>
@@ -56,7 +62,7 @@
               <hr class="mt-5 mb-4 border-secondary-subtle">
               <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-end">
                 <a th:href="@{/teachers/signup}" class="link-secondary text-decoration-none">Create new account</a>
-                <a href="#!" class="link-secondary text-decoration-none">Forgot password</a>
+                <a th:href="@{/teachers/forgetPassword}" class="link-secondary text-decoration-none">Forgot password</a>
               </div>
             </div>
           </div>
