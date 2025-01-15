@@ -10,20 +10,30 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
 
+    // Inject DataSource for Remember Me
+    private final DataSource dataSource;
+
+
     private final LoginService loginService;
     private final CustomSuccessHandler customSuccessHandler;
     private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
-    public SecurityConfig(LoginService loginService, CustomSuccessHandler customSuccessHandler, CustomLogoutSuccessHandler customLogoutSuccessHandler, CustomAuthenticationFailureHandler customAuthenticationFailureHandler) {
+    public SecurityConfig(DataSource dataSource, LoginService loginService, CustomSuccessHandler customSuccessHandler, CustomLogoutSuccessHandler customLogoutSuccessHandler, CustomAuthenticationFailureHandler customAuthenticationFailureHandler) {
+        this.dataSource = dataSource;
         this.loginService = loginService;
         this.customSuccessHandler = customSuccessHandler;
         this.customLogoutSuccessHandler = customLogoutSuccessHandler;
@@ -46,13 +56,23 @@ public class SecurityConfig {
                 .failureUrl("/teachers/login?error=true") // Redirect after failed login
                 .permitAll()
         );
+        http.rememberMe(rememberMe -> rememberMe
+                .tokenRepository(persistentTokenRepository())
+                .tokenValiditySeconds(7 * 24 * 60 * 60) // 7 days
+                .key("secureKey123") // Unique secret key for hashing
+                .rememberMeParameter("remember_me") // Matches the checkbox name in the form
+                .userDetailsService(loginService)
+                .authenticationSuccessHandler(customSuccessHandler)
+        );
         http.logout(logout -> logout
                 .logoutUrl("/teachers/logout") // Logout endpoint
                 .logoutSuccessHandler(customLogoutSuccessHandler)
                 .permitAll()
         );
+        http.httpBasic(Customizer.withDefaults());
+//        http.sessionManagement(session -> session.sessionFixation().newSession());
+        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
 
-        http.sessionManagement(session -> session.sessionFixation().newSession());
         return http.build();
 
     }
@@ -70,4 +90,11 @@ public class SecurityConfig {
         return authConfig.getAuthenticationManager();
     }
 
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+        tokenRepository.setDataSource(dataSource);
+        return tokenRepository;
+    }
 }
