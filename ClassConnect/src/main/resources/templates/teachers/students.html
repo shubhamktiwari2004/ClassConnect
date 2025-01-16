@@ -105,7 +105,7 @@
               </div>
             </div>
             <div>
-              <a class="btn btn-primary" href="/teachers/add_student/4">
+              <a class="btn btn-primary" href="/teachers/add_student">
                 <i class="fas fa-plus" style="margin-right: 10px;"></i> Add Student
               </a>
 
@@ -121,7 +121,7 @@
                           <th>Image</th>
                           <th>Roll No.</th>
                           <th>Student Name</th>
-                          <th>View</th>
+                          <th>Actions</th>
                         </tr>
                         <tr th:each="student , iterStat : ${students}">
                           <td th:text="${iterStat.index+1}"></td>
@@ -130,7 +130,22 @@
                           </td>
                           <td th:text="${student.id}"></td>
                           <td th:text="${student.firstName} + ' ' + ${student.lastName}"></td> <!-- Assuming you have a firstName and lastName property -->
-                          <td><a th:href="@{/students/add_student/{id}(id=${student.id})}" title="View"><i class="fa fa-eye"></i></a></td>
+                          <td>
+                            <!-- View Icon -->
+                            <a th:href="@{/teachers/add_student/{id}(id=${student.id})}" title="View">
+                              <i class="fa fa-eye"></i>
+                            </a>
+
+                            <!-- Edit Icon -->
+                            <a th:href="@{/teachers/add_student/{id}(id=${student.id})}" title="Edit" class="mx-2">
+                              <i class="fa fa-edit"></i>
+                            </a>
+
+                            <!-- Delete Icon -->
+                            <a th:href="@{/teachers/delete_student/{id}(id=${student.id})}" title="Delete" onclick="return confirm('Are you sure you want to delete this student?')">
+                              <i class="fa fa-trash"></i>
+                            </a>
+                          </td>
                         </tr>
                       </table>
                     </div>

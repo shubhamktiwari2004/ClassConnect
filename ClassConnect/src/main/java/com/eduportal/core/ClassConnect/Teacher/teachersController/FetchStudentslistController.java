@@ -1,24 +1,14 @@
 package com.eduportal.core.ClassConnect.Teacher.teachersController;
 
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.AddStudentModel;
-import com.eduportal.core.ClassConnect.Teacher.teacherModel.FetchClassDivision;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.FetchStudentsModel;
-import com.eduportal.core.ClassConnect.Teacher.teacherRepository.AddStudentRepository;
 import com.eduportal.core.ClassConnect.Teacher.teacherService.FetchStudentsService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.Random;
 
 @Controller
 public class FetchStudentslistController {
@@ -43,15 +33,24 @@ public class FetchStudentslistController {
 
 
 
-    @GetMapping("/teachers/add_student/{id}")
-    public String getAllStudents(@PathVariable int id, Model model) {
-        List<FetchStudentsModel> students = fetchStudentsService.getAllStudentsByClassDivisionId(id);  // Assuming you filter by `classDivisionId`
-        System.out.println("Fetched students for class division ID " + id + ": " + students);
-        model.addAttribute("students", students);
-        model.addAttribute("classDivisionId", id);
+    @GetMapping({"/teachers/add_student", "/teachers/add_student/{id}"})
+    public String getStuendsMarks(@PathVariable(required = false) Integer id, Model model) {
+        if (id == null) {
+            System.out.println("No class division ID provided. Fetching all students.");
+        } else {
+            System.out.println("Fetched students for class division ID " + id);
+            List<FetchStudentsModel> students = fetchStudentsService.getStudentMarks(id);
+            List<AddStudentModel> student_data = fetchStudentsService.getStudentById(id);  // Fetch more detailed data
+
+            model.addAttribute("students", students);   // Add students to model
+            model.addAttribute("student_data", student_data);
+            System.out.println(student_data);
+        }
         model.addAttribute("currentPage", "students");
         return "teachers/add_student";
     }
+
+
 
 
 }
