@@ -24,6 +24,8 @@ public class AddStudentService {
     }
     public void saveMarks(AddStudentMarksModel marks){
         addStudentMarksRepo.save(marks);
+//        addStudentMarksRepo.saveStudentMarks(marks.getStudent_id() , marks.getSubject() , marks.getUnit1() , marks.getUnit2() , marks.getSem1(), marks.getSem2());
+
     }
 
 }

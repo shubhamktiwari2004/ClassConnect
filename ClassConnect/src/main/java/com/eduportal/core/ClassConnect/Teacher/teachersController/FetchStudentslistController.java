@@ -1,5 +1,6 @@
 package com.eduportal.core.ClassConnect.Teacher.teachersController;
 
+import com.eduportal.core.ClassConnect.Teacher.teacherModel.AddStudentMarksModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.AddStudentModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.FetchStudentsModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherService.FetchStudentsService;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -39,10 +41,14 @@ public class FetchStudentslistController {
             System.out.println("No class division ID provided. Fetching all students.");
         } else {
             System.out.println("Fetched students for class division ID " + id);
-            List<FetchStudentsModel> students = fetchStudentsService.getStudentMarks(id);
+            ArrayList<AddStudentMarksModel> studentsMarks = fetchStudentsService.getStudentMarks(id);
+            System.out.println("Student Marks: ");
+            for (AddStudentMarksModel studentMark : studentsMarks) {
+                System.out.println(studentMark); // If toString() is overridden, this will print the relevant details
+            }
             List<AddStudentModel> student_data = fetchStudentsService.getStudentById(id);  // Fetch more detailed data
 
-            model.addAttribute("students", students);   // Add students to model
+            model.addAttribute("marks", studentsMarks);   // Add students to model
             model.addAttribute("student_data", student_data);
             model.addAttribute("id",id);
             System.out.println(student_data);

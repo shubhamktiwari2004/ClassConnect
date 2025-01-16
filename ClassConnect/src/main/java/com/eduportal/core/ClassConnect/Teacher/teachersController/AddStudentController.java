@@ -216,23 +216,28 @@ public class AddStudentController {
                             @RequestParam List<Integer> sem1,
                             @RequestParam List<Integer> sem2,
                             @RequestParam List<String> subject,
+                            @RequestParam (required = false) List<Long> id,
                             @RequestParam Integer student_id)
        {
-           System.out.println("Units: " + unit1);
-           System.out.println("Units: " + unit2);
-           System.out.println("Semesters: " + sem1);
-           System.out.println("Semesters: " + sem2);
-           System.out.println("Semesters: " + subject);
+           System.out.println("Units1: " + unit1);
+           System.out.println("Units2: " + unit2);
+           System.out.println("Semesters1: " + sem1);
+           System.out.println("Semesters2: " + sem2);
+           System.out.println("subs: " + subject);
+           System.out.println("IDs: " + id);
            System.out.println("Student ID: " + student_id);
 
            for(int i = 0 ; i<subject.toArray().length;i++){
                AddStudentMarksModel marksModel =  new AddStudentMarksModel();
                marksModel.setStudent_id(student_id);
+               if(id != null && !id.isEmpty()) {
+                   marksModel.setId(id.get(i));
+               }
                marksModel.setSubject(subject.get(i));
                marksModel.setUnit1(unit1.get(i));
-               marksModel.setUnit2(unit1.get(i));
-               marksModel.setSem1(unit2.get(i));
-               marksModel.setSem2(sem1.get(i));
+               marksModel.setUnit2(unit2.get(i));
+               marksModel.setSem1(sem1.get(i));
+               marksModel.setSem2(sem2.get(i));
                marksModel.setTotal((unit1.get(i)+unit2.get(i)+sem1.get(i)+sem2.get(i)));
                addStudentService.saveMarks(marksModel);
            }

@@ -81,4 +81,16 @@ public class AddStudentMarksModel {
     public void setTotal(int total) {
         this.total = total;
     }
+
+    @Override
+    public String toString() {
+        return "AddStudentMarksModel{" +
+                "id='" + id + '\'' +
+                ",subject='" + subject + '\'' +
+                ", unit1='" + unit1 + '\'' +
+                ", unit2='" + unit2 + '\'' +
+                ", sem1='" + sem1 + '\'' +
+                ", sem2='" + sem2 + '\'' +
+                '}';
+    }
 }
