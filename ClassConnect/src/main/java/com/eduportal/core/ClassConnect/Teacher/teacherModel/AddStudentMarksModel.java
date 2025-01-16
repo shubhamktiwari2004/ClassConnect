@@ -13,8 +13,8 @@ public class AddStudentMarksModel {
     private Integer student_id;
     private String subject;
     private int unit1;
-    private int sem1;
     private int unit2;
+    private int sem1;
     private int sem2;
     private int total;
 

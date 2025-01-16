@@ -16,7 +16,7 @@ public interface FetchStudentsRepository extends JpaRepository<FetchStudentsMode
     List<AddStudentModel> findStudentById(@Param("id") int id);
 
     // Query to fetch students by class division ID, sorted by roll number
-    @Query(value = "SELECT * FROM class_connect.student_marks WHERE id = :id ORDER BY roll_no ASC", nativeQuery = true)
+    @Query(value = "SELECT * FROM class_connect.student_marks WHERE id = :id", nativeQuery = true)
     List<FetchStudentsModel> findStudentMarks(@Param("id") int id);
 
     @Query("SELECT sd FROM AddStudentModel sd WHERE sd.is_active = '0' ORDER BY sd.id")

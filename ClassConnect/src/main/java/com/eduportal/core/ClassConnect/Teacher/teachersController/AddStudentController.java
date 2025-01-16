@@ -211,11 +211,33 @@ public class AddStudentController {
 
     //Add marks to the student
     @PostMapping("/teachers/save_marks")
-    public String saveMarks(@ModelAttribute("marks") List<AddStudentMarksModel> marksList) {
-        for (AddStudentMarksModel marks : marksList) {
-            addStudentService.saveMarks(marks);
-        }
-        return "redirect:/teachers/add_student";
+    public String saveMarks(@RequestParam List<Integer> unit1,
+                            @RequestParam List<Integer> unit2,
+                            @RequestParam List<Integer> sem1,
+                            @RequestParam List<Integer> sem2,
+                            @RequestParam List<String> subject,
+                            @RequestParam Integer student_id)
+       {
+           System.out.println("Units: " + unit1);
+           System.out.println("Units: " + unit2);
+           System.out.println("Semesters: " + sem1);
+           System.out.println("Semesters: " + sem2);
+           System.out.println("Semesters: " + subject);
+           System.out.println("Student ID: " + student_id);
+
+           for(int i = 0 ; i<subject.toArray().length;i++){
+               AddStudentMarksModel marksModel =  new AddStudentMarksModel();
+               marksModel.setStudent_id(student_id);
+               marksModel.setSubject(subject.get(i));
+               marksModel.setUnit1(unit1.get(i));
+               marksModel.setUnit2(unit1.get(i));
+               marksModel.setSem1(unit2.get(i));
+               marksModel.setSem2(sem1.get(i));
+               marksModel.setTotal((unit1.get(i)+unit2.get(i)+sem1.get(i)+sem2.get(i)));
+               addStudentService.saveMarks(marksModel);
+           }
+
+        return "redirect:/teachers/students";
     }
 
 

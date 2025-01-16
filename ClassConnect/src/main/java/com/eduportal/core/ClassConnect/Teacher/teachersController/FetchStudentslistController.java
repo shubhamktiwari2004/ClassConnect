@@ -44,6 +44,7 @@ public class FetchStudentslistController {
 
             model.addAttribute("students", students);   // Add students to model
             model.addAttribute("student_data", student_data);
+            model.addAttribute("id",id);
             System.out.println(student_data);
         }
         model.addAttribute("currentPage", "students");
