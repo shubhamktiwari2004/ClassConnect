@@ -15,6 +15,7 @@ public class AddStudentModel {
     private String lastName;
     private String email;
     private String address;
+    @Column(name = "teacher_id", nullable = false) // Ensure this matches the database column name
     private Integer teacher_id;
     private String image_url; // This will store the image URL or path
     private String is_active;

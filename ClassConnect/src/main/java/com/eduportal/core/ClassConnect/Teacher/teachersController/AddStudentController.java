@@ -1,6 +1,8 @@
 package com.eduportal.core.ClassConnect.Teacher.teachersController;
 
+import com.eduportal.core.ClassConnect.Teacher.teacherModel.AddStudentMarksModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.AddStudentModel;
+import com.eduportal.core.ClassConnect.Teacher.teacherRepository.AddStudentMarksRepo;
 import com.eduportal.core.ClassConnect.Teacher.teacherRepository.AddStudentRepository;
 import com.eduportal.core.ClassConnect.Teacher.teacherService.AddStudentService;
 import jakarta.mail.MessagingException;
@@ -18,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -26,6 +29,8 @@ public class AddStudentController {
 
     @Autowired
     AddStudentService addStudentService;
+
+
 
     @Autowired
     private JavaMailSender mailSender;
@@ -51,9 +56,10 @@ public class AddStudentController {
             redirectAttributes.addFlashAttribute("error", "All fields are required, including a valid image.");
             return "redirect:/teachers/add_student"; // Redirect back to add student page
         }
-
         // Retrieve teacher_id from the session
         Integer teacher_id = (Integer) session.getAttribute("teacher_id");
+        System.out.println("Teacher ID from session: " + teacher_id);
+
         if (teacher_id == null) {
             redirectAttributes.addFlashAttribute("error", "Session expired or invalid. Please log in again.");
             return "redirect:/teachers/add_student"; // Redirect back to add student page
@@ -201,6 +207,15 @@ public class AddStudentController {
 
         // Send the email
         mailSender.send(mimeMessage);
+    }
+
+    //Add marks to the student
+    @PostMapping("/teachers/save_marks")
+    public String saveMarks(@ModelAttribute("marks") List<AddStudentMarksModel> marksList) {
+        for (AddStudentMarksModel marks : marksList) {
+            addStudentService.saveMarks(marks);
+        }
+        return "redirect:/teachers/add_student";
     }
 
 
