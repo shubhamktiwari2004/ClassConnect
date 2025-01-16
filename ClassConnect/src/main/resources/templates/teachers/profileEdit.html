@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Profile Edit - Bootstrap</title>
-	<link rel="icon" href="/img/kaiadmin/ClassConnect Logo.png" type="image/x-icon" />SS
+	<link rel="icon" href="/img/kaiadmin/ClassConnect Logo.png" type="image/x-icon" />
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
 	<style type="text/css">
 		body {
@@ -108,7 +108,7 @@
 						<div class="image-preview" id="image-preview">
 							<button type="button" class="edit-button"  onclick="document.getElementById('file-input').click()">
 								<img id="profile-img"
-									 th:src="@{${profile.profile_image != null ? 'http://localhost:8080/' + profile.profile_image : 'https://bootdey.com/img/Content/avatar/avatar7.png'}}"
+									 th:src="@{${profile.profile_image != null ? @environment.getProperty('app.base-url') + profile.profile_image : 'https://bootdey.com/img/Content/avatar/avatar7.png'}}"
 									 alt="Profile Image"
 									 class="profile-img">
 								<!-- 'https://bootdey.com/img/Content/avatar/avatar6.png'-->

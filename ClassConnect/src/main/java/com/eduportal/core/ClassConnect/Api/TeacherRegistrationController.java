@@ -3,8 +3,6 @@ package com.eduportal.core.ClassConnect.Api;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.ProfileModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherRepository.ProfileRepo;
 import com.eduportal.core.ClassConnect.Teacher.teacherService.LoginService;
-import com.eduportal.core.ClassConnect.Teacher.teacherService.ProfileService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
