@@ -3,19 +3,15 @@
     <div class="main-header-logo">
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
-            <a href="/home" class="logo">
+            <a href="teachers/home" class="logo">
                 <img
                         src="/img/kaiadmin/logo_light.svg"
                         alt="navbar brand"
                         class="navbar-brand"
                         height="20"
                 />
-                <!--<img
-                        th:src="@{${profile.profile_image != null ? 'http://localhost:8080/' + profile.profile_image : 'https://bootdey.com/img/Content/avatar/avatar7.png'}}"
-                        alt="navbar brand"
-                        class="navbar-brand"
-                        height="20"
-                />-->
+
+
             </a>
             <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">
@@ -49,8 +45,12 @@
                 <li class="nav-item topbar-user dropdown hidden-caret">
                     <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#">
                         <div class="avatar-sm">
-                            <img src="/img/profile.jpg" alt="..." class="avatar-img rounded-circle" />
-                        </div>
+                            <th:block th:if="${!teacherData.isEmpty()}">
+                                <img th:src="@{${teacherData[0].profile_image != null ? @environment.getProperty('app.base-url') + teacherData[0].profile_image : 'https://bootdey.com/img/Content/avatar/avatar7.png'}}"
+                                     alt="navbar brand"
+                                     class="avatar-img rounded-circle"
+                                     height="20" />
+                            </th:block>                        </div>
                         <span class="profile-username">
               <span class="op-7">Hi,</span>
               <span class="fw-bold" th:text="${session['teacherName']}">User</span>
@@ -60,7 +60,12 @@
                         <li>
                             <div class="user-box">
                                 <div class="avatar-lg">
-                                    <img src="/img/profile.jpg" alt="image profile" class="avatar-img rounded" />
+                                    <th:block th:if="${!teacherData.isEmpty()}">
+                                        <img th:src="@{${teacherData[0].profile_image != null ? @environment.getProperty('app.base-url') + teacherData[0].profile_image : 'https://bootdey.com/img/Content/avatar/avatar7.png'}}"
+                                             alt="navbar brand"
+                                             class="avatar-img rounded-circle"
+                                             height="20" />
+                                    </th:block>
                                 </div>
                                 <div class="u-text">
                                     <h4 th:text="${session['teacherName']}">Hizrian</h4>

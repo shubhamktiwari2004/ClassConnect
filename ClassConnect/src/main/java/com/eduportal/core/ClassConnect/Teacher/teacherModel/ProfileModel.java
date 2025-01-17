@@ -75,6 +75,18 @@ public class ProfileModel {
     }
 
 
+    @Override
+    public String toString() {
+        return "ProfileModel{" +
+                "id=" + id +
+                ", teacher_id=" + teacher_id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", mobile=" + mobile +
+                ", address='" + address + '\'' +
+                ", profile_image='" + profile_image + '\'' +
+                '}';
+    }
 
 
 
