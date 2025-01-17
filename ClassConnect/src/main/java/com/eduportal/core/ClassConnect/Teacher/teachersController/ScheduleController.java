@@ -2,6 +2,7 @@ package com.eduportal.core.ClassConnect.Teacher.teachersController;
 
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.ScheduleModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherService.ScheduleService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +16,13 @@ public class ScheduleController {
 
 
     @Autowired
-    private ScheduleService scheduleService; // Assuming you have a service class
+    private ScheduleService scheduleService;
 
     @PostMapping("/teachers/schedule/post")
-    public String postScheduleForm(@ModelAttribute ScheduleModel scheduleModel, RedirectAttributes redirectAttributes) {
+    public String postScheduleForm(@ModelAttribute ScheduleModel scheduleModel, RedirectAttributes redirectAttributes , HttpSession session) {
+        long teacherId = (int) session.getAttribute("teacher_id");
+//        ScheduleModel scheduleModel = new ScheduleModel();
+        scheduleModel.setTeacherId(teacherId);
         System.out.println(scheduleModel);
         scheduleService.createSchedule(scheduleModel);
         redirectAttributes.addFlashAttribute("message", "Data inserted successfully!");

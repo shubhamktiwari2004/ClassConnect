@@ -2,8 +2,9 @@ package com.eduportal.core.ClassConnect.Teacher.teachersController;
 
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.AddStudentMarksModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.AddStudentModel;
-import com.eduportal.core.ClassConnect.Teacher.teacherModel.FetchStudentsModel;
+import com.eduportal.core.ClassConnect.Teacher.teacherRepository.FetchStudentsRepository;
 import com.eduportal.core.ClassConnect.Teacher.teacherService.FetchStudentsService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,12 +16,18 @@ import java.util.List;
 @Controller
 public class FetchStudentslistController {
 
-    @Autowired
-    private FetchStudentsService fetchStudentsService;  // Corrected the type and name
+    private final FetchStudentsService fetchStudentsService;  // Corrected the type and name
+    private final FetchStudentsRepository fetchStudentsRepository;
+
+    public FetchStudentslistController(FetchStudentsService fetchStudentsService, FetchStudentsRepository fetchStudentsRepository) {
+        this.fetchStudentsService = fetchStudentsService;
+        this.fetchStudentsRepository = fetchStudentsRepository;
+    }
 
     @GetMapping("/teachers/students")
-    public String getAllStudents(Model model) {
-        List<AddStudentModel> getstudents = fetchStudentsService.getAllStudents();
+    public String getAllStudents(Model model , HttpSession session) {
+        int teacherId = (int) session.getAttribute("teacher_id");
+        List<AddStudentModel> getstudents = fetchStudentsService.getAllStudents(teacherId);
         if (getstudents == null || getstudents.isEmpty()) {
             System.out.println("No students found.");
         } else {
@@ -57,6 +64,12 @@ public class FetchStudentslistController {
         return "teachers/add_student";
     }
 
+
+    @GetMapping("/teachers/delete_student/{id}")
+    public String deleteStudent(@PathVariable int id){
+        fetchStudentsService.deleteStudent(id);
+        return "redirect:/teachers/students";
+    }
 
 
 

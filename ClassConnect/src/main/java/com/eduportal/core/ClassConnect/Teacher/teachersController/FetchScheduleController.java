@@ -2,6 +2,7 @@ package com.eduportal.core.ClassConnect.Teacher.teachersController;
 
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.FetchScheduleModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherService.FetchScheduleService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +20,9 @@ public class FetchScheduleController {
     private FetchScheduleService scheduleService;
 
     @GetMapping("/teachers/schedule")
-    public String getAllSchedules(Model model){
-        List<FetchScheduleModel> schedules = scheduleService.getAllSchedules();
+    public String getAllSchedules(Model model , HttpSession session){
+        int teacherId = (int) session.getAttribute("teacher_id");
+        List<FetchScheduleModel> schedules = scheduleService.getAllSchedules(teacherId);
         model.addAttribute("schedules", schedules);
         for (FetchScheduleModel schedule : schedules) {
             System.out.println("Schedule Id: " + schedule.getSchedule_id());

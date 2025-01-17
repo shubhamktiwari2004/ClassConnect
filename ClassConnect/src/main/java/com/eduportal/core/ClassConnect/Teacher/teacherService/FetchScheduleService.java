@@ -13,8 +13,8 @@ public class FetchScheduleService {
     @Autowired
     private FetchScheduleRepository scheduleRepository;
 
-    public List<FetchScheduleModel> getAllSchedules() {
-        return scheduleRepository.getAllSchedule();
+    public List<FetchScheduleModel> getAllSchedules(int teacherId) {
+        return scheduleRepository.getAllSchedule(teacherId);
     }
 
     public List<FetchScheduleModel> getScheduleById(int scheduleId){
