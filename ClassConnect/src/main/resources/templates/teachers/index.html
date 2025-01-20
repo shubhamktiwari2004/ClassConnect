@@ -5,7 +5,6 @@
   <title>ClassConnect</title>
   <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
   <link rel="icon" href="/img/kaiadmin/ClassConnect Logo.png" type="image/x-icon" />
-
   <!-- Fonts and icons -->
   <script src="/js/plugin/webfont/webfont.min.js"></script>
   <script>
@@ -25,16 +24,43 @@
       }
     });
   </script>
-
   <!-- CSS Files -->
   <link rel="stylesheet" href="/css/bootstrap.min.css" />
   <link rel="stylesheet" href="/css/plugins.min.css" />
   <link rel="stylesheet" href="/css/kaiadmin.min.css" />
   <link rel="stylesheet" href="/css/demo.css" /> <!-- Demo purpose CSS -->
+  <style>
+    /* Ensure the chart container takes up full height */
+    .chart-container {
+        position: relative;
+        height: 300px; /* Adjust as needed */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
+    /* Style for the message */
+    .chart-message {
+        position: absolute;
+        font-size: 1.2rem;
+        color: #6c757d; /* Bootstrap muted text color */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        z-index: 1; /* Ensure it's above the canvas */
+        background-color: rgba(255, 255, 255, 0.8); /* Optional: Add a background for better visibility */
+    }
+
+    /* Hide canvas when no data is available */
+    canvas {
+        display: none;
+    }
+  </style>
 </head>
 <body>
-<div class="wrapper">
   <!-- Sidebar -->
   <div th:replace="~{'teachers/commonIncludes/leftNav.html' :: leftNavContent}"></div>
 
@@ -47,48 +73,86 @@
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
           <h3 class="fw-bold mb-3">Dashboard</h3>
         </div>
+        <div class="col-md-4">
+          <label for="studentSelect" class="form-label mt-2"><strong>Select Student Name</strong></label>
+          <select class="form-select" id="studentSelect" aria-label="Select a subject">
+            <option selected disabled>Student Name</option>
+            <th:block th:each="student : ${students}">
+              <option th:value="${student.id}"
+                      th:text="${student.firstName} + ' ' + ${student.lastName}"></option>
+            </th:block>
+          </select>
+        </div>
 
-        <div class="row">
-          <!-- Bar Chart -->
+        <div class="row mt-4">
+          <!-- Bar Chart Card -->
           <div class="col-md-6">
-            <canvas id="barChart"></canvas>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Bar Chart</h5>
+                <div id="barChartContainer" class="chart-container">
+                  <div id="barChartMessage" class="chart-message">No Data Available</div>
+                  <canvas id="barChart"></canvas>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <!-- Line Chart -->
+          <!-- Line Chart Card -->
           <div class="col-md-6">
-            <canvas id="lineChart"></canvas>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Line Chart</h5>
+                <div id="lineChartContainer" class="chart-container">
+                  <div id="lineChartMessage" class="chart-message">No Data Available</div>
+                  <canvas id="lineChart"></canvas>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <!-- Pie Chart -->
+          <!-- Pie Chart Card -->
           <div class="col-md-6">
-            <canvas id="pieChart"></canvas>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Pie Chart</h5>
+                <div id="pieChartContainer" class="chart-container">
+                  <div id="pieChartMessage" class="chart-message">No Data Available</div>
+                  <canvas id="pieChart"></canvas>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <!-- Doughnut Chart -->
+          <!-- Doughnut Chart Card -->
           <div class="col-md-6">
-            <canvas id="doughnutChart"></canvas>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Doughnut Chart</h5>
+                <div id="doughnutChartContainer" class="chart-container">
+                  <div id="doughnutChartMessage" class="chart-message">No Data Available</div>
+                  <canvas id="doughnutChart"></canvas>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+    <!-- Footer -->
+    <div th:replace="~{'teachers/commonIncludes/footer.html' :: footerContent}"></div>
 </div>
-
 <!-- Core JS Files -->
 <script src="/js/core/jquery-3.7.1.min.js"></script>
 <script src="/js/core/popper.min.js"></script>
 <script src="/js/core/bootstrap.min.js"></script>
-
 <!-- Chart JS -->
 <script src="/js/plugin/chart.js/chart.min.js"></script>
-
 <!-- Other Plugins -->
 <script src="/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 <script src="/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
 <script src="/js/plugin/sweetalert/sweetalert.min.js"></script>
 <script src="/js/kaiadmin.min.js"></script>
-
-<!-- Custom Script -->
 <script>
   $(document).ready(function() {
     $.notify({
@@ -112,71 +176,138 @@
 
 <!-- Chart Configuration -->
 <script>
-  // Bar Chart
-  var ctx1 = document.getElementById("barChart").getContext("2d");
-  var barChart = new Chart(ctx1, {
-    type: "bar",
-    data: {
-      labels: ["January", "February", "March", "April", "May", "June", "July"],
-      datasets: [{
-        label: "Sales Data",
-        data: [12, 19, 3, 5, 2, 3, 8],
-        backgroundColor: "rgba(23, 125, 255, 0.6)",
-        borderColor: "rgba(23, 125, 255, 1)",
-        borderWidth: 1,
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: { beginAtZero: true }
-      }
+  $(document).ready(function () {
+      $('#mySelect').select2({
+        placeholder: 'Select a subject', // Placeholder text
+        allowClear: true,                // Enable clearing the selection
+        theme: 'bootstrap-5',            // Use Bootstrap styling
+        dropdownParent: $('.container')  // Ensure proper positioning
+      });
+    });
+
+// Fetch and render chart based on selected student ID
+async function fetchStudentData(studentId) {
+    try {
+        const response = await fetch(`http://class.connect.edu.in:8080/teachers/home/${studentId}`);
+
+        // Check if response is okay (status 200)
+        if (!response.ok) {
+            console.error("Failed to fetch data:", response.status);
+            return;
+        }
+
+        const data = await response.json(); // Parse the JSON response
+        console.log(data); // Add console.log to verify the response
+
+        // Extract labels (e.g., subject names)
+        const subjects = data.map(student => student.subject); // Extract subject names for the X-axis
+        const totalMarks = data.map(student => student.total); // Extract total marks for the bar chart
+        const unit1Marks = data.map(student => student.unit1); // Extract unit1 marks for the line chart
+
+        // Create the datasets for the bar chart
+        const barChartDataset = [{
+            label: 'Total Marks',
+            data: totalMarks, // Use total marks for the bar chart
+            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }];
+
+        // Create the datasets for the line chart
+        const lineChartDataset = [{
+            label: 'Total Marks',
+            data: totalMarks, // Use unit1 marks for the line chart
+            borderColor: "#177dff",
+            fill: false,
+            tension: 0.1 // Optional: for smoothing the line
+        }];
+
+        // Create datasets for the Pie chart (e.g., total marks per subject)
+        const pieChartDataset = [{
+            data: totalMarks, // Use total marks for the pie chart
+            backgroundColor: ['#FF4500', '#32CD32', '#FFD700', '#FF6347'],
+        }];
+
+        // Create datasets for the Doughnut chart (e.g., unit1 marks per subject)
+        const doughnutChartDataset = [{
+            data: totalMarks, // Use unit1 marks for the doughnut chart
+            backgroundColor: ['#FF4500', '#32CD32', '#FFD700', '#FF6347'],
+        }];
+
+        // Render the bar chart
+        const ctxBar = document.getElementById("barChart").getContext("2d");
+        new Chart(ctxBar, {
+            type: "bar",
+            data: {
+                labels: subjects, // X-axis labels (Subjects)
+                datasets: barChartDataset
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Render the line chart
+        const ctxLine = document.getElementById("lineChart").getContext("2d");
+        new Chart(ctxLine, {
+            type: "line",
+            data: {
+                labels: subjects, // X-axis labels (Subjects)
+                datasets: lineChartDataset
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Render the Pie chart
+        var ctx3 = document.getElementById("pieChart").getContext("2d");
+        var pieChart = new Chart(ctx3, {
+          type: "pie",
+          data: {
+                labels: subjects, // X-axis labels (Subjects)
+                datasets: pieChartDataset
+            },
+          options: { responsive: true }
+        });
+
+        // Render the Doughnut chart
+        const ctxDoughnut = document.getElementById("doughnutChart").getContext("2d");
+        new Chart(ctxDoughnut, {
+            type: "doughnut",
+            data: {
+                labels: subjects, // X-axis labels (Subjects)
+                datasets: doughnutChartDataset
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+    } catch (error) {
+        console.error("Error fetching student data:", error);
     }
-  });
+}
 
-  // Line Chart
-  var ctx2 = document.getElementById("lineChart").getContext("2d");
-  var lineChart = new Chart(ctx2, {
-    type: "line",
-    data: {
-      labels: ["January", "February", "March", "April", "May", "June", "July"],
-      datasets: [{
-        label: "Revenue",
-        data: [5, 10, 8, 13, 15, 20, 22],
-        borderColor: "#177dff",
-        fill: false,
-      }]
-    },
-    options: { responsive: true }
-  });
+// Add event listener to the select element
+document.getElementById('studentSelect').addEventListener('change', function(event) {
+    const selectedStudentId = event.target.value;  // Get selected student ID
+    if (selectedStudentId) {
+       $(".chart-message").hide();
+        fetchStudentData(selectedStudentId);  // Fetch and render both charts for the selected student
+    }
+});
 
-  // Pie Chart
-  var ctx3 = document.getElementById("pieChart").getContext("2d");
-  var pieChart = new Chart(ctx3, {
-    type: "pie",
-    data: {
-      labels: ["Red", "Blue", "Yellow"],
-      datasets: [{
-        data: [300, 50, 100],
-        backgroundColor: ["#FF0000", "#0000FF", "#FFFF00"],
-      }]
-    },
-    options: { responsive: true }
-  });
-
-  // Doughnut Chart
-  var ctx4 = document.getElementById("doughnutChart").getContext("2d");
-  var doughnutChart = new Chart(ctx4, {
-    type: "doughnut",
-    data: {
-      labels: ["Apple", "Orange", "Banana"],
-      datasets: [{
-        data: [150, 200, 100],
-        backgroundColor: ["#FF4500", "#32CD32", "#FFD700"],
-      }]
-    },
-    options: { responsive: true }
-  });
 </script>
 </body>
 </html>

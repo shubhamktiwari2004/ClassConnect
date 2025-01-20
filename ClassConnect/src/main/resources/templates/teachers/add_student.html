@@ -43,7 +43,6 @@
     <link rel="stylesheet" href="/css/demo.css" />
   </head>
   <body>
-    <div class="wrapper">
       <!-- Sidebar -->
       <div th:replace="~{'teachers/commonIncludes/leftNav.html' :: leftNavContent}"></div>
 
@@ -275,10 +274,8 @@
 
           </div>
         </div>
-
-
-
-</div>
+        <!-- Footer -->
+        <div th:replace="~{'teachers/commonIncludes/footer.html' :: footerContent}"></div>
 </div>
 <!--      <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>-->
 
@@ -286,40 +283,6 @@
 <!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>-->
 <!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
     <script>
-<!--      // Attach click event to the save button-->
-<!--      $('#save').on('click', function () {-->
-<!--        // Gather form data-->
-<!--        const formData = {-->
-<!--          RollNo:$('#RollNo').val(),-->
-<!--          classDivisionsId:$('#classDivisionId').val(),-->
-<!--          studentName: $('#studentName').val(),-->
-<!--          mathsMarks: $('#mathsMarks').val(),-->
-<!--          scienceMarks: $('#scienceMarks').val(),-->
-<!--          hindiMarks: $('#hindiMarks').val(),-->
-<!--          englishMarks: $('#englishMarks').val(),-->
-<!--          totalMarks: $('#totalMarks').val(),-->
-<!--        };-->
-<!--        console.log(formData);-->
-
-<!--        // Send data to the controller via AJAX-->
-<!--        $.ajax({-->
-<!--          type: "POST", // Use POST to send data-->
-<!--          url: "/teachers/saveStudent", // URL to the controller endpoint-->
-<!--          contentType: "application/json", // Send data as JSON-->
-<!--          data: JSON.stringify(formData), // Serialize form data to JSON-->
-<!--          success: function (response) {-->
-<!--            // Handle successful response-->
-<!--            alert("Student saved successfully!");-->
-<!--            console.log("Response:", response);-->
-<!--            location.reload();-->
-<!--          },-->
-<!--          error: function (error) {-->
-<!--            // Handle errors-->
-<!--            alert("Error saving student.");-->
-<!--            console.log("Error:", error);-->
-<!--          },-->
-<!--        });-->
-<!--      });-->
     function previewProfileImage(event) {
         const reader = new FileReader();
         reader.onload = function () {
