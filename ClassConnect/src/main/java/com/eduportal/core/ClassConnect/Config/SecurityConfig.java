@@ -99,4 +99,45 @@ public class SecurityConfig {
         tokenRepository.setDataSource(dataSource);
         return tokenRepository;
     }
+
+    //For student Panel
+    @Bean
+    public SecurityFilterChain studentSecurityFilterChain(HttpSecurity http) throws Exception{
+
+        http.csrf(customizer -> customizer.disable());
+        http.authorizeHttpRequests(request -> request
+                .requestMatchers("").permitAll()
+                .anyRequest().authenticated()); // Allow these files
+        http.httpBasic(Customizer.withDefaults());
+        http.formLogin(form -> form
+                .loginPage("/students/login") // URL for your custom login page
+                .loginProcessingUrl("/students/login") // URL to submit the login form
+                .successForwardUrl("/students/home")
+                //.successHandler(customSuccessHandler)
+                //.failureHandler(customAuthenticationFailureHandler)
+                .failureForwardUrl("/students/login")
+                .failureUrl("/teachers/login?error=true") // Redirect after failed login
+                .permitAll()
+        );
+//        http.rememberMe(rememberMe -> rememberMe
+//                .tokenRepository(persistentTokenRepository())
+//                .tokenValiditySeconds(7 * 24 * 60 * 60) // 7 days
+//                .key("secureKey123") // Unique secret key for hashing
+//                .rememberMeParameter("remember_me") // Matches the checkbox name in the form
+//                .userDetailsService(loginService)
+//                .authenticationSuccessHandler(customSuccessHandler)
+//        );
+        http.logout(logout -> logout
+                .logoutUrl("/students/logout") // Logout endpoint
+                .logoutSuccessUrl("/students/login")
+                //.logoutSuccessHandler(customLogoutSuccessHandler)
+                .permitAll()
+        );
+        http.httpBasic(Customizer.withDefaults());
+//        http.sessionManagement(session -> session.sessionFixation().newSession());
+        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
+
+        return http.build();
+
+    }
 }
