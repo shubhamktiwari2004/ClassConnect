@@ -185,6 +185,19 @@
       });
     });
 
+function resetCanvas(chartId) {
+    const chartCanvas = document.getElementById(chartId);
+    const chartParent = chartCanvas.parentElement;
+
+    // Remove the old canvas
+    chartCanvas.remove();
+
+    // Create a new canvas element and append it to the parent
+    const newCanvas = document.createElement('canvas');
+    newCanvas.id = chartId;
+    chartParent.appendChild(newCanvas);
+}
+
 // Fetch and render chart based on selected student ID
 async function fetchStudentData(studentId) {
     try {
@@ -203,6 +216,13 @@ async function fetchStudentData(studentId) {
         const subjects = data.map(student => student.subject); // Extract subject names for the X-axis
         const totalMarks = data.map(student => student.total); // Extract total marks for the bar chart
         const unit1Marks = data.map(student => student.unit1); // Extract unit1 marks for the line chart
+
+       // Reset canvases for all charts
+        resetCanvas("barChart");
+        resetCanvas("lineChart");
+        resetCanvas("pieChart");
+        resetCanvas("doughnutChart");
+
 
         // Create the datasets for the bar chart
         const barChartDataset = [{
