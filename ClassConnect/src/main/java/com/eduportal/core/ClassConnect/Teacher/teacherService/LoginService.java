@@ -81,7 +81,7 @@ public class LoginService implements UserDetailsService {
         return User.builder()
                 .username(loginModel.getUsername())
                 .password(loginModel.getPassword()) // Ideally, encode the password
-                .roles("USER") // Add roles if applicable
+                .roles("TEACHER") // Add roles if applicable
                 .build();
     }
 

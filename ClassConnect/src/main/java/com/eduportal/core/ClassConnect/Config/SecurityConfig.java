@@ -3,6 +3,7 @@ package com.eduportal.core.ClassConnect.Config;
 import com.eduportal.core.ClassConnect.Teacher.teacherService.LoginService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -41,13 +42,71 @@ public class SecurityConfig {
     }
 
 
+
+
+//    //For student Panel
+//    @Bean
+//    public SecurityFilterChain studentSecurityFilterChain(HttpSecurity http) throws Exception{
+//
+//        http.csrf(customizer -> customizer.disable());
+//        http.authorizeHttpRequests(auth -> auth
+////                .requestMatchers("/").permitAll()
+//                .requestMatchers("/teachers/**").permitAll()
+//                .requestMatchers("/students/**").hasRole("STUDENT")
+//                .anyRequest().authenticated()
+//        ); // Allow these files
+//        http.httpBasic(Customizer.withDefaults());
+//        http.formLogin(form -> form
+//                .loginPage("/students/login") // URL for your custom login page
+//                .loginProcessingUrl("/students/login")
+//                .defaultSuccessUrl("/students/home")
+//                //.successHandler(customSuccessHandler)
+//                //.failureHandler(customAuthenticationFailureHandler)
+//                .failureForwardUrl("/students/login")
+//                .failureUrl("/students/login?error=true") // Redirect after failed login
+//                .permitAll()
+//        );
+////        http.rememberMe(rememberMe -> rememberMe
+////                .tokenRepository(persistentTokenRepository())
+////                .tokenValiditySeconds(7 * 24 * 60 * 60) // 7 days
+////                .key("secureKey123") // Unique secret key for hashing
+////                .rememberMeParameter("remember_me") // Matches the checkbox name in the form
+////                .userDetailsService(loginService)
+////                .authenticationSuccessHandler(customSuccessHandler)
+////        );
+//        http.logout(logout -> logout
+//                .logoutUrl("/students/logout") // Logout endpoint
+//                .logoutSuccessUrl("/students/login")
+//                //.logoutSuccessHandler(customLogoutSuccessHandler)
+//                .permitAll()
+//        );
+//        http.httpBasic(Customizer.withDefaults());
+//        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
+//        http.authenticationProvider(studentAuthenticationProvider());
+//        return http.build();
+//
+//    }
+//
+//    @Bean
+//    public AuthenticationProvider studentAuthenticationProvider() {
+//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+//        provider.setUserDetailsService(loginService);// Student's UserDetailsService
+//        provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
+//        return provider;
+//    }
+
+
+
+
+
     //For Teacher Panel
     @Bean
     public SecurityFilterChain teacherSecurityFilterChain(HttpSecurity http) throws Exception{
 
         http.csrf(customizer -> customizer.disable());
-        http.authorizeHttpRequests(request -> request
+        http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/","/teachers/signup" ,"/teachers/api/**" , "/teachers/forgetPassword" , "/teachers/resetPassword" ,"/teachers/resetPasswordLink" , "/teachers/reset-password*" , "/teachers/resetPasswordConfirm").permitAll()
+                .requestMatchers("/teachers/**").hasRole("TEACHER")
                 .anyRequest().authenticated()); // Allow these files
         http.httpBasic(Customizer.withDefaults());
         http.formLogin(form -> form
@@ -74,16 +133,17 @@ public class SecurityConfig {
         http.httpBasic(Customizer.withDefaults());
 //        http.sessionManagement(session -> session.sessionFixation().newSession());
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
+        http.authenticationProvider(teacherAuthenticationProvider()); // Use teacher authentication provider
 
         return http.build();
 
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
+    public AuthenticationProvider teacherAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(loginService); // Set LoginService as UserDetailsService
-        provider.setPasswordEncoder(new BCryptPasswordEncoder(12)); // Set PasswordEncoder
+        provider.setUserDetailsService(loginService); // Teacher's UserDetailsService
+        provider.setPasswordEncoder(new BCryptPasswordEncoder(12)); // Use bcrypt for encoding passwords
         return provider;
     }
 
@@ -100,44 +160,5 @@ public class SecurityConfig {
         return tokenRepository;
     }
 
-    //For student Panel
-    @Bean
-    public SecurityFilterChain studentSecurityFilterChain(HttpSecurity http) throws Exception{
 
-        http.csrf(customizer -> customizer.disable());
-        http.authorizeHttpRequests(request -> request
-                .requestMatchers("").permitAll()
-                .anyRequest().authenticated()); // Allow these files
-        http.httpBasic(Customizer.withDefaults());
-        http.formLogin(form -> form
-                .loginPage("/students/login") // URL for your custom login page
-                .loginProcessingUrl("/students/login") // URL to submit the login form
-                .successForwardUrl("/students/home")
-                //.successHandler(customSuccessHandler)
-                //.failureHandler(customAuthenticationFailureHandler)
-                .failureForwardUrl("/students/login")
-                .failureUrl("/teachers/login?error=true") // Redirect after failed login
-                .permitAll()
-        );
-//        http.rememberMe(rememberMe -> rememberMe
-//                .tokenRepository(persistentTokenRepository())
-//                .tokenValiditySeconds(7 * 24 * 60 * 60) // 7 days
-//                .key("secureKey123") // Unique secret key for hashing
-//                .rememberMeParameter("remember_me") // Matches the checkbox name in the form
-//                .userDetailsService(loginService)
-//                .authenticationSuccessHandler(customSuccessHandler)
-//        );
-        http.logout(logout -> logout
-                .logoutUrl("/students/logout") // Logout endpoint
-                .logoutSuccessUrl("/students/login")
-                //.logoutSuccessHandler(customLogoutSuccessHandler)
-                .permitAll()
-        );
-        http.httpBasic(Customizer.withDefaults());
-//        http.sessionManagement(session -> session.sessionFixation().newSession());
-        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
-
-        return http.build();
-
-    }
 }

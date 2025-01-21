@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class StudentsAppController {
 
-    @RequestMapping("/student/home")
+    @RequestMapping("/students/home")
     public String index() {
         return "students/index"; // Loads index.html from the templates folder
     }
 
-    @RequestMapping("/student/schedule")
+    @RequestMapping("/students/schedule")
     public String schedule() {
         return "students/schedule"; // Loads index.html from the templates folder
     }
 
-    @RequestMapping("/student/performance")
+    @RequestMapping("/students/performance")
     public String performance() {
         return "students/performance"; // Loads index.html from the templates folder
     }
