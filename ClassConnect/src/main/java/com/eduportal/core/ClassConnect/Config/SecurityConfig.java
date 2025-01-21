@@ -1,5 +1,6 @@
 package com.eduportal.core.ClassConnect.Config;
 
+import com.eduportal.core.ClassConnect.Students.studentService.StudentLoginService;
 import com.eduportal.core.ClassConnect.Teacher.teacherService.LoginService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,15 +30,21 @@ public class SecurityConfig {
 
 
     private final LoginService loginService;
+    private final StudentLoginService studentLoginService;
     private final CustomSuccessHandler customSuccessHandler;
+    private final CustomSuccessHandlerStudent customSuccessHandlerStudent;
     private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
+    private final CustomLogoutHandlerStudent customLogoutHandlerStudent;
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
-    public SecurityConfig(DataSource dataSource, LoginService loginService, CustomSuccessHandler customSuccessHandler, CustomLogoutSuccessHandler customLogoutSuccessHandler, CustomAuthenticationFailureHandler customAuthenticationFailureHandler) {
+    public SecurityConfig(DataSource dataSource, LoginService loginService, StudentLoginService studentLoginService, CustomSuccessHandler customSuccessHandler, CustomSuccessHandlerStudent customSuccessHandlerStudent, CustomLogoutSuccessHandler customLogoutSuccessHandler, CustomLogoutHandlerStudent customLogoutHandlerStudent, CustomAuthenticationFailureHandler customAuthenticationFailureHandler) {
         this.dataSource = dataSource;
         this.loginService = loginService;
+        this.studentLoginService = studentLoginService;
         this.customSuccessHandler = customSuccessHandler;
+        this.customSuccessHandlerStudent = customSuccessHandlerStudent;
         this.customLogoutSuccessHandler = customLogoutSuccessHandler;
+        this.customLogoutHandlerStudent = customLogoutHandlerStudent;
         this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
     }
 
@@ -55,10 +62,9 @@ public class SecurityConfig {
         http.httpBasic(Customizer.withDefaults());
         http.formLogin(form -> form
                 .loginPage("/students/login") // URL for your custom login page
-                .loginProcessingUrl("/students/login") // URL to submit the login form
-                        .defaultSuccessUrl("/students/home")
-//                .successHandler(customSuccessHandler)
-                .failureHandler(customAuthenticationFailureHandler)
+                .loginProcessingUrl("/students/login")
+                .successHandler(customSuccessHandlerStudent)
+//                .failureHandler(customAuthenticationFailureHandler)
                 .failureUrl("/students/login?error=true") // Redirect after failed login
                 .permitAll()
         );
@@ -72,14 +78,13 @@ public class SecurityConfig {
 //        );
         http.logout(logout -> logout
                 .logoutUrl("/students/logout") // Logout endpoint
-//                .logoutSuccessHandler(customLogoutSuccessHandler)
-                .logoutSuccessUrl("/students/login")
+                .logoutSuccessHandler(customLogoutHandlerStudent)
                 .permitAll()
         );
         http.httpBasic(Customizer.withDefaults());
 //        http.sessionManagement(session -> session.sessionFixation().newSession());
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
-        http.authenticationProvider(teacherAuthenticationProvider()); // Use teacher authentication provider
+        http.authenticationProvider(studentAuthenticationProvider()); // Use teacher authentication provider
 
         return http.build();
 
@@ -89,7 +94,7 @@ public class SecurityConfig {
     @Bean
     public AuthenticationProvider studentAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(loginService); // Teacher's UserDetailsService
+        provider.setUserDetailsService(studentLoginService); // Teacher's UserDetailsService
         provider.setPasswordEncoder(new BCryptPasswordEncoder(12)); // Use bcrypt for encoding passwords
         return provider;
     }

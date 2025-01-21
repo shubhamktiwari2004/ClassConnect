@@ -19,7 +19,7 @@ public class AddStudentModel {
     private Integer teacher_id;
     private String image_url; // This will store the image URL or path
     private String is_active;
-    private String user_name;
+    private String username;
     private String password;
 
     public Long getId() {
@@ -95,11 +95,11 @@ public class AddStudentModel {
     }
 
     public String getUser_name() {
-        return user_name;
+        return username;
     }
 
     public void setUser_name(String user_name) {
-        this.user_name = user_name;
+        this.username = user_name;
     }
 
     public String getPassword() {

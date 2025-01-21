@@ -36,19 +36,5 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         loginService.storeUserDataInSession(session, username);
         // Redirect to the index page after login success
         response.sendRedirect("/teachers/home");
-
-        /*if (role.contains("ROLE_TEACHER")) {
-            // Store user details in session
-            HttpSession session = request.getSession();
-            session.setAttribute("username", username);
-            loginService.storeUserDataInSession(session, username);
-            // Redirect to the index page after login success
-            response.sendRedirect("/teachers/home");
-
-        }else if(role.contains("ROLE_STUDENT")) {
-            response.sendRedirect("/student/home");  // Redirect to student dashboard
-        }else{
-            response.sendRedirect("/");
-        }*/
     }
 }

@@ -15,9 +15,8 @@ import java.time.LocalDateTime;
 @Component
 public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
-    @Autowired
-    private LoginService loginService;
-    private LoginRepo loginRepo;
+    private final LoginService loginService;
+    private final LoginRepo loginRepo;
 
     public CustomLogoutSuccessHandler(LoginService loginService, LoginRepo loginRepo) {
         this.loginService = loginService;

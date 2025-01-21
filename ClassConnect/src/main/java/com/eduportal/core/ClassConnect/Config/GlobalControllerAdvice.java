@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.ArrayList;
 
-@ControllerAdvice
+@ControllerAdvice(basePackages = "com.eduportal.core.ClassConnect.Teacher")
 public class GlobalControllerAdvice {
 
 
