@@ -23,4 +23,8 @@ public class StudentsAppController {
         return "students/performance"; // Loads index.html from the templates folder
     }
 
+    @RequestMapping("/students/login")
+    public String login() {
+        return "students/login";
+    }
 }
