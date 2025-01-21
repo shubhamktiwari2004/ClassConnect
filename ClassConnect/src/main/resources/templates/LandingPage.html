@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClassConnect - Education Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Main Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #6c63ff, #48c6ef);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .hero .buttons {
+            display: flex;
+            gap: 20px;
+            animation: fadeIn 2s ease-out;
+        }
+
+        .hero .buttons a {
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-teachers {
+            background: #ff6f61;
+        }
+
+        .btn-teachers:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 10px 20px rgba(255, 111, 97, 0.5);
+        }
+
+        .btn-students {
+            background: #ffb400;
+        }
+
+        .btn-students:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 10px 20px rgba(255, 180, 0, 0.5);
+        }
+
+        /* Floating Animation */
+        .floating-img {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-img img {
+            width: 300px;
+            opacity: 0.9;
+        }
+
+        .floating-img:nth-child(1) {
+            top: 10%;
+            left: 5%;
+        }
+
+        .floating-img:nth-child(2) {
+            bottom: 10%;
+            right: 5%;
+        }
+
+        /* Keyframes */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background: #333;
+            color: white;
+        }
+
+        footer a {
+            color: #48c6ef;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<!-- Hero Section -->
+<section class="hero">
+    <h1>Welcome to ClassConnect</h1>
+    <p>Your gateway to seamless learning and teaching experiences.</p>
+    <div class="buttons">
+        <a href="/teachers/login" class="btn-teachers">Teachers Portal</a>
+        <a href="/students/login" class="btn-students">Students Portal</a>
+    </div>
+    <!-- Floating Images -->
+    <div class="floating-img">
+        <img src="https://via.placeholder.com/300x300?text=Teachers+Icon" alt="Teachers Icon">
+    </div>
+    <div class="floating-img">
+        <img src="https://via.placeholder.com/300x300?text=Students+Icon" alt="Students Icon">
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    &copy; 2025 ClassConnect | <a href="#">Privacy Policy</a> | <a href="#">Contact Us</a>
+</footer>
+
+<script>
+    // Add smooth scroll animation for internal links
+    document.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', event => {
+            const target = document.querySelector(link.getAttribute('href'));
+            if (target) {
+                event.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+</script>
+</body>
+</html>

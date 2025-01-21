@@ -2,7 +2,6 @@ package com.eduportal.core.ClassConnect.Teacher.teachersController;
 
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.AddStudentMarksModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.AddStudentModel;
-import com.eduportal.core.ClassConnect.Teacher.teacherService.DashboardService;
 import com.eduportal.core.ClassConnect.Teacher.teacherService.FetchStudentsService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -19,7 +18,7 @@ public class DashboardController {
 
     private final FetchStudentsService fetchStudentsService;
 
-    public DashboardController(FetchStudentsService fetchStudentsService, DashboardService dashboardService) {
+    public DashboardController(FetchStudentsService fetchStudentsService) {
         this.fetchStudentsService = fetchStudentsService;
     }
 

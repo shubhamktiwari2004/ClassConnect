@@ -40,12 +40,14 @@ public class SecurityConfig {
         this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
     }
 
+
+    //For Teacher Panel
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain teacherSecurityFilterChain(HttpSecurity http) throws Exception{
 
         http.csrf(customizer -> customizer.disable());
         http.authorizeHttpRequests(request -> request
-                .requestMatchers("/teachers/signup" ,"/teachers/api/**" , "/teachers/forgetPassword" , "/teachers/resetPassword" ,"/teachers/resetPasswordLink" , "/teachers/reset-password*" , "/teachers/resetPasswordConfirm").permitAll()
+                .requestMatchers("/","/teachers/signup" ,"/teachers/api/**" , "/teachers/forgetPassword" , "/teachers/resetPassword" ,"/teachers/resetPasswordLink" , "/teachers/reset-password*" , "/teachers/resetPasswordConfirm").permitAll()
                 .anyRequest().authenticated()); // Allow these files
         http.httpBasic(Customizer.withDefaults());
         http.formLogin(form -> form
