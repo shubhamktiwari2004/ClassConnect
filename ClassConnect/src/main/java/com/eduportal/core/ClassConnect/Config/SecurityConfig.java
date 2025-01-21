@@ -42,63 +42,6 @@ public class SecurityConfig {
     }
 
 
-
-
-//    //For student Panel
-//    @Bean
-//    public SecurityFilterChain studentSecurityFilterChain(HttpSecurity http) throws Exception{
-//
-//        http.csrf(customizer -> customizer.disable());
-//        http.authorizeHttpRequests(auth -> auth
-////                .requestMatchers("/").permitAll()
-//                .requestMatchers("/teachers/**").permitAll()
-//                .requestMatchers("/students/**").hasRole("STUDENT")
-//                .anyRequest().authenticated()
-//        ); // Allow these files
-//        http.httpBasic(Customizer.withDefaults());
-//        http.formLogin(form -> form
-//                .loginPage("/students/login") // URL for your custom login page
-//                .loginProcessingUrl("/students/login")
-//                .defaultSuccessUrl("/students/home")
-//                //.successHandler(customSuccessHandler)
-//                //.failureHandler(customAuthenticationFailureHandler)
-//                .failureForwardUrl("/students/login")
-//                .failureUrl("/students/login?error=true") // Redirect after failed login
-//                .permitAll()
-//        );
-////        http.rememberMe(rememberMe -> rememberMe
-////                .tokenRepository(persistentTokenRepository())
-////                .tokenValiditySeconds(7 * 24 * 60 * 60) // 7 days
-////                .key("secureKey123") // Unique secret key for hashing
-////                .rememberMeParameter("remember_me") // Matches the checkbox name in the form
-////                .userDetailsService(loginService)
-////                .authenticationSuccessHandler(customSuccessHandler)
-////        );
-//        http.logout(logout -> logout
-//                .logoutUrl("/students/logout") // Logout endpoint
-//                .logoutSuccessUrl("/students/login")
-//                //.logoutSuccessHandler(customLogoutSuccessHandler)
-//                .permitAll()
-//        );
-//        http.httpBasic(Customizer.withDefaults());
-//        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
-//        http.authenticationProvider(studentAuthenticationProvider());
-//        return http.build();
-//
-//    }
-//
-//    @Bean
-//    public AuthenticationProvider studentAuthenticationProvider() {
-//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-//        provider.setUserDetailsService(loginService);// Student's UserDetailsService
-//        provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
-//        return provider;
-//    }
-
-
-
-
-
     //For Teacher Panel
     @Bean
     public SecurityFilterChain teacherSecurityFilterChain(HttpSecurity http) throws Exception{
