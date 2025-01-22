@@ -39,7 +39,7 @@ public class DashboardController {
     }
     @GetMapping("/teachers/home/{studentId}")
     @ResponseBody // Add this to ensure the response is JSON
-    public List<AddStudentMarksModel> getStudentMarksById(@PathVariable Integer studentId) {
+    public List<AddStudentMarksModel> getStudentMarksById(@PathVariable Long studentId) {
         System.out.println("Fetching marks for student ID: " + studentId);
 
         // Fetch student marks using the provided student ID

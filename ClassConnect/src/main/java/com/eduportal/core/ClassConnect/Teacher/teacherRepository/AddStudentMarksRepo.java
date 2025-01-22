@@ -13,6 +13,6 @@ public interface AddStudentMarksRepo extends JpaRepository<AddStudentMarksModel,
 
     // Query to fetch students by class division ID, sorted by roll number
     @Query(value = "SELECT * FROM class_connect.student_marks WHERE student_id =?1", nativeQuery = true)
-    ArrayList<AddStudentMarksModel> findStudentMarks(int id);
+    ArrayList<AddStudentMarksModel> findStudentMarks(Long student_id);
 
 }

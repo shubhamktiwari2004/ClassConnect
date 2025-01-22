@@ -42,22 +42,23 @@ public class FetchStudentslistController {
 
 
 
-    @GetMapping({"/teachers/add_student", "/teachers/add_student/{id}"})
-    public String getStuendsMarks(@PathVariable(required = false) Integer id, Model model) {
-        if (id == null) {
+    @GetMapping({"/teachers/add_student", "/teachers/add_student/{student_id}"})
+    public String getStuendsMarks(@PathVariable(required = false) String student_id, Model model) {
+        if (student_id == null) {
             System.out.println("No class division ID provided. Fetching all students.");
         } else {
-            System.out.println("Fetched students for class division ID " + id);
-            ArrayList<AddStudentMarksModel> studentsMarks = fetchStudentsService.getStudentMarks(id);
+            Long studentId = Long.parseLong(student_id);
+            System.out.println("Fetched students for class division ID " + studentId);
+            ArrayList<AddStudentMarksModel> studentsMarks = fetchStudentsService.getStudentMarks(studentId);
             System.out.println("Student Marks: ");
             for (AddStudentMarksModel studentMark : studentsMarks) {
                 System.out.println(studentMark); // If toString() is overridden, this will print the relevant details
             }
-            List<AddStudentModel> student_data = fetchStudentsService.getStudentById(id);  // Fetch more detailed data
+            List<AddStudentModel> student_data = fetchStudentsService.getStudentById(studentId);  // Fetch more detailed data
 
             model.addAttribute("marks", studentsMarks);   // Add students to model
             model.addAttribute("student_data", student_data);
-            model.addAttribute("id",id);
+            model.addAttribute("id",student_id);
             System.out.println(student_data);
         }
         model.addAttribute("currentPage", "students");
@@ -65,9 +66,9 @@ public class FetchStudentslistController {
     }
 
 
-    @GetMapping("/teachers/delete_student/{id}")
-    public String deleteStudent(@PathVariable int id){
-        fetchStudentsService.deleteStudent(id);
+    @GetMapping("/teachers/delete_student/{student_id}")
+    public String deleteStudent(@PathVariable Long student_id){
+        fetchStudentsService.deleteStudent(student_id);
         return "redirect:/teachers/students";
     }
 

@@ -13,16 +13,16 @@ import java.util.List;
 @Repository
 public interface FetchStudentsRepository extends JpaRepository<AddStudentModel,Long>{
     //Query to get the student based on the roll no
-    @Query("SELECT sd FROM AddStudentModel sd WHERE sd.id = :id AND sd.is_active = '0'")
-    List<AddStudentModel> findStudentById(@Param("id") int id);
+    @Query("SELECT sd FROM AddStudentModel sd WHERE sd.student_id = :student_id AND sd.is_active = '0'")
+    List<AddStudentModel> findStudentById(@Param("student_id") Long student_id);
 
     @Query("SELECT sd FROM AddStudentModel sd WHERE sd.is_active = '0' AND sd.teacher_id = ?1 ORDER BY sd.id")
     List<AddStudentModel> getAllStudents(int teacherId);
 
     @Modifying
     @Transactional
-    @Query("UPDATE AddStudentModel sd SET sd.is_active = '1' WHERE id = ?1")
-    void deleteStudent(int studentId);
+    @Query("UPDATE AddStudentModel sd SET sd.is_active = '1' WHERE student_id = ?1")
+    void deleteStudent(Long studentId);
 
 
 

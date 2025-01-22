@@ -27,12 +27,12 @@ public class FetchStudentsService {
         this.addStudentMarksRepo = addStudentMarksRepo;
     }
 
-    public List<AddStudentModel> getStudentById(int id) {
-        return fetchStudentsRepository.findStudentById(id);
+    public List<AddStudentModel> getStudentById(Long student_id) {
+        return fetchStudentsRepository.findStudentById(student_id);
     }
 
-    public ArrayList<AddStudentMarksModel> getStudentMarks(int id) {
-        return addStudentMarksRepo.findStudentMarks(id);
+    public ArrayList<AddStudentMarksModel> getStudentMarks(Long student_id) {
+        return addStudentMarksRepo.findStudentMarks(student_id);
     }
     public List<AddStudentModel> getAllStudents(int teacherId) {
         List<AddStudentModel> addStudentModel = fetchStudentsRepository.getAllStudents(teacherId);
@@ -40,9 +40,9 @@ public class FetchStudentsService {
         return addStudentModel;
     }
 
-    public void deleteStudent(int id){
-        fetchStudentsRepository.deleteStudent(id);
-        addStudentThroTeacherRepo.deleteStudent(id);
+    public void deleteStudent(Long student_id){
+        fetchStudentsRepository.deleteStudent(student_id);
+        addStudentThroTeacherRepo.deleteStudent(student_id);
     }
 
 

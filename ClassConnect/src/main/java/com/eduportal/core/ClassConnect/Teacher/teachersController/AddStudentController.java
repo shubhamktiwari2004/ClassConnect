@@ -20,6 +20,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -66,7 +68,7 @@ public class AddStudentController {
         }
 
         // Generate a 10-digit random student ID
-        Integer student_id = generateRandomStudentId();
+        Long student_id = generateRandomStudentId();
         if (student_id == null) {
             redirectAttributes.addFlashAttribute("error", "Failed to generate a student ID. Please try again.");
             return "redirect:/teachers/add_student";
@@ -120,11 +122,9 @@ public class AddStudentController {
     }
 
     // Helper method to generate a 10-digit random student ID
-    private Integer generateRandomStudentId() {
-        Random random = new Random();
-        // Generate a random 10-digit number within the range of an Integer
-        int randomStudentId = random.nextInt(900000000) + 100000000;  // Ensures a 9-digit ID
-        return randomStudentId;
+    private Long generateRandomStudentId() {
+        Long epochSeconds = Instant.now().toEpochMilli();
+        return epochSeconds;
     }
 
 
@@ -217,7 +217,7 @@ public class AddStudentController {
                             @RequestParam List<Integer> sem2,
                             @RequestParam List<String> subject,
                             @RequestParam (required = false) List<Long> id,
-                            @RequestParam Integer student_id)
+                            @RequestParam Long student_id)
        {
            System.out.println("Units1: " + unit1);
            System.out.println("Units2: " + unit2);

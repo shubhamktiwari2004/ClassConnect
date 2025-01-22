@@ -19,6 +19,6 @@ public interface AddStudentThroTeacherRepo extends JpaRepository<AddStudentThrou
 
     @Modifying
     @Transactional
-    @Query("UPDATE AddStudentThroughTeacher sd SET sd.is_active = '1' WHERE id = ?1")
-    void deleteStudent(int studentId);
+    @Query("UPDATE AddStudentThroughTeacher sd SET sd.is_active = '1' WHERE student_id = ?1")
+    void deleteStudent(Long studentId);
 }

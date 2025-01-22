@@ -10,7 +10,7 @@ public class AddStudentMarksModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer student_id;
+    private Long student_id;
     private String subject;
     private int unit1;
     private int unit2;
@@ -26,11 +26,11 @@ public class AddStudentMarksModel {
         this.id = id;
     }
 
-    public Integer getStudent_id() {
+    public Long getStudent_id() {
         return student_id;
     }
 
-    public void setStudent_id(Integer student_id) {
+    public void setStudent_id(Long student_id) {
         this.student_id = student_id;
     }
 

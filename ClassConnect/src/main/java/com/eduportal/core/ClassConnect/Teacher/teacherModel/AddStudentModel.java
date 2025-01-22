@@ -12,7 +12,7 @@ public class AddStudentModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer student_id;
+    private Long student_id;
     private String firstName;
     private String lastName;
     private String email;
@@ -32,11 +32,11 @@ public class AddStudentModel {
         this.id = id;
     }
 
-    public Integer getStudent_id() {
+    public Long getStudent_id() {
         return student_id;
     }
 
-    public void setStudent_id(Integer student_id) {
+    public void setStudent_id(Long student_id) {
         this.student_id = student_id;
     }
 
