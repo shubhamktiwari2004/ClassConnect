@@ -71,14 +71,14 @@
     <div class="container">
       <div class="page-inner">
         <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
-          <h3 class="fw-bold mb-3">Dashboard</h3>
+          <h3 class="fw-bold mb-1">Dashboard</h3>
         </div>
         <div class="col-md-4">
           <label for="studentSelect" class="form-label mt-2"><strong>Select Student Name</strong></label>
           <select class="form-select" id="studentSelect" aria-label="Select a subject">
             <option selected disabled>Student Name</option>
             <th:block th:each="student : ${students}">
-              <option th:value="${student.id}"
+              <option th:value="${student.student_id}"
                       th:text="${student.firstName} + ' ' + ${student.lastName}"></option>
             </th:block>
           </select>
