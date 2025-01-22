@@ -44,7 +44,7 @@ public class StudentLoginService implements UserDetailsService {
         session.setAttribute("teacher_id", user.getTeacher_id());
         session.setAttribute("sessionId", session.getId());
         session.setAttribute("firstName", user.getFirstName());
-        session.setAttribute("lastName", user.getFirstName());
+        session.setAttribute("lastName", user.getLastName());
         session.setAttribute("studentId", user.getStudent_id());
 
     }

@@ -3,7 +3,7 @@
     <div class="main-header-logo">
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
-            <a href="teachers/home" class="logo">
+            <a href="students/home" class="logo">
                 <img
                         src="/img/kaiadmin/logo_light.svg"
                         alt="navbar brand"
@@ -45,43 +45,44 @@
                 <li class="nav-item topbar-user dropdown hidden-caret">
                     <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#">
                         <div class="avatar-sm">
-                            <th:block th:if="${!teacherData.isEmpty()}">
-                                <img th:src="@{${teacherData[0].profile_image != null ? @environment.getProperty('app.base-url') + teacherData[0].profile_image : 'https://bootdey.com/img/Content/avatar/avatar7.png'}}"
+                            <th:block th:if="${!studentData.isEmpty()}">
+                                <img th:src="@{${studentData[0].image_url != null ? @environment.getProperty('app.base-url') + studentData[0].image_url : 'https://bootdey.com/img/Content/avatar/avatar7.png'}}"
                                      alt="navbar brand"
                                      class="avatar-img rounded-circle"
                                      height="20" />
-                            </th:block>                        </div>
+                            </th:block>
+                        </div>
                         <span class="profile-username">
               <span class="op-7">Hi,</span>
-              <span class="fw-bold" th:text="${session['teacherName']}">User</span>
+              <span class="fw-bold" th:text="${session['firstName'] } +'  '+ ${session['lastName']}">User</span>
             </span>
                     </a>
                     <ul class="dropdown-menu dropdown-user animated fadeIn">
                         <li>
                             <div class="user-box">
                                 <div class="avatar-lg">
-                                    <th:block th:if="${!teacherData.isEmpty()}">
-                                        <img th:src="@{${teacherData[0].profile_image != null ? @environment.getProperty('app.base-url') + teacherData[0].profile_image : 'https://bootdey.com/img/Content/avatar/avatar7.png'}}"
+                                    <th:block th:if="${!studentData.isEmpty()}">
+                                        <img th:src="@{${studentData[0].image_url != null ? @environment.getProperty('app.base-url') + studentData[0].image_url : 'https://bootdey.com/img/Content/avatar/avatar7.png'}}"
                                              alt="navbar brand"
                                              class="avatar-img rounded-circle"
                                              height="20" />
                                     </th:block>
                                 </div>
                                 <div class="u-text">
-                                    <h4 th:text="${session['teacherName']}">Hizrian</h4>
+                                    <h4 th:text="${session['firstName']}">Hizrian</h4>
                                     <p class="text-muted" th:text="${session['email']}">hello@example.com</p>
                                 </div>
                             </div>
                         </li>
                         <li>
                             <div class="dropdown-divider"></div>
-                            <form action="/teachers/profile" method="GET" style="display: inline;">
+                            <form action="/students/profile" method="GET" style="display: inline;">
                                 <button type="submit" style="background: none; border: none; color: inherit; cursor: pointer;">My Profile</button>
 
                             </form>
 
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/teachers/logout">Logout</a>
+                            <a class="dropdown-item" href="/students/logout">Logout</a>
                         </li>
                     </ul>
                 </li>
