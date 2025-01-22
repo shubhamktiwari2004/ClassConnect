@@ -17,7 +17,7 @@ public class StudentLoginModel {
     String image_url;
     String is_active;
     String password;
-    int student_id;
+    Long student_id;
     int teacher_id;
     String username;
 
@@ -85,11 +85,11 @@ public class StudentLoginModel {
         this.password = password;
     }
 
-    public int getStudent_id() {
+    public Long getStudent_id() {
         return student_id;
     }
 
-    public void setStudent_id(int student_id) {
+    public void setStudent_id(Long student_id) {
         this.student_id = student_id;
     }
 

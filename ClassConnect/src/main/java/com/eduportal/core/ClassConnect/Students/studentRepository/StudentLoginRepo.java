@@ -22,7 +22,7 @@ public interface StudentLoginRepo extends JpaRepository<StudentLoginModel , Long
 
 
     @Query(value = "SELECT * from student_details WHERE student_id = ?1 AND is_active = 0"  , nativeQuery = true)
-    ArrayList<StudentLoginModel> findStudentById(int id);
+    ArrayList<StudentLoginModel> findStudentById(Long id);
 
 }
 

@@ -22,7 +22,7 @@ public class GlobalControllerAdviceStudent {
         System.out.println("teacher_id"+session.getAttribute("teacher_id"));
         System.out.println("teacher_id"+session.getAttribute("studentId"));
         System.out.println("teacher_id"+session.getAttribute("username"));
-        Integer studentId = (Integer) session.getAttribute("studentId");  // Get the teacher_id as Integer
+        Long studentId = (Long) session.getAttribute("studentId");  // Get the teacher_id as Integer
         if (studentId != null) {
             return studentLoginRepo.findStudentById(studentId); // Convert to long
         }
