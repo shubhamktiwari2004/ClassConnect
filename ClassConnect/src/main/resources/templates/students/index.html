@@ -42,7 +42,6 @@
     <link rel="stylesheet" href="/css/demo.css" />
   </head>
   <body>
-    <div class="wrapper">
       <!-- Sidebar -->
       <div th:replace="~{'students/commonIncludes/leftNav.html' :: leftNavContent}"></div>
 
@@ -63,9 +62,8 @@
 
           </div>
         </div>
-      </div>
-
-
+      <!-- Footer -->
+      <div th:replace="~{'students/commonIncludes/footer.html' :: footerContent}"></div>
     </div>
     <!--   Core JS Files   -->
     <script src="/js/core/jquery-3.7.1.min.js"></script>
