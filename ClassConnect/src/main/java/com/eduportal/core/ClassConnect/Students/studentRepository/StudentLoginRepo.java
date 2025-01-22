@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface StudentLoginRepo extends JpaRepository<StudentLoginModel , Long> {
 
 
-    @Query(value = "SELECT * from student_details WHERE user_name = ?1 AND is_active = 0"  , nativeQuery = true)
+    @Query(value = "SELECT * from student_details WHERE username = ?1 AND is_active = 0"  , nativeQuery = true)
     Optional<StudentLoginModel> findByUsername(String username);
 
     @Query(value = "SELECT * from student_details WHERE email = ?1 AND is_active = 0"  , nativeQuery = true)

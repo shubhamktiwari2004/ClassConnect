@@ -1,9 +1,11 @@
 package com.eduportal.core.ClassConnect.Teacher.teacherModel;
 
+import com.eduportal.core.ClassConnect.Students.AddStudentFromTeacherListener;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "student_details") // Database table name
+@EntityListeners(AddStudentFromTeacherListener.class) // Attach the listener
 public class AddStudentModel {
 
     @Id
