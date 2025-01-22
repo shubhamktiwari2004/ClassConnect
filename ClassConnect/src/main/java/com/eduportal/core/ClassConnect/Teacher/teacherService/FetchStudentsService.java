@@ -1,5 +1,6 @@
 package com.eduportal.core.ClassConnect.Teacher.teacherService;
 
+import com.eduportal.core.ClassConnect.Students.studentRepository.AddStudentThroTeacherRepo;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.AddStudentMarksModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.AddStudentModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherRepository.AddStudentMarksRepo;
@@ -16,10 +17,13 @@ public class FetchStudentsService {
 
     private final FetchStudentsRepository fetchStudentsRepository;
 
+    private final AddStudentThroTeacherRepo addStudentThroTeacherRepo;
+
     private final AddStudentMarksRepo addStudentMarksRepo;
 
-    public FetchStudentsService(FetchStudentsRepository fetchStudentsRepository, AddStudentMarksRepo addStudentMarksRepo) {
+    public FetchStudentsService(FetchStudentsRepository fetchStudentsRepository, AddStudentThroTeacherRepo addStudentThroTeacherRepo, AddStudentMarksRepo addStudentMarksRepo) {
         this.fetchStudentsRepository = fetchStudentsRepository;
+        this.addStudentThroTeacherRepo = addStudentThroTeacherRepo;
         this.addStudentMarksRepo = addStudentMarksRepo;
     }
 
@@ -38,6 +42,7 @@ public class FetchStudentsService {
 
     public void deleteStudent(int id){
         fetchStudentsRepository.deleteStudent(id);
+        addStudentThroTeacherRepo.deleteStudent(id);
     }
 
 

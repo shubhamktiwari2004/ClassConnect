@@ -1,7 +1,9 @@
 package com.eduportal.core.ClassConnect.Config;
 
+import com.eduportal.core.ClassConnect.Students.studentRepository.AddStudentThroTeacherRepo;
 import com.eduportal.core.ClassConnect.Students.studentRepository.StudentLoginRepo;
 import com.eduportal.core.ClassConnect.Students.studentService.StudentLoginService;
+import com.eduportal.core.ClassConnect.Students.studentsModel.AddStudentThroughTeacher;
 import com.eduportal.core.ClassConnect.Students.studentsModel.StudentLoginModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.LoginModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherRepository.LoginRepo;
@@ -20,11 +22,9 @@ import java.time.LocalDateTime;
 public class CustomLogoutHandlerStudent implements LogoutSuccessHandler {
 
     private final StudentLoginService studentLoginService;
-    private final StudentLoginRepo studentLoginRepo;
 
-    public CustomLogoutHandlerStudent(StudentLoginService studentLoginService, StudentLoginRepo studentLoginRepo) {
+    public CustomLogoutHandlerStudent(StudentLoginService studentLoginService) {
         this.studentLoginService = studentLoginService;
-        this.studentLoginRepo = studentLoginRepo;
     }
 
     @Override
@@ -32,10 +32,11 @@ public class CustomLogoutHandlerStudent implements LogoutSuccessHandler {
         String username = authentication.getName();
         System.out.println("hello:::"+username);
         StudentLoginModel user = studentLoginService.getUserByUsername(username);
+        AddStudentThroughTeacher model = studentLoginService.getStudentUser(username);
         if (user != null) {
             System.out.println("inside logout");
-//            user.setLogoutTimestamp(LocalDateTime.now());
-//            studentLoginService.saveUser(user);
+            model.setLogout_stamp(LocalDateTime.now());
+            studentLoginService.saveUser(model);
         }
 
         request.getSession().invalidate();
