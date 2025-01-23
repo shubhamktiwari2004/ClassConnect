@@ -32,7 +32,36 @@
         },
       });
     </script>
+    <style>
+      /* Ensure the chart container takes up full height */
+      .chart-container {
+          position: relative;
+          height: 300px; /* Adjust as needed */
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
 
+      /* Style for the message */
+      .chart-message {
+          position: absolute;
+          font-size: 1.2rem;
+          color: #6c757d; /* Bootstrap muted text color */
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+          text-align: center;
+          z-index: 1; /* Ensure it's above the canvas */
+          background-color: rgba(255, 255, 255, 0.8); /* Optional: Add a background for better visibility */
+      }
+
+      /* Hide canvas when no data is available */
+      canvas {
+          display: none;
+      }
+    </style>
     <!-- CSS Files -->
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/plugins.min.css" />
@@ -42,114 +71,267 @@
     <link rel="stylesheet" href="/css/demo.css" />
   </head>
   <body>
-      <!-- Sidebar -->
-      <div th:replace="~{'students/commonIncludes/leftNav.html' :: leftNavContent}"></div>
+  <!-- Sidebar -->
+  <div th:replace="~{'students/commonIncludes/leftNav.html' :: leftNavContent}"></div>
 
-      <div class="main-panel">
-        <!-- Header -->
-        <div th:replace="~{'students/commonIncludes/header.html' :: headerContent}"></div>
+  <div class="main-panel">
+    <!-- Header -->
+    <div th:replace="~{'students/commonIncludes/header.html' :: headerContent}"></div>
 
+    <div class="container">
+      <div class="page-inner">
+        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+          <h3 class="fw-bold mb-1">Dashboard</h3>
+        </div>
+<!--        <div class="col-md-4">-->
+<!--          <label for="studentSelect" class="form-label mt-2"><strong>Select Student Name</strong></label>-->
+<!--          <select class="form-select" id="studentSelect" aria-label="Select a subject">-->
+<!--            <option selected disabled>Student Name</option>-->
+<!--            <th:block th:each="student : ${students}">-->
+<!--              <option th:value="${student.student_id}"-->
+<!--                      th:text="${student.firstName} + ' ' + ${student.lastName}"></option>-->
+<!--            </th:block>-->
+<!--          </select>-->
+<!--        </div>-->
 
-        <div class="container">
-          <div class="page-inner">
-            <div
-              class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
-            >
-              <div>
-                <h3 class="fw-bold mb-3">Dashboard</h3>
+        <div class="row mt-4">
+          <!-- Bar Chart Card -->
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Bar Chart</h5>
+                <div id="barChartContainer" class="chart-container">
+                  <div id="barChartMessage" class="chart-message">No Data Available</div>
+                  <canvas id="barChart"></canvas>
+                </div>
               </div>
             </div>
+          </div>
 
+          <!-- Line Chart Card -->
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Line Chart</h5>
+                <div id="lineChartContainer" class="chart-container">
+                  <div id="lineChartMessage" class="chart-message">No Data Available</div>
+                  <canvas id="lineChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pie Chart Card -->
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Pie Chart</h5>
+                <div id="pieChartContainer" class="chart-container">
+                  <div id="pieChartMessage" class="chart-message">No Data Available</div>
+                  <canvas id="pieChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Doughnut Chart Card -->
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Doughnut Chart</h5>
+                <div id="doughnutChartContainer" class="chart-container">
+                  <div id="doughnutChartMessage" class="chart-message">No Data Available</div>
+                  <canvas id="doughnutChart"></canvas>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      <!-- Footer -->
-      <div th:replace="~{'students/commonIncludes/footer.html' :: footerContent}"></div>
+      </div>
     </div>
-    <!--   Core JS Files   -->
-    <script src="/js/core/jquery-3.7.1.min.js"></script>
-    <script src="/js/core/popper.min.js"></script>
-    <script src="/js/core/bootstrap.min.js"></script>
+    <!-- Footer -->
+    <div th:replace="~{'students/commonIncludes/footer.html' :: footerContent}"></div>
+  </div>
+  <!-- Core JS Files -->
+  <script src="/js/core/jquery-3.7.1.min.js"></script>
+  <script src="/js/core/popper.min.js"></script>
+  <script src="/js/core/bootstrap.min.js"></script>
+  <!-- Chart JS -->
+  <script src="/js/plugin/chart.js/chart.min.js"></script>
+  <!-- Other Plugins -->
+  <script src="/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+  <script src="/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+  <script src="/js/plugin/sweetalert/sweetalert.min.js"></script>
+  <script src="/js/kaiadmin.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $.notify({
+        icon: 'fa fa-info-circle',
+        title: 'Welcome!',
+        message: 'Welcome to Dashboard.'
+      }, {
+        type: 'info',
+        delay: 2000,
+        placement: {
+          from: "top",
+          align: "right"
+        },
+        offset: {
+          x: 20,
+          y: 60
+        }
+      });
+    });
+  </script>
 
-    <!-- jQuery Scrollbar -->
-    <script src="/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-
-    <!-- Chart JS -->
-    <script src="/js/plugin/chart.js/chart.min.js"></script>
-
-    <!-- jQuery Sparkline -->
-    <script src="/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
-
-    <!-- Chart Circle -->
-    <script src="/js/plugin/chart-circle/circles.min.js"></script>
-
-    <!-- Datatables -->
-    <script src="/js/plugin/datatables/datatables.min.js"></script>
-
-    <!-- Bootstrap Notify -->
-    <script src="/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
-
-    <!-- jQuery Vector Maps -->
-    <script src="/js/plugin/jsvectormap/jsvectormap.min.js"></script>
-    <script src="/js/plugin/jsvectormap/world.js"></script>
-
-    <!-- Sweet Alert -->
-    <script src="/js/plugin/sweetalert/sweetalert.min.js"></script>
-
-    <!-- Kaiadmin JS -->
-    <script src="/js/kaiadmin.min.js"></script>
-
-    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
-    <script src="/js/setting-demo.js"></script>
-    <script src="/js/demo.js"></script>
-    <script>
-      $(document).ready(function() {
-        $.notify({
-          // Notification content
-          icon: 'fa fa-info-circle', // Optional icon
-          title: 'Welcome!',
-          message: 'Welcome to DashBoard.',
-        }, {
-          // Notification options
-          type: 'info',  // Type can be 'info', 'success', 'warning', 'danger'
-          delay: 2000,  // Time in milliseconds before it disappears
-          placement: {
-            from: "top",
-            align: "right"
-          },
-          offset: {
-            x: 20, // X offset for positioning
-            y: 60  // Y offset for positioning
-          }
+  <!-- Chart Configuration -->
+  <script>
+    $(document).ready(function () {
+        $('#mySelect').select2({
+          placeholder: 'Select a subject', // Placeholder text
+          allowClear: true,                // Enable clearing the selection
+          theme: 'bootstrap-5',            // Use Bootstrap styling
+          dropdownParent: $('.container')  // Ensure proper positioning
         });
       });
-    </script>
-    <script>
-      $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#177dff",
-        fillColor: "rgba(23, 125, 255, 0.14)",
-      });
 
-      $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#f3545d",
-        fillColor: "rgba(243, 84, 93, .14)",
-      });
+  function resetCanvas(chartId) {
+      const chartCanvas = document.getElementById(chartId);
+      const chartParent = chartCanvas.parentElement;
 
-      $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#ffa534",
-        fillColor: "rgba(255, 165, 52, .14)",
-      });
-    </script>
+      // Remove the old canvas
+      chartCanvas.remove();
+
+      // Create a new canvas element and append it to the parent
+      const newCanvas = document.createElement('canvas');
+      newCanvas.id = chartId;
+      chartParent.appendChild(newCanvas);
+  }
+
+  // Fetch and render chart based on selected student ID
+  async function fetchStudentData() {
+      try {
+          const response = await fetch(`http://class.connect.edu.in:8080/students/marks`);
+
+          // Check if response is okay (status 200)
+          if (!response.ok) {
+              console.error("Failed to fetch data:", response.status);
+              return;
+          }
+           $(".chart-message").hide();
+          const data = await response.json(); // Parse the JSON response
+          console.log(data); // Add console.log to verify the response
+
+          // Extract labels (e.g., subject names)
+          const subjects = data.map(student => student.subject); // Extract subject names for the X-axis
+          const totalMarks = data.map(student => student.total); // Extract total marks for the bar chart
+          const unit1Marks = data.map(student => student.unit1); // Extract unit1 marks for the line chart
+
+         // Reset canvases for all charts
+          resetCanvas("barChart");
+          resetCanvas("lineChart");
+          resetCanvas("pieChart");
+          resetCanvas("doughnutChart");
+
+
+          // Create the datasets for the bar chart
+          const barChartDataset = [{
+              label: 'Total Marks',
+              data: totalMarks, // Use total marks for the bar chart
+              backgroundColor: 'rgba(54, 162, 235, 0.6)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1
+          }];
+
+          // Create the datasets for the line chart
+          const lineChartDataset = [{
+              label: 'Total Marks',
+              data: totalMarks, // Use unit1 marks for the line chart
+              borderColor: "#177dff",
+              fill: false,
+              tension: 0.1 // Optional: for smoothing the line
+          }];
+
+          // Create datasets for the Pie chart (e.g., total marks per subject)
+          const pieChartDataset = [{
+              data: totalMarks, // Use total marks for the pie chart
+              backgroundColor: ['#FF4500', '#32CD32', '#FFD700', '#FF6347'],
+          }];
+
+          // Create datasets for the Doughnut chart (e.g., unit1 marks per subject)
+          const doughnutChartDataset = [{
+              data: totalMarks, // Use unit1 marks for the doughnut chart
+              backgroundColor: ['#FF4500', '#32CD32', '#FFD700', '#FF6347'],
+          }];
+
+          // Render the bar chart
+          const ctxBar = document.getElementById("barChart").getContext("2d");
+          new Chart(ctxBar, {
+              type: "bar",
+              data: {
+                  labels: subjects, // X-axis labels (Subjects)
+                  datasets: barChartDataset
+              },
+              options: {
+                  responsive: true,
+                  scales: {
+                      y: {
+                          beginAtZero: true
+                      }
+                  }
+              }
+          });
+
+          // Render the line chart
+          const ctxLine = document.getElementById("lineChart").getContext("2d");
+          new Chart(ctxLine, {
+              type: "line",
+              data: {
+                  labels: subjects, // X-axis labels (Subjects)
+                  datasets: lineChartDataset
+              },
+              options: {
+                  responsive: true,
+                  scales: {
+                      y: {
+                          beginAtZero: true
+                      }
+                  }
+              }
+          });
+
+          // Render the Pie chart
+          var ctx3 = document.getElementById("pieChart").getContext("2d");
+          var pieChart = new Chart(ctx3, {
+            type: "pie",
+            data: {
+                  labels: subjects, // X-axis labels (Subjects)
+                  datasets: pieChartDataset
+              },
+            options: { responsive: true }
+          });
+
+          // Render the Doughnut chart
+          const ctxDoughnut = document.getElementById("doughnutChart").getContext("2d");
+          new Chart(ctxDoughnut, {
+              type: "doughnut",
+              data: {
+                  labels: subjects, // X-axis labels (Subjects)
+                  datasets: doughnutChartDataset
+              },
+              options: {
+                  responsive: true
+              }
+          });
+
+      } catch (error) {
+          console.error("Error fetching student data:", error);
+      }
+  }
+
+  // Add event listener to the select element
+  fetchStudentData();
+
+  </script>
   </body>
 </html>

@@ -1,153 +1,207 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>ClassConnect </title>
-    <meta
-      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
-      name="viewport"
-    />
-    <link
-      rel="icon"
-      href="/img/kaiadmin/favicon.ico"
-      type="image/x-icon"
-    />
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>ClassConnect</title>
+  <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
+  <link rel="icon" href="/img/kaiadmin/favicon.ico" type="image/x-icon" />
 
-    <!-- Fonts and icons -->
-    <script src="/js/plugin/webfont/webfont.min.js"></script>
-    <script>
-      WebFont.load({
-        google: { families: ["Public Sans:300,400,500,600,700"] },
-        custom: {
-          families: [
-            "Font Awesome 5 Solid",
-            "Font Awesome 5 Regular",
-            "Font Awesome 5 Brands",
-            "simple-line-icons",
-          ],
-          urls: ["/css/fonts.min.css"],
-        },
-        active: function () {
-          sessionStorage.fonts = true;
-        },
-      });
-    </script>
+  <!-- Fonts and icons -->
+  <script src="/js/plugin/webfont/webfont.min.js"></script>
+  <script>
+    WebFont.load({
+      google: { families: ["Public Sans:300,400,500,600,700"] },
+      custom: {
+        families: [
+          "Font Awesome 5 Solid",
+          "Font Awesome 5 Regular",
+          "Font Awesome 5 Brands",
+          "simple-line-icons",
+        ],
+        urls: ["/css/fonts.min.css"],
+      },
+      active: function () {
+        sessionStorage.fonts = true;
+      },
+    });
+  </script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+    }
 
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/css/plugins.min.css" />
-    <link rel="stylesheet" href="/css/kaiadmin.min.css" />
+    .tabs-container {
+      width: 100%;
+      max-width: 900px;
+      margin: 50px auto;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
 
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="/css/demo.css" />
-  </head>
-  <body>
-  <!-- Sidebar -->
-  <div th:replace="~{'students/commonIncludes/leftNav.html' :: leftNavContent}"></div>
+    /* Tab Links */
+    .tablinks {
+      background-color: #ddd;
+      color: #333;
+      padding: 16px;
+      width: 50%;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      font-size: 18px;
+      transition: background-color 0.3s;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
 
-      <div class="main-panel">
-        <div th:replace="~{'students/commonIncludes/header.html' :: headerContent}"></div>
+    .tablinks:hover {
+      background-color: #ccc;
+    }
 
-        <div class="container">
-          <div class="page-inner">
-            <div
-              class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
-            >
-              <div>
-                <h3 class="fw-bold mb-3">Schedule</h3>
+    .tablinks.active {
+      background-color: #333;
+      color: #fff;
+    }
+
+    /* Tab Content */
+    .tabcontent {
+      display: none;
+      padding: 20px;
+      border-top: 1px solid #ddd;
+      background-color: #fff;
+      color: #333;
+      font-size: 16px;
+    }
+
+    .tabcontent h3 {
+      font-size: 24px;
+      color: #333;
+    }
+
+    .tabcontent p {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* Styling the first tab to be open by default */
+    .tabcontent.show {
+      display: block;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/css/plugins.min.css" />
+  <link rel="stylesheet" href="/css/kaiadmin.min.css" />
+  <link rel="stylesheet" href="/css/demo.css" />
+</head>
+<body>
+<!-- Sidebar -->
+<div th:replace="~{'students/commonIncludes/leftNav.html' :: leftNavContent}"></div>
+
+<div class="main-panel">
+  <div th:replace="~{'students/commonIncludes/header.html' :: headerContent}"></div>
+
+  <div class="container">
+    <div class="page-inner">
+      <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+        <h3 class="fw-bold mb-3">Schedule</h3>
+      </div>
+
+      <!-- Tabs for Schedule -->
+      <ul class="nav nav-tabs" id="scheduleTabs" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="today-tab" data-toggle="tab" href="#today" role="tab" aria-controls="today" aria-selected="true" style="width:500px;">Today's Schedule</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab" aria-controls="upcoming" aria-selected="false" style="width:500px;">Upcoming Schedule</a>
+        </li>
+      </ul>
+
+      <div class="tab-content mt-3" id="scheduleTabsContent">
+        <!-- Today's Schedule Tab -->
+        <div class="tab-pane fade show active" id="today" role="tabpanel" aria-labelledby="today-tab">
+          <div class="cards-container">
+            <div class="card">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 class="date-highlight" style="color: orange; font-weight: bold;">2025-01-23</h3>
+                <p>Schedule ID: 12345</p>
+                <a href="#" class="edit-button"><i class="fas fa-edit"></i> Edit</a>
+              </div>
+              <div class="card-content">
+                <p><strong>📘 Subject:</strong> Mathematics</p>
+                <p><strong>🏫 Class:</strong> 10A</p>
+                <p><strong>📑 Topic:</strong> Algebra</p>
+                <p><strong>📍 Room Number:</strong> 101</p>
+                <p><strong>📝 Notes:</strong> Revision for midterms</p>
+                <div class="time-info">
+                  <p><strong>⏰ Start Time:</strong> 09:00 AM</p>
+                  <p><strong>⏰ End Time:</strong> 10:30 AM</p>
+                </div>
               </div>
             </div>
-
+            <!-- Add more cards as necessary -->
           </div>
         </div>
+
+        <!-- Upcoming Schedule Tab -->
+        <div class="tab-pane fade" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
+          <div class="cards-container">
+            <div class="card">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 class="date-highlight" style="color: orange; font-weight: bold;">2025-01-24</h3>
+                <p>Schedule ID: 12347</p>
+              </div>
+              <div class="card-content">
+                <p><strong>📘 Subject:</strong> English</p>
+                <p><strong>🏫 Class:</strong> 10C</p>
+                <p><strong>📑 Topic:</strong> Essay Writing</p>
+                <p><strong>📍 Room Number:</strong> 103</p>
+                <p><strong>📝 Notes:</strong> Writing workshop</p>
+                <div class="time-info">
+                  <p><strong>⏰ Start Time:</strong> 09:00 AM</p>
+                  <p><strong>⏰ End Time:</strong> 10:30 AM</p>
+                </div>
+              </div>
+            </div>
+            <!-- Add more cards as necessary -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <div th:replace="~{'students/commonIncludes/footer.html' :: footerContent}"></div>
-    </div>
-    <!--   Core JS Files   -->
-    <script src="/js/core/jquery-3.7.1.min.js"></script>
-    <script src="/js/core/popper.min.js"></script>
-    <script src="/js/core/bootstrap.min.js"></script>
+</div>
 
-    <!-- jQuery Scrollbar -->
-    <script src="/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<!-- Core JS Files -->
+<script src="/js/core/jquery-3.7.1.min.js"></script>
+<script src="/js/core/popper.min.js"></script>
+<script src="/js/core/bootstrap.min.js"></script>
+<script src="/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 
-    <!-- Chart JS -->
-    <script src="/js/plugin/chart.js/chart.min.js"></script>
+<!-- Enable Tab Switching -->
+<script>
+  $(document).ready(function(){
+    // Set the first tab active by default
+    $('#today-tab').addClass('active');
+    $('#upcoming-tab').removeClass('active');
+    $('#today').addClass('show');
+    $('#upcoming').removeClass('show');
 
-    <!-- jQuery Sparkline -->
-    <script src="/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+    // Tab Switching Logic
+    $('#scheduleTabs a').on('click', function (e) {
+      e.preventDefault();
+      $('#scheduleTabs a').removeClass('active');
+      $(this).addClass('active');
 
-    <!-- Chart Circle -->
-    <script src="/js/plugin/chart-circle/circles.min.js"></script>
-
-    <!-- Datatables -->
-    <script src="/js/plugin/datatables/datatables.min.js"></script>
-
-    <!-- Bootstrap Notify -->
-    <script src="/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
-
-    <!-- jQuery Vector Maps -->
-    <script src="/js/plugin/jsvectormap/jsvectormap.min.js"></script>
-    <script src="/js/plugin/jsvectormap/world.js"></script>
-
-    <!-- Sweet Alert -->
-    <script src="/js/plugin/sweetalert/sweetalert.min.js"></script>
-
-    <!-- Kaiadmin JS -->
-    <script src="/js/kaiadmin.min.js"></script>
-
-    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
-    <script src="/js/setting-demo.js"></script>
-    <script src="/js/demo.js"></script>
-    <script>
-      $(document).ready(function() {
-        $.notify({
-          // Notification content
-          icon: 'fa fa-info-circle', // Optional icon
-          title: 'Welcome!',
-          message: 'Welcome to Schedule.',
-        }, {
-          // Notification options
-          type: 'info',  // Type can be 'info', 'success', 'warning', 'danger'
-          delay: 2000,  // Time in milliseconds before it disappears
-          placement: {
-            from: "top",
-            align: "right"
-          },
-          offset: {
-            x: 20, // X offset for positioning
-            y: 60  // Y offset for positioning
-          }
-        });
-      });
-    </script>
-    <script>
-      $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#177dff",
-        fillColor: "rgba(23, 125, 255, 0.14)",
-      });
-
-      $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#f3545d",
-        fillColor: "rgba(243, 84, 93, .14)",
-      });
-
-      $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
-        type: "line",
-        height: "70",
-        width: "100%",
-        lineWidth: "2",
-        lineColor: "#ffa534",
-        fillColor: "rgba(255, 165, 52, .14)",
-      });
-    </script>
-  </body>
+      var target = $(this).attr('href');
+      $('.tab-pane').removeClass('show');
+      $(target).addClass('show');
+    });
+  });
+</script>
+</body>
 </html>
