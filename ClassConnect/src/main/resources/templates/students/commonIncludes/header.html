@@ -69,7 +69,7 @@
                                     </th:block>
                                 </div>
                                 <div class="u-text">
-                                    <h4 th:text="${session['firstName']}">Hizrian</h4>
+                                    <h4 th:text="${session['firstName'] } +'  '+ ${session['lastName']}">Hizrian</h4>
                                     <p class="text-muted" th:text="${session['email']}">hello@example.com</p>
                                 </div>
                             </div>

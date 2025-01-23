@@ -9,6 +9,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -20,6 +21,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -128,29 +132,22 @@ public class AddStudentController {
     }
 
 
+    @Value("${file.upload-dir}")
+    private String uploadDir;
     private String saveImage(String student_id, MultipartFile studentImage) {
         try {
             if (studentImage != null && !studentImage.isEmpty()) {
                 // Use the student_id as the image file name (e.g., student_id.jpg)
-                String relativePath = "uploads/images/students/";  // Relative path for storing images
-                String absolutePath = System.getProperty("user.dir") + "/" + relativePath;  // Absolute path to the folder
+                String relativePath = "uploads/images/students/"+student_id+"/";  // Relative path for storing images
 
-                // Create the image file name using the student_id
-                String imageName = student_id + ".jpg";  // Save the image as student_id.jpg
+                Path path = Paths.get(uploadDir+"students/" + student_id + "/" + studentImage.getOriginalFilename());
 
-                // Create the file object with the full path (image name + path)
-                File directory = new File(absolutePath);
-                if (!directory.exists()) {
-                    directory.mkdirs();  // Create the directory if it doesn't exist
-                }
+                Files.createDirectories(path.getParent());
 
-                File imageFile = new File(absolutePath + imageName);
-
-                // Save the file to the specified directory
-                studentImage.transferTo(imageFile);
+                studentImage.transferTo(path.toFile());
 
                 // Return only the relative path
-                return relativePath + imageName;  // Relative file path for the image
+                return relativePath + studentImage.getOriginalFilename();  // Relative file path for the image
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -86,6 +86,8 @@ public class TeacherProfileController {
                 // Save the image to a directory (you can modify the path as needed)
                 Path path = Paths.get(uploadDir + teacherId + "/" + image.getOriginalFilename());
 
+                System.out.println("Creating directory: " + path.getParent());
+
                 // Create directories if they don't exist
                 Files.createDirectories(path.getParent());
 
@@ -94,6 +96,9 @@ public class TeacherProfileController {
 
                 // Set the image URL (assuming you store the image path in the profile)
                 imageUrl = relativePath + image.getOriginalFilename();
+            }else {
+                // If no image is provided, retain the existing image URL (if needed)
+                imageUrl = prof.get(0).getProfile_image(); // Assuming `getImageUrl()` exists in `StudentLoginModel`
             }
 
             // Update the profile with the new details
@@ -103,7 +108,7 @@ public class TeacherProfileController {
             model.addAttribute("profile", prof.get(0)); // Assuming prof.get(0) is the updated profile
 
             // Return the updated profile page
-            return "teachers/profile";
+            return "redirect:/teachers/profile";
 
         } catch (IOException e) {
             e.printStackTrace();
