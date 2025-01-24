@@ -68,14 +68,15 @@ public class SecurityConfig {
                 .failureUrl("/students/login?error=true") // Redirect after failed login
                 .permitAll()
         );
-//        http.rememberMe(rememberMe -> rememberMe
-//                .tokenRepository(persistentTokenRepository())
-//                .tokenValiditySeconds(7 * 24 * 60 * 60) // 7 days
-//                .key("secureKey123") // Unique secret key for hashing
-//                .rememberMeParameter("remember_me") // Matches the checkbox name in the form
-//                .userDetailsService(loginService)
-//                .authenticationSuccessHandler(customSuccessHandler)
-//        );
+        http.rememberMe(rememberMe -> rememberMe
+                .rememberMeCookieName("remember_me_student")
+                .tokenRepository(studentTokenRepository())
+                .tokenValiditySeconds(7 * 24 * 60 * 60) // 7 days
+                .key("studentKey") // Unique secret key for hashing
+                .rememberMeParameter("remember_me_student") // Matches the checkbox name in the form
+                .userDetailsService(studentLoginService)
+                .authenticationSuccessHandler(customSuccessHandlerStudent)
+        );
         http.logout(logout -> logout
                 .logoutUrl("/students/logout") // Logout endpoint
                 .logoutSuccessHandler(customLogoutHandlerStudent)
@@ -99,6 +100,14 @@ public class SecurityConfig {
         return provider;
     }
 
+    @Bean
+    public PersistentTokenRepository studentTokenRepository() {
+        return new CustomJdbcTokenRepositoryImpl(dataSource, "persistent_logins_student");
+    }
+
+
+
+
 
     //For Teacher Panel
     @Bean
@@ -120,10 +129,11 @@ public class SecurityConfig {
                 .permitAll()
         );
         http.rememberMe(rememberMe -> rememberMe
-                .tokenRepository(persistentTokenRepository())
+                .rememberMeCookieName("remember_me_teacher")
+                .tokenRepository(teacherTokenRepository())
                 .tokenValiditySeconds(7 * 24 * 60 * 60) // 7 days
-                .key("secureKey123") // Unique secret key for hashing
-                .rememberMeParameter("remember_me") // Matches the checkbox name in the form
+                .key("teacherKey") // Unique secret key for hashing
+                .rememberMeParameter("remember_me_teacher") // Matches the checkbox name in the form
                 .userDetailsService(loginService)
                 .authenticationSuccessHandler(customSuccessHandler)
         );
@@ -155,12 +165,20 @@ public class SecurityConfig {
     }
 
 
-    @Bean
+   /* @Bean
     public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
         tokenRepository.setDataSource(dataSource);
         return tokenRepository;
+    }*/
+
+    @Bean
+    public PersistentTokenRepository teacherTokenRepository() {
+        return new CustomJdbcTokenRepositoryImpl(dataSource, "persistent_logins_teacher");
     }
+
+
+
 
 
 }
