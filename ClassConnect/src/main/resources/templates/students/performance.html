@@ -32,6 +32,129 @@
         },
       });
     </script>
+    <style>
+      @media print {
+        body {
+          font-family: 'Arial', sans-serif;
+          font-size: 14px;
+          line-height: 1.6;
+          color: #333;
+          margin: 0;
+          padding: 0;
+          background-color: #f4f4f4;
+        }
+
+        .card {
+          border: none;
+          box-shadow: none;
+          margin: 0;
+          padding: 0;
+        }
+
+        .card-header, .card-footer {
+          display: none;
+        }
+
+        .table-responsive {
+          overflow: visible !important;
+        }
+
+        .table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 20px;
+        }
+
+        .table th, .table td {
+          border: 1px solid #ddd;
+          padding: 12px;
+          text-align: center;
+          font-size: 14px;
+          color: #333;
+        }
+
+        .table th {
+          font-weight: bold;
+          background-color: #4CAF50;
+          color: white;
+          text-transform: uppercase;
+        }
+
+        .table td {
+          background-color: #f9f9f9;
+        }
+
+        input[readonly] {
+          border: 1px solid #ddd;
+          background-color: #e9e9e9;
+          color: #333;
+          text-align: center;
+          font-weight: bold;
+          padding: 6px;
+        }
+
+        .page-break {
+          page-break-before: always;
+        }
+      }
+
+      /* Modern Card Styling */
+      .card {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-header {
+        background: linear-gradient(135deg, #4CAF50, #2e7d32);
+        color: white;
+        padding: 20px 0;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+
+      .card-body {
+        padding: 30px;
+        background-color: #fff;
+        border-top: 5px solid #4CAF50;
+        border-bottom: 5px solid #4CAF50;
+      }
+
+      .card-footer {
+        background-color: #f8f9fa;
+        padding: 20px 0;
+        text-align: center;
+      }
+
+      .btn-primary {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 12px 30px;
+        font-size: 1rem;
+        border-radius: 30px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        background-color: #388e3c;
+      }
+
+      .text-center h5 {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .font-weight-bold {
+        font-weight: 700;
+      }
+
+      .table-responsive {
+        margin-top: 20px;
+      }
+    </style>
 
     <!-- CSS Files -->
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
@@ -50,14 +173,81 @@
 
         <div class="container">
           <div class="page-inner">
-            <div
-              class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4"
-            >
+            <div class="d-flex flex-column pt-2 pb-4">
               <div>
                 <h3 class="fw-bold mb-3">Performance</h3>
               </div>
-            </div>
+              <div class="card shadow-lg border-0 rounded">
+                <div class="card-header text-center py-4">
+                  <h4 class="mb-0">🎓 Student Annual Report</h4>
+                </div>
+                <div class="card-body">
+                  <div class="text-center mb-4">
+                    <h5 class="font-weight-bold text-uppercase text-secondary">Performance Summary</h5>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                      <thead class="bg-secondary text-white text-center">
+                      <tr>
+                        <th class="align-middle" style="width: 5%;">#</th>
+                        <th class="align-middle" style="width: 20%;">Subject</th>
+                        <th class="align-middle" style="width: 10%;">Unit 1</th>
+                        <th class="align-middle" style="width: 10%;">Sem 1</th>
+                        <th class="align-middle" style="width: 10%;">Unit 2</th>
+                        <th class="align-middle" style="width: 10%;">Sem 2</th>
+                        <th class="align-middle" style="width: 15%;">Total</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <!-- Check if there are no marks -->
+                      <tr th:if="${#lists.isEmpty(studentsMarks)}">
+                        <td colspan="7" class="text-center">No Data Available</td>
+                      </tr>
 
+                      <!-- Loop through the marks if data is available -->
+                      <tr th:each="mark, iterStat : ${studentsMarks}" class="text-center align-middle">
+                        <td th:text="${iterStat.index + 1}"></td>
+                        <td th:text="${mark.subject}" class="font-weight-bold text-left"></td>
+                        <td>
+                          <!-- Display N/A if unit1 is null or empty -->
+                          <input type="number" class="form-control border-0 bg-light text-center font-weight-bold"
+                                 th:value="${mark.unit1 == null ? 'N/A' : mark.unit1}" readonly>
+                        </td>
+                        <td>
+                          <!-- Display N/A if sem1 is null or empty -->
+                          <input type="number" class="form-control border-0 bg-light text-center font-weight-bold"
+                                 th:value="${mark.sem1 == null ? 'N/A' : mark.sem1}" readonly>
+                        </td>
+                        <td>
+                          <!-- Display N/A if unit2 is null or empty -->
+                          <input type="number" class="form-control border-0 bg-light text-center font-weight-bold"
+                                 th:value="${mark.unit2 == null ? 'N/A' : mark.unit2}" readonly>
+                        </td>
+                        <td>
+                          <!-- Display N/A if sem2 is null or empty -->
+                          <input type="number" class="form-control border-0 bg-light text-center font-weight-bold"
+                                 th:value="${mark.sem2 == null ? 'N/A' : mark.sem2}" readonly>
+                        </td>
+                        <td>
+                          <!-- Display N/A if total is null or empty -->
+                          <input type="number" class="form-control border-0 bg-light text-center font-weight-bold"
+                                 th:value="${mark.total == null ? 'N/A' : mark.total}" readonly>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="card-footer text-center py-4">
+                  <a href="/students/report/download" class="btn btn-lg btn-primary text-white shadow">
+                    📥 Download Report as PDF
+                  </a>
+                </div>
+              </div>
+
+
+            </div>
           </div>
         </div>
       <!-- Footer -->
