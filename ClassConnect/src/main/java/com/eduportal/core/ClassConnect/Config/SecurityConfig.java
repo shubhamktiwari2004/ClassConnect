@@ -67,7 +67,7 @@ public class SecurityConfig {
         http.securityMatcher("/students/**");
         http.csrf(customizer -> customizer.disable());
         http.authorizeHttpRequests(request -> request
-                .requestMatchers("/").permitAll()
+                .requestMatchers("/","/students/forgetPassword","/students/resetPassword","/students/reset-password","/students/resetPasswordConfirm").permitAll()
                 .requestMatchers("/student/**").hasRole("STUDENT")
                 .anyRequest().authenticated()); // Allow these files
         http.httpBasic(Customizer.withDefaults());

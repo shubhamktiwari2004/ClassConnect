@@ -20,6 +20,15 @@ public class StudentLoginModel {
     Long student_id;
     int teacher_id;
     String username;
+    private String tokenNo;
+
+    public String getTokenNo() {
+        return tokenNo;
+    }
+
+    public void setTokenNo(String tokenNo) {
+        this.tokenNo = tokenNo;
+    }
 
     public long getId() {
         return id;
