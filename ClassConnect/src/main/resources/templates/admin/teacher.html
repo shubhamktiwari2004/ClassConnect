@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>ClassConnect</title>
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
+    <link rel="icon" href="/img/kaiadmin/favicon.ico" type="image/x-icon" />
+
+    <!-- Fonts and icons -->
+    <script src="/js/plugin/webfont/webfont.min.js"></script>
+    <script>
+        WebFont.load({
+          google: { families: ["Public Sans:300,400,500,600,700"] },
+          custom: {
+            families: [
+              "Font Awesome 5 Solid",
+              "Font Awesome 5 Regular",
+              "Font Awesome 5 Brands",
+              "simple-line-icons",
+            ],
+            urls: ["/css/fonts.min.css"],
+          },
+          active: function () {
+            sessionStorage.fonts = true;
+          },
+        });
+    </script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/plugins.min.css" />
+    <link rel="stylesheet" href="/css/kaiadmin.min.css" />
+    <link rel="stylesheet" href="/css/demo.css" />
+    <style>
+        body {
+          font-family: 'Public Sans', sans-serif;
+          background-color: #f5f7fd;
+          margin: 0;
+          padding: 0;
+        }
+
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 20px;
+        }
+
+        .nav-tabs {
+          display: flex;
+          border-bottom: 2px solid #ddd;
+          width: 100%;
+        }
+
+        .nav-tabs .nav-link {
+          flex: 1;
+          text-align: center;
+          background: #f9f9f9;
+          color: #333;
+          font-weight: bold;
+          padding: 12px;
+          border: none;
+          border-radius: 0;
+          margin-right: 0; /* Remove margin between tabs */
+        }
+
+        .nav-tabs .nav-link:not(:last-child) {
+          border-right: 1px solid #ddd; /* Add divider between tabs */
+        }
+
+        .nav-tabs .nav-link.active {
+          background: #fff;
+          border: 2px solid #ddd;
+          border-bottom: none;
+          color: #000;
+        }
+
+        .tab-content {
+          border: 2px solid #ddd;
+          background: #fff;
+          padding: 20px;
+          margin-top: -2px;
+        }
+
+        .tab-card {
+          padding: 10px;
+          background: #f7f7f7;
+          border-radius: 8px;
+        }
+
+        .schedule-card {
+          box-sizing: border-box;
+          border-radius: 12px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+          background: #fff;
+          padding: 20px;
+          transition: transform 0.3s, box-shadow 0.3s;
+          width: 48%;
+          margin: 10px 1%;
+        }
+
+        .schedule-card:hover {
+          transform: translateY(-7px);
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .schedule-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 15px;
+        }
+
+        .date-highlight {
+          color: #ff7f50;
+          font-weight: bold;
+          font-size: 1.2em;
+        }
+
+        .topic-badge {
+          background-color: #ff7f50;
+          color: #fff;
+          padding: 5px 10px;
+          border-radius: 6px;
+          font-size: 0.9em;
+        }
+
+        .time-info {
+          margin-top: 15px;
+          background: #f3f4f6;
+          padding: 10px;
+          border-radius: 8px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+          .nav-tabs {
+            flex-direction: column; /* Stack tabs vertically */
+          }
+
+          .nav-tabs .nav-link {
+            margin-bottom: 5px; /* Add spacing between vertical tabs */
+            font-size: 1rem;
+            padding: 10px;
+          }
+
+          .schedule-card {
+            width: 100%;
+            margin: 10px 0;
+          }
+
+          .tab-content {
+            padding: 15px;
+          }
+        }
+
+        @media (max-width: 576px) {
+          .nav-tabs .nav-link {
+            font-size: 0.85rem; /* Smaller font size on extra small screens */
+            padding: 8px;
+          }
+
+          .schedule-header h3 {
+            font-size: 1rem;
+          }
+
+          .topic-badge {
+            font-size: 0.8em;
+            padding: 4px 8px;
+          }
+        }
+    @media (min-width: 768px) {
+      .nav-tabs .nav-link {
+        width: 50%; /* On medium and larger screens, make each tab 50% of the width */
+      }
+    }
+
+    @media (min-width: 992px) {
+      .nav-tabs .nav-link {
+        width: 509px; /* Fixed width for larger screens */
+      }
+    }
+    </style>
+
+</head>
+<body>
+<!-- Sidebar -->
+<div th:replace="~{'admin/commonIncludes/leftNav.html' :: leftNavContent}"></div>
+
+<div class="main-panel">
+    <div th:replace="~{'admin/commonIncludes/header.html' :: headerContent}"></div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-inner">
+            <div class="d-flex align-items-center justify-content-between pt-2 pb-4">
+                <h3 class="fw-bold mb-3">Teacher</h3>
+                <!-- Add Teacher Button -->
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTeacherModal">
+                    Add Teacher
+                </button>
+            </div>
+
+            <!-- Teacher Modal -->
+            <div class="modal fade" id="addTeacherModal" tabindex="-1" aria-labelledby="addTeacherModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addTeacherModalLabel">Add Teacher</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addTeacherForm">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="teacherName" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="teacherName" placeholder="Enter name" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="teacherEmail" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="teacherEmail" placeholder="Enter email" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="teacherMobile" class="form-label">Mobile</label>
+                                        <input type="tel" class="form-control" id="teacherMobile" placeholder="Enter mobile" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="teacherUsername" class="form-label">Username</label>
+                                        <input type="text" class="form-control" id="teacherUsername" placeholder="Enter username" required>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label for="teacherAddress" class="form-label">Address</label>
+                                        <textarea class="form-control" id="teacherAddress" rows="3" placeholder="Enter address"></textarea>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label for="teacherImage" class="form-label">Profile Image</label>
+                                        <input type="file" class="form-control" id="teacherImage">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Teacher List Table -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">Teacher List</h5>
+                    <table class="table table-hover table-striped">
+                        <thead class="table-primary">
+                        <tr>
+                            <th>Profile</th>
+                            <th>Username</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="teacherList">
+                        <!-- Example Row -->
+                        <tr>
+                            <td>
+                                <img src="/img/default-profile.png" alt="Profile Image" class="rounded-circle" width="40" height="40">
+                            </td>
+                            <td>john_doe</td>
+                            <td>John Doe</td>
+                            <td>john.doe@example.com</td>
+                            <td>+1234567890</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning">Edit</button>
+                                <button class="btn btn-sm btn-danger">Delete</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{'admin/commonIncludes/footer.html' :: footerContent}"></div>
+</div>
+
+
+<!-- Core JS -->
+<script src="/js/core/jquery-3.7.1.min.js"></script>
+<script src="/js/core/popper.min.js"></script>
+<script src="/js/core/bootstrap.min.js"></script>
+<script>
+<!--    $(document).ready(function () {-->
+<!--     $('#scheduleTabs a').on('click', function (e) {-->
+<!--       e.preventDefault();-->
+<!--       $(this).tab('show');-->
+<!--     });-->
+<!--   });-->
+</script>
+</body>
+</html>

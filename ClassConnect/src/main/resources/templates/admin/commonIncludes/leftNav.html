@@ -1,0 +1,56 @@
+<div th:fragment="leftNavContent" xmlns:th="http://www.w3.org/1999/xhtml">
+<div class="sidebar" data-background-color="dark">
+    <div class="sidebar-logo">
+        <!-- Logo Header -->
+        <div class="logo-header" data-background-color="dark">
+            <a href="/admin/home" class="logo">
+                <img
+                        src="/img/kaiadmin/ClassConnect.png"
+                        alt="navbar brand"
+                        class="navbar-brand"
+                        height="30"
+                />
+            </a>
+            <div class="nav-toggle">
+                <button class="btn btn-toggle toggle-sidebar">
+                    <i class="gg-menu-right"></i>
+                </button>
+                <button class="btn btn-toggle sidenav-toggler">
+                    <i class="gg-menu-left"></i>
+                </button>
+            </div>
+            <button class="topbar-toggler more">
+                <i class="gg-more-vertical-alt"></i>
+            </button>
+        </div>
+        <!-- End Logo Header -->
+    </div>
+    <div class="sidebar-wrapper scrollbar scrollbar-inner">
+        <div class="sidebar-content">
+            <ul class="nav nav-secondary">
+                <!-- Dashboard Tile -->
+                <li class="nav-item">
+                    <a href="/admin/home">
+                        <i class="fas fa-home"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <!-- Schedule Tile -->
+                <li class="nav-item">
+                    <a href="/admin/teacher">
+                        <i class="fas fa-calendar-alt"></i>
+                        <p>Teacher</p>
+                    </a>
+                </li>
+                <!-- Students Tile -->
+<!--                <li class="nav-item" th:classappend="${currentPage == 'students' ? 'active' : ''}">-->
+<!--                    <a href="/students/performance">-->
+<!--                        <i class="fas fa-user-graduate"></i>-->
+<!--                        <p>Performance</p>-->
+<!--                    </a>-->
+<!--                </li>-->
+            </ul>
+        </div>
+    </div>
+</div>
+</div>
