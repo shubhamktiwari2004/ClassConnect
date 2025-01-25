@@ -27,47 +27,6 @@ public class LoginService implements UserDetailsService {
         this.profileDetailsRepo = profileDetailsRepo;
     }
 
-    public ApiResponse signUp(String name , String username , String email , String password , long mobile){
-        if(loginRepo.existsByUsername(username)){
-            throw new IllegalArgumentException("username already exists");
-        }
-        if (loginRepo.existsByEmail(email)) {
-            throw new IllegalArgumentException("Email already registered");
-        }
-        //using current date time in seconds for unique teacher id.
-        long epochSeconds = Instant.now().getEpochSecond();
-
-
-        LoginModel loginModel = new LoginModel();
-        loginModel.setUsername(username);
-        loginModel.setEmail(email);
-        loginModel.setPassword(passwordEncoder.encode(password));
-        loginModel.setTeacher_id((int) epochSeconds);
-
-        try {
-            loginRepo.save(loginModel);
-            profileDetail(name , mobile , ((int) epochSeconds), email , username);
-            return new ApiResponse(true, "Teacher registration successful");
-        } catch (Exception e) {
-            return new ApiResponse(false, "Teacher registration failed: " + e.getMessage());
-        }
-    }
-
-    public void profileDetail(String name , long mobile , int teacher_id , String email , String username){
-
-
-        System.out.println("in profile section3");
-        RegistrationProfileDetails profileDetails = new RegistrationProfileDetails();
-
-        profileDetails.setTeacher_id(teacher_id);
-        profileDetails.setName(name);
-        profileDetails.setEmail(email);
-        profileDetails.setMobile(mobile);
-        profileDetails.setUsername(username);
-        profileDetailsRepo.save(profileDetails);
-
-    }
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

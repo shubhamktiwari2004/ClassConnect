@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>ClassConnect</title>
@@ -202,36 +202,39 @@
             <div class="modal fade" id="addTeacherModal" tabindex="-1" aria-labelledby="addTeacherModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
+                        <div class="alert alert-danger" th:if="${errorMessage}">
+                            <p th:text="${errorMessage}"></p>
+                        </div>
                         <div class="modal-header">
                             <h5 class="modal-title" id="addTeacherModalLabel">Add Teacher</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form id="addTeacherForm">
+                            <form method="post" th:action="@{/admin/addTeacher}" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="teacherName" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="teacherName" placeholder="Enter name" required>
+                                        <input type="text" class="form-control" id="teacherName" name="teachername" placeholder="Enter name" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="teacherEmail" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="teacherEmail" placeholder="Enter email" required>
+                                        <input type="email" class="form-control" id="teacherEmail" name="email" placeholder="Enter email" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="teacherMobile" class="form-label">Mobile</label>
-                                        <input type="tel" class="form-control" id="teacherMobile" placeholder="Enter mobile" required>
+                                        <input type="tel" class="form-control" id="teacherMobile" name="phoneno" placeholder="Enter mobile" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="teacherUsername" class="form-label">Username</label>
-                                        <input type="text" class="form-control" id="teacherUsername" placeholder="Enter username" required>
+                                        <input type="text" class="form-control" id="teacherUsername" name="username" placeholder="Enter username" required>
                                     </div>
                                     <div class="col-md-12 mb-3">
                                         <label for="teacherAddress" class="form-label">Address</label>
-                                        <textarea class="form-control" id="teacherAddress" rows="3" placeholder="Enter address"></textarea>
+                                        <textarea class="form-control" id="teacherAddress" rows="3" name = "address" placeholder="Enter address"></textarea>
                                     </div>
                                     <div class="col-md-12 mb-3">
-                                        <label for="teacherImage" class="form-label">Profile Image</label>
-                                        <input type="file" class="form-control" id="teacherImage">
+                                        <label for="teacherImage" class="form-label" >Profile Image</label>
+                                        <input type="file" class="form-control"  name ="teacherImage" id="teacherImage">
                                     </div>
                                 </div>
                                 <div class="modal-footer">

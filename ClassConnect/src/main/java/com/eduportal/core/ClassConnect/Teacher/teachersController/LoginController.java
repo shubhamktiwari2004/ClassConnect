@@ -33,48 +33,4 @@ public class LoginController {
         return "teachers/login";
     }
 
-
-    @PostMapping("teachers/signup")
-    public String signUp(
-            HttpSession session,
-            @RequestParam String teachername,
-            @RequestParam String username,
-            @RequestParam String email,
-            @RequestParam String password,
-            @RequestParam String phoneno,
-            Model model) {
-
-        try {
-            System.out.println("in profile section1");
-            long phoneNo = Long.parseLong(phoneno);
-
-
-            loginService.signUp(teachername, username, email, password , phoneNo);
-            return "redirect:/teachers/login"; // Redirect to login page after successful signup
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", e.getMessage());  // Add the error message to the model
-            return "/teachers/signup";
-        }
-    }
-
-
-
-//    @PostMapping("teachers/login")
-//    public String login(
-//            @RequestParam String username,
-//            @RequestParam String password,
-//            Model model){
-//
-//        try {
-//            loginService.login(username, password);  // Assuming this service handles user registration logic
-//            return "/teachers/index";// Redirect to login page after successful signup
-//        }catch (Exception e) {
-//        model.addAttribute("errorMessage", e.getMessage());  // Add the error message to the model
-//        return "/teachers/login";
-//        }
-//    }
-
-
-
-
 }

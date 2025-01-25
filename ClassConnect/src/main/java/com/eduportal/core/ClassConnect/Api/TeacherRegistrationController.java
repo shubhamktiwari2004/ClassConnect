@@ -31,7 +31,7 @@ public class TeacherRegistrationController{
         this.profileRepo = profileRepo;
     }
 
-    @PostMapping("/register")
+    /*@PostMapping("/register")
     public ResponseEntity<Map<String,String>> register(
             @RequestParam (required = false) String name,
             @RequestParam String username,
@@ -77,7 +77,7 @@ public class TeacherRegistrationController{
         }
         message.put("msg" , "something went wrong....");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
-    }
+    }*/
 
 
     @PostMapping("/login")
