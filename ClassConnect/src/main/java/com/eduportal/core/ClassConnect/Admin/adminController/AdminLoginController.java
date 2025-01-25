@@ -8,16 +8,5 @@ public class AdminLoginController {
 
 
 
-    @GetMapping("admin/login")
-    public String login(){
-        return "admin/login";
-    }
-
-
-    @GetMapping("admin/home")
-    public String home(){
-        return "admin/index";
-    }
-
 
 }

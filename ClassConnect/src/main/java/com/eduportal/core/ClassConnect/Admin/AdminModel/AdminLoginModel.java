@@ -2,7 +2,8 @@ package com.eduportal.core.ClassConnect.Admin.AdminModel;
 
 import jakarta.persistence.*;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name ="admin_user_table")
@@ -17,10 +18,10 @@ public class AdminLoginModel {
     private String email;
     private String profileImage;
     private String sessionId;
-    private boolean isActive;
-    private boolean isDeleted;
-    private Timestamp loginTimestamp;
-    private Timestamp logoutTimestamp;
+    private int isActive;
+    private int isDeleted;
+    private LocalDateTime loginTimestamp;
+    private LocalDateTime logoutTimestamp;
 
     // Getters and Setters
     public Long getId() {
@@ -79,35 +80,35 @@ public class AdminLoginModel {
         this.sessionId = sessionId;
     }
 
-    public boolean isActive() {
+    public int isActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(int active) {
         isActive = active;
     }
 
-    public boolean isDeleted() {
+    public int isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setDeleted(int deleted) {
         isDeleted = deleted;
     }
 
-    public Timestamp getLoginTimestamp() {
+    public LocalDateTime getLoginTimestamp() {
         return loginTimestamp;
     }
 
-    public void setLoginTimestamp(Timestamp loginTimestamp) {
+    public void setLoginTimestamp(LocalDateTime loginTimestamp) {
         this.loginTimestamp = loginTimestamp;
     }
 
-    public Timestamp getLogoutTimestamp() {
+    public LocalDateTime getLogoutTimestamp() {
         return logoutTimestamp;
     }
 
-    public void setLogoutTimestamp(Timestamp logoutTimestamp) {
+    public void setLogoutTimestamp(LocalDateTime logoutTimestamp) {
         this.logoutTimestamp = logoutTimestamp;
     }
 
