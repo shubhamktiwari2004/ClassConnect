@@ -1,4 +1,4 @@
-package com.eduportal.core.ClassConnect.Admin.AdminController;
+package com.eduportal.core.ClassConnect.Admin.adminController;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +17,6 @@ public class AdminAppController {
     @GetMapping("admin/home")
     public String home(){
         return "admin/index";
-    }
-
-    @GetMapping("admin/teacher")
-    public String teacher(){
-        return "admin/teacher";
     }
 
 }

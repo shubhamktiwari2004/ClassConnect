@@ -254,8 +254,8 @@
                     <table class="table table-hover table-striped">
                         <thead class="table-primary">
                         <tr>
+                            <th>S.No.</th>
                             <th>Profile</th>
-                            <th>Username</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Mobile</th>
@@ -264,18 +264,25 @@
                         </thead>
                         <tbody id="teacherList">
                         <!-- Example Row -->
-                        <tr>
+                        <tr th:each="teacher , iterStat : ${teachers}">
+                            <td th:text="${iterStat.index+1}"></td>
                             <td>
-                                <img src="/img/default-profile.png" alt="Profile Image" class="rounded-circle" width="40" height="40">
+                                <img th:src="@{${teacher.profile_image != null ? @environment.getProperty('app.base-url') + teacher.profile_image : 'https://bootdey.com/img/Content/avatar/avatar7.png'}}" alt="Profile Image"
+                                     class="rounded-circle"
+                                     width="40"
+                                     height="40"/>
                             </td>
-                            <td>john_doe</td>
-                            <td>John Doe</td>
-                            <td>john.doe@example.com</td>
-                            <td>+1234567890</td>
+                            <td th:text="${teacher.name ?: 'No Name'}">John Doe</td> <!-- Use 'No Name' if name is null -->
+                            <td th:text="${teacher.email ?: 'No Email'}">john.doe@example.com</td> <!-- Use 'No Email' if email is null -->
+                            <td th:text="${teacher.mobile ?: 'No Phone'}">+1234567890</td> <!-- Use 'No Phone' if mobile is null -->
                             <td>
-                                <button class="btn btn-sm btn-warning">Edit</button>
-                                <button class="btn btn-sm btn-danger">Delete</button>
+                                <!-- Edit button with teacher_id stored in data-id -->
+                                <button class="btn btn-sm btn-warning" th:data-id="${teacher.id}" th:onclick="'editTeacher(' + ${teacher.id} + ')'" >Edit</button>
+
+                                <!-- Delete button with teacher_id stored in data-id -->
+                                <button class="btn btn-sm btn-danger" th:data-id="${teacher.id}" th:onclick="'deleteTeacher(' + ${teacher.id} + ')'" >Delete</button>
                             </td>
+
                         </tr>
                         </tbody>
                     </table>
