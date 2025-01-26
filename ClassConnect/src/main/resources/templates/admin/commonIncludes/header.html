@@ -45,38 +45,38 @@
                 <li class="nav-item topbar-user dropdown hidden-caret">
                     <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#">
                         <div class="avatar-sm">
-<!--                            <th:block th:if="${!studentData.isEmpty()}">-->
-<!--                                <img th:src="@{${studentData[0].image_url != null ? @environment.getProperty('app.base-url') + studentData[0].image_url : 'https://bootdey.com/img/Content/avatar/avatar7.png'}}"-->
-<!--                                     alt="navbar brand"-->
-<!--                                     class="avatar-img rounded-circle"-->
-<!--                                     height="20" />-->
-<!--                            </th:block>-->
+                            <th:block th:if="${adminData != null}">
+                                <img th:src="@{${adminData.profileImage != null ? @environment.getProperty('app.base-url') + adminData.profileImage : 'https://bootdey.com/img/Content/avatar/avatar7.png'}}"
+                                     alt="navbar brand"
+                                     class="avatar-img rounded-circle"
+                                     height="20" />
+                            </th:block>
                         </div>
                         <span class="profile-username">
               <span class="op-7">Hi,</span>
-<!--              <span class="fw-bold" th:text="${session['firstName'] } +'  '+ ${session['lastName']}">User</span>-->
+              <span class="fw-bold" th:text="${adminData.username}">User</span>
             </span>
                     </a>
                     <ul class="dropdown-menu dropdown-user animated fadeIn">
                         <li>
                             <div class="user-box">
                                 <div class="avatar-lg">
-<!--                                    <th:block th:if="${!studentData.isEmpty()}">-->
-<!--                                        <img th:src="@{${studentData[0].image_url != null ? @environment.getProperty('app.base-url') + studentData[0].image_url : 'https://bootdey.com/img/Content/avatar/avatar7.png'}}"-->
-<!--                                             alt="navbar brand"-->
-<!--                                             class="avatar-img rounded-circle"-->
-<!--                                             height="20" />-->
-<!--                                    </th:block>-->
+                                    <th:block th:if="${adminData != null}">
+                                        <img th:src="@{${adminData.profileImage != null ? @environment.getProperty('app.base-url') + adminData.profileImage : 'https://bootdey.com/img/Content/avatar/avatar7.png'}}"
+                                             alt="navbar brand"
+                                             class="avatar-img rounded-circle"
+                                             height="20" />
+                                    </th:block>
                                 </div>
                                 <div class="u-text">
-<!--                                    <h4 th:text="${session['firstName'] } +'  '+ ${session['lastName']}">Hizrian</h4>-->
-<!--                                    <p class="text-muted" th:text="${session['email']}">hello@example.com</p>-->
+                                    <h4 th:text="${adminData.username}">Hizrian</h4>
+                                    <p class="text-muted" th:text="${adminData.email}">hello@example.com</p>
                                 </div>
                             </div>
                         </li>
                         <li>
                             <div class="dropdown-divider"></div>
-                            <form action="" method="GET" #="display: inline;">
+                            <form th:action="@{/admin/profile}" method="GET" #="display: inline;">
                                 <button type="submit" style="background: none; border: none; color: inherit; cursor: pointer;">My Profile</button>
 
                             </form>

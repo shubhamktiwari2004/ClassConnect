@@ -108,8 +108,27 @@ public class AdminLoginModel {
         return logoutTimestamp;
     }
 
+
     public void setLogoutTimestamp(LocalDateTime logoutTimestamp) {
         this.logoutTimestamp = logoutTimestamp;
     }
+
+    @Override
+    public String toString() {
+        return "AdminLoginModel{" +
+                "id=" + id +
+                ", adminId=" + adminId +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", profileImage='" + profileImage + '\'' +
+                ", sessionId='" + sessionId + '\'' +
+                ", isActive=" + isActive +
+                ", isDeleted=" + isDeleted +
+                ", loginTimestamp=" + loginTimestamp +
+                ", logoutTimestamp=" + logoutTimestamp +
+                '}';
+    }
+
 
 }
