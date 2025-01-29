@@ -5,6 +5,7 @@ import com.eduportal.core.ClassConnect.Admin.AdminRepo.AdminTeacherRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AdminTeacherService {
@@ -17,5 +18,9 @@ public class AdminTeacherService {
 
     public ArrayList<AdminTeacherModel> getTeachersList(){
         return adminTeacherRepo.getTeacherList();
+    }
+
+    public List<AdminTeacherModel> getTeacherById(Long id){
+        return adminTeacherRepo.getTeacherById(id);
     }
 }

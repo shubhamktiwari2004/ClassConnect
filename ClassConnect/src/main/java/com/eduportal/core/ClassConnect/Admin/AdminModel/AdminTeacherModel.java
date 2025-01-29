@@ -17,6 +17,7 @@ public class AdminTeacherModel {
     private Long teacher_id;
     private String profile_image;
     private String username;
+    private int is_deleted;
 
     public int getId() {
         return id;
@@ -80,5 +81,13 @@ public class AdminTeacherModel {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public int getIs_deleted() {
+        return is_deleted;
+    }
+
+    public void setIs_deleted(int is_deleted) {
+        this.is_deleted = is_deleted;
     }
 }

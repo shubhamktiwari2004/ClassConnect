@@ -24,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
+import java.util.Optional;
 
 @Service
 public class AddTeacherService {
@@ -150,6 +151,70 @@ public class AddTeacherService {
 
         // Send the email
         mailSender.send(mimeMessage);
+    }
+
+    public ApiResponse updateTeacher(Long teacher_id, String name, String username, String email, long mobile, String address, MultipartFile teacherImage) {
+        try {
+            // Check if teacher exists by teacher_id
+            Optional<LoginModel> loginModelOptional = addTeacherRepo.findByTeacherId(teacher_id);
+
+            if (loginModelOptional.isEmpty()) {
+                throw new IllegalArgumentException("Teacher Id not found");
+            }
+
+            LoginModel loginModel = loginModelOptional.get();  // Get the LoginModel
+
+            // Update basic details in LoginModel
+            loginModel.setEmail(email);
+
+            // Handle image upload (if new image is provided)
+            String imageUrl = null;
+            if (teacherImage != null && !teacherImage.isEmpty()) {
+                String relativePath = "uploads/images/" + teacher_id + "/";
+                Path path = Paths.get(uploadDir + teacher_id + "/" + teacherImage.getOriginalFilename());
+                Files.createDirectories(path.getParent());  // Ensure directories exist
+                teacherImage.transferTo(path.toFile());    // Save the new image
+                imageUrl = relativePath + teacherImage.getOriginalFilename();  // Set the new image URL
+            }
+
+            // Update registration profile details
+            RegistrationProfileDetails profileDetails = profileDetailsRepo.findByTeacherId(teacher_id)
+                    .orElseThrow(() -> new UsernameNotFoundException("Profile details not found for ID: " + teacher_id));
+            profileDetails.setName(name);
+            profileDetails.setEmail(email);
+            profileDetails.setMobile(mobile);
+
+            // Update address if provided
+            ProfileModel profileModel = profileRepo.findByTeacherId(teacher_id)
+                    .orElseThrow(() -> new UsernameNotFoundException("Profile not found for ID: " + teacher_id));
+            profileModel.setAddress(address);
+
+            // If a new image URL is provided, update the profile image
+            if (imageUrl != null) {
+                profileModel.setProfile_image(imageUrl);
+            }
+
+            // Save the updated records
+            addTeacherRepo.save(loginModel);  // Save updated teacher login info
+            profileDetailsRepo.save(profileDetails);  // Save updated profile details
+            profileRepo.save(profileModel);  // Save updated profile model
+
+            // Return success response
+            return new ApiResponse(true, "Teacher updated successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse(false, "Failed to update teacher: " + e.getMessage());
+        }
+    }
+    //Deleting the teacher
+    public void deleteTeacher(Long teacher_id) throws Exception {
+        System.out.println("Step 1"+teacher_id);
+        RegistrationProfileDetails profileDetails = profileDetailsRepo.findByTeacherId(teacher_id)
+                .orElseThrow(() -> new UsernameNotFoundException("Profile details not found for ID: " + teacher_id));
+        System.out.println("Step 2"+teacher_id);
+        addTeacherRepo.softDeleteTeacher(teacher_id);
+        System.out.println("Step 3"+teacher_id);
+        profileDetailsRepo.softDeleteTeacher(teacher_id);// Delete teacher by ID
     }
 
 }

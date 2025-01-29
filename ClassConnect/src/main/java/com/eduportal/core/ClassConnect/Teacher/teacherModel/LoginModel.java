@@ -30,7 +30,7 @@ public class LoginModel {
 
     private Boolean isActive = true;
 
-    private Boolean isDeleted = false;
+    private int isDeleted = 0;
 
     private LocalDateTime loginTimestamp;
     private LocalDateTime logoutTimestamp;
@@ -83,11 +83,11 @@ public class LoginModel {
         isActive = active;
     }
 
-    public Boolean getDeleted() {
+    public int getDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(int deleted) {
         isDeleted = deleted;
     }
 

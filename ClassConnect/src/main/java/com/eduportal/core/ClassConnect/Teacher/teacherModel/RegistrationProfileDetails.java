@@ -65,4 +65,14 @@ public class RegistrationProfileDetails {
     private int teacher_id;
     private String email;
     private long mobile;
+    private int is_deleted;
+
+
+    public int getIs_deleted() {
+        return is_deleted;
+    }
+
+    public void setIs_deleted(int is_deleted) {
+        this.is_deleted = is_deleted;
+    }
 }

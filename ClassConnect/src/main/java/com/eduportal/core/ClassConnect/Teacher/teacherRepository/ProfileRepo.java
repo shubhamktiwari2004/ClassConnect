@@ -26,4 +26,7 @@ public interface ProfileRepo extends JpaRepository<ProfileModel, Long>{
     @Query(value = "Select * from teacher_profile where username =?1", nativeQuery = true)
     Optional<ProfileModel> findByUsername(String username);
 
+    @Query(value = "Select * from teacher_profile where teacher_id=?1",nativeQuery = true)
+    Optional<ProfileModel> findByTeacherId(Long teacher_id);
+
 }
