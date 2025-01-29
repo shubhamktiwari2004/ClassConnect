@@ -35,7 +35,7 @@ public class AddTeacherController {
             @RequestParam String phoneno,
             @RequestParam String address,
             @RequestParam (required = false) MultipartFile teacherImage,
-            @RequestParam Long teacher_id,
+            @RequestParam(required = false) Long teacher_id,
             Model model) {
         try {
             System.out.println("in teacher add"+ teacherImage);
