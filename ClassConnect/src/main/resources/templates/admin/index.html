@@ -1,74 +1,104 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>ClassConnect </title>
-    <meta
-            content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
-            name="viewport"
-    />
-    <link
-            rel="icon"
-            href="/img/kaiadmin/favicon.ico"
-            type="image/x-icon"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClassConnect - Dashboard</title>
 
-    <!-- Fonts and icons -->
-    <script src="/js/plugin/webfont/webfont.min.js"></script>
-    <script>
-        WebFont.load({
-          google: { families: ["Public Sans:300,400,500,600,700"] },
-          custom: {
-            families: [
-              "Font Awesome 5 Solid",
-              "Font Awesome 5 Regular",
-              "Font Awesome 5 Brands",
-              "simple-line-icons",
-            ],
-            urls: ["/css/fonts.min.css"],
-          },
-          active: function () {
-            sessionStorage.fonts = true;
-          },
-        });
-    </script>
-    <style>
-        /* Ensure the chart container takes up full height */
-        .chart-container {
-            position: relative;
-            height: 300px; /* Adjust as needed */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Style for the message */
-        .chart-message {
-            position: absolute;
-            font-size: 1.2rem;
-            color: #6c757d; /* Bootstrap muted text color */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            z-index: 1; /* Ensure it's above the canvas */
-            background-color: rgba(255, 255, 255, 0.8); /* Optional: Add a background for better visibility */
-        }
-
-        /* Hide canvas when no data is available */
-        canvas {
-            display: none;
-        }
-    </style>
-    <!-- CSS Files -->
+    <link rel="icon" href="/img/kaiadmin/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/plugins.min.css" />
     <link rel="stylesheet" href="/css/kaiadmin.min.css" />
+    <script src="/js/plugin/webfont/webfont.min.js"></script>
 
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="/css/demo.css" />
+    <script>
+        WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+                families: ["Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"],
+                urls: ["/css/fonts.min.css"],
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            },
+        });
+    </script>
+
+    <style>
+        .card {
+            padding: 20px;
+            border-radius: 12px;
+            background: linear-gradient(to right, #5f789c, #849bb3); /* Soft Blue-Gray Gradient */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        /* General Styles */
+        body {
+            font-family: 'Public Sans', sans-serif;
+            background: linear-gradient(to right, #d9e4f5, #f4f6f9);
+            color: #333;
+        }
+
+        .container {
+            margin-top: 40px;
+        }
+
+        h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #495057;
+        }
+
+        /* Modern Glassmorphism Cards */
+        .teacher-card, .student-card {
+            cursor: pointer;
+            padding: 20px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.9); /* Solid white with slight transparency */
+            color: #212529; /* Dark text for contrast */
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .teacher-card:hover, .student-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .teacher-card h5, .student-card {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #212529;
+        }
+
+        .teacher-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .teacher-list, .student-list-container {
+            width: 45%;
+            max-width: 500px;
+        }
+
+        .student-list {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
 <!-- Sidebar -->
@@ -80,64 +110,81 @@
 
     <div class="container">
         <div class="page-inner">
-            <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
-                <h3 class="fw-bold mb-1">Dashboard</h3>
-            </div>
-            <!--        <div class="col-md-4">-->
-            <!--          <label for="studentSelect" class="form-label mt-2"><strong>Select Student Name</strong></label>-->
-            <!--          <select class="form-select" id="studentSelect" aria-label="Select a subject">-->
-            <!--            <option selected disabled>Student Name</option>-->
-            <!--            <th:block th:each="student : ${students}">-->
-            <!--              <option th:value="${student.student_id}"-->
-            <!--                      th:text="${student.firstName} + ' ' + ${student.lastName}"></option>-->
-            <!--            </th:block>-->
-            <!--          </select>-->
-            <!--        </div>-->
+            <h3 class="fw-bold mb-4">Dashboard</h3>
+            <div class="card p-4">
+                <div class="teacher-container">
+                    <!-- Teacher List Card -->
+                    <div class="teacher-list">
+                        <div th:if="${#lists.isEmpty(teachers)}">
+                            <p>No teachers available.</p>
+                        </div>
 
-            <div class="row mt-4">
-                <!-- Bar Chart Card -->
+                        <th:block th:each="teacher : ${teachers}">
+                            <div class="teacher-card" th:attr="onclick='showStudents(' + ${teacher.teacher_id} + ')'">
+                                <h5><i class="fas fa-user-tie"></i> <span th:text="${teacher.name}"></span></h5>
+                            </div>
+                        </th:block>
 
+                    </div>
+
+                        <!-- Student List -->
+                        <div class="student-list-container">
+                            <div id="studentList" class="student-list">
+                                <h4 class="mb-3"><i class="fas fa-users"></i> Students for Teacher</h4>
+                                <!-- This will be dynamically filled with student cards -->
+                            </div>
+                        </div>
+
+                </div>
             </div>
         </div>
     </div>
+
     <!-- Footer -->
     <div th:replace="~{'admin/commonIncludes/footer.html' :: footerContent}"></div>
 </div>
+
 <!-- Core JS Files -->
 <script src="/js/core/jquery-3.7.1.min.js"></script>
 <script src="/js/core/popper.min.js"></script>
 <script src="/js/core/bootstrap.min.js"></script>
-<!-- Chart JS -->
-<script src="/js/plugin/chart.js/chart.min.js"></script>
-<!-- Other Plugins -->
-<script src="/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-<script src="/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
-<script src="/js/plugin/sweetalert/sweetalert.min.js"></script>
-<script src="/js/kaiadmin.min.js"></script>
+
 <script>
-    $(document).ready(function() {
-      $.notify({
-        icon: 'fa fa-info-circle',
-        title: 'Welcome!',
-        message: 'Welcome to Dashboard.'
-      }, {
-        type: 'info',
-        delay: 2000,
-        placement: {
-          from: "top",
-          align: "right"
-        },
-        offset: {
-          x: 20,
-          y: 60
-        }
-      });
-    });
+    function showStudents(teacherId) {
+        // Hide all student lists first
+        $('.student-list').hide();
+
+        // Fetch students from the server based on teacherId
+        $.ajax({
+            url: '/admin/home/' + teacherId,
+            method: 'GET',
+            success: function(response) {
+                console.log(response);  // Check the response structure in the console
+                const studentList = $('#studentList' + teacherId);  // Target the unique student list for this teacher
+
+                if (response && response.length > 0) {
+                    let studentCards = '';
+                    response.forEach(function(student) {
+                        // Using firstName and lastName only for display
+                        studentCards += `
+                            <div class="student-card">
+                                <p>Name: ${student.firstName} ${student.lastName}</p>
+                                <p>Email: ${student.email}</p>
+                                <img src="${student.image_url}" alt="Student Image" />
+                            </div>
+                        `;
+                    });
+                    studentList.html(studentCards).fadeIn();  // Append the student cards and show the list
+                } else {
+                    studentList.html('<p>No students available.</p>').fadeIn();  // Show a message if no students are found
+                }
+            },
+            error: function() {
+                $('#studentList' + teacherId).html('<p>Failed to load students.</p>').fadeIn();  // Show error message if AJAX fails
+            }
+        });
+    }
 </script>
 
-<!-- Chart Configuration -->
-<script>
-
-</script>
 </body>
 </html>

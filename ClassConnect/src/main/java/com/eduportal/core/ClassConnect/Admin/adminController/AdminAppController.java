@@ -13,10 +13,4 @@ public class AdminAppController {
         return "admin/login";
     }
 
-
-    @GetMapping("admin/home")
-    public String home(){
-        return "admin/index";
-    }
-
 }
