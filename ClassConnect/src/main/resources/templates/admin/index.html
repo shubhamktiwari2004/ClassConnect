@@ -26,15 +26,6 @@
     </script>
 
     <style>
-        .card {
-            padding: 20px;
-            border-radius: 12px;
-            background: linear-gradient(to right, #5f789c, #849bb3); /* Soft Blue-Gray Gradient */
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-        }
-
         /* General Styles */
         body {
             font-family: 'Public Sans', sans-serif;
@@ -50,57 +41,80 @@
             font-size: 2rem;
             font-weight: 700;
             color: #495057;
-        }
-
-        /* Modern Glassmorphism Cards */
-        .teacher-card, .student-card {
-            cursor: pointer;
-            padding: 20px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.9); /* Solid white with slight transparency */
-            color: #212529; /* Dark text for contrast */
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        .teacher-card:hover, .student-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        /* Styled Table */
+        .student-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
 
-        .teacher-card h5, .student-card {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #212529;
+        .student-table th, .student-table td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+            font-size: 1rem;
         }
 
-        .teacher-container {
+        .student-table th {
+            background-color: #082474;
+            color: white;
+        }
+
+        .student-table td {
+            background-color: #f9f9f9;
+        }
+
+        .student-table td img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .student-table .student-card {
             display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
 
-        .teacher-list, .student-list-container {
-            width: 45%;
-            max-width: 500px;
+        .student-table .student-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .student-list {
+        .student-table .student-card p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+
+        .student-number {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background-color: #007bff;
+            color: white;
+            padding: 5px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+        }
+
+        .student-list-container {
             display: none;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
+
 <!-- Sidebar -->
 <div th:replace="~{'admin/commonIncludes/leftNav.html' :: leftNavContent}"></div>
 
@@ -110,31 +124,38 @@
 
     <div class="container">
         <div class="page-inner">
-            <h3 class="fw-bold mb-4">Dashboard</h3>
-            <div class="card p-4">
-                <div class="teacher-container">
-                    <!-- Teacher List Card -->
-                    <div class="teacher-list">
-                        <div th:if="${#lists.isEmpty(teachers)}">
-                            <p>No teachers available.</p>
-                        </div>
+            <h3 class="fw-bold mb-4">Admin Dashboard</h3>
 
-                        <th:block th:each="teacher : ${teachers}">
-                            <div class="teacher-card" th:attr="onclick='showStudents(' + ${teacher.teacher_id} + ')'">
-                                <h5><i class="fas fa-user-tie"></i> <span th:text="${teacher.name}"></span></h5>
-                            </div>
-                        </th:block>
+            <!-- Teacher Dropdown -->
+            <div class="mb-3">
+                <label for="teacherSelect" class="form-label fw-bold"><bold>Select a Teacher:</bold></label>
+                <select id="teacherSelect" class="form-select">
+                    <option value="">-- Choose a Teacher --</option>
+                    <th:block th:each="teacher : ${teachers}">
+                        <option th:value="${teacher.teacher_id}" th:text="${teacher.name}"></option>
+                    </th:block>
+                </select>
+            </div>
 
-                    </div>
+            <!-- Student List Container -->
+            <div id="studentListContainer" class="card p-4 d-none">
+                <h4 class="mb-3"><i class="fas fa-users"></i> Students for <span id="selectedTeacher"></span></h4>
 
-                        <!-- Student List -->
-                        <div class="student-list-container">
-                            <div id="studentList" class="student-list">
-                                <h4 class="mb-3"><i class="fas fa-users"></i> Students for Teacher</h4>
-                                <!-- This will be dynamically filled with student cards -->
-                            </div>
-                        </div>
+                <!-- Table for displaying students -->
+                <table class="student-table">
+                    <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                    </tr>
+                    </thead>
+                    <tbody id="studentList"></tbody>
+                </table>
 
+                <div class="load-more-btn">
+                    <button id="loadMoreBtn" class="btn btn-primary btn-sm">Load More</button>
                 </div>
             </div>
         </div>
@@ -150,39 +171,68 @@
 <script src="/js/core/bootstrap.min.js"></script>
 
 <script>
-    function showStudents(teacherId) {
-        // Hide all student lists first
-        $('.student-list').hide();
+    $(document).ready(function() {
+        // Event listener for teacher dropdown change
+        $('#teacherSelect').change(function() {
+            let teacherId = $(this).val();
+            let teacherName = $("#teacherSelect option:selected").text();
 
-        // Fetch students from the server based on teacherId
+            if (teacherId) {
+                $('#selectedTeacher').text(teacherName);
+                fetchStudents(teacherId);
+            } else {
+                $('#studentListContainer').addClass('d-none');
+            }
+        });
+
+        // Load More Button Handler
+        $('#loadMoreBtn').click(function() {
+            let teacherId = $('#teacherSelect').val();
+            loadMoreStudents(teacherId);
+        });
+    });
+
+    function fetchStudents(teacherId) {
         $.ajax({
             url: '/admin/home/' + teacherId,
             method: 'GET',
             success: function(response) {
-                console.log(response);  // Check the response structure in the console
-                const studentList = $('#studentList' + teacherId);  // Target the unique student list for this teacher
+                let studentList = $('#studentList');
+                let students = Array.isArray(response) ? response : response.students;
 
-                if (response && response.length > 0) {
-                    let studentCards = '';
-                    response.forEach(function(student) {
-                        // Using firstName and lastName only for display
-                        studentCards += `
-                            <div class="student-card">
-                                <p>Name: ${student.firstName} ${student.lastName}</p>
-                                <p>Email: ${student.email}</p>
-                                <img src="${student.image_url}" alt="Student Image" />
-                            </div>
+                if (students && students.length > 0) {
+                    let studentRows = students.map((student, index) => {
+                        let imageUrl = "http://class.connect.edu.in:8080/" + student.image_url;  // Correct path
+                        return `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td><div class="student-card"><img src="${imageUrl}" alt="Student Image" /></div></td>
+                                <td><div class="student-card"><p><strong>${student.firstName} ${student.lastName}</strong></p></div></td>
+                                <td><div class="student-card"><p>${student.email}</p></div></td>
+                            </tr>
                         `;
-                    });
-                    studentList.html(studentCards).fadeIn();  // Append the student cards and show the list
+                    }).join('');
+
+                    studentList.html(studentRows);
+                    $('#studentListContainer').removeClass('d-none');
+                    $('#loadMoreBtn').show();
                 } else {
-                    studentList.html('<p>No students available.</p>').fadeIn();  // Show a message if no students are found
+                    studentList.html('<tr><td colspan="4" class="text-muted">No students available.</td></tr>');
+                    $('#studentListContainer').removeClass('d-none');
+                    $('#loadMoreBtn').hide();
                 }
             },
             error: function() {
-                $('#studentList' + teacherId).html('<p>Failed to load students.</p>').fadeIn();  // Show error message if AJAX fails
+                $('#studentList').html('<tr><td colspan="4" class="text-danger">Failed to load students.</td></tr>');
+                $('#studentListContainer').removeClass('d-none');
             }
         });
+    }
+
+    // Simulate loading more students (pagination or lazy load concept)
+    function loadMoreStudents(teacherId) {
+        // You would typically add offset and limit in your API call for pagination
+        fetchStudents(teacherId);  // Placeholder: call fetch again for more students
     }
 </script>
 
