@@ -18,7 +18,8 @@ public class CustomAuthenticationFailureAdmin implements AuthenticationFailureHa
         // Redirect to login page with error message as a parameter
         System.out.println("in failure handler.");
         System.out.println("Authentication failed for user: " + exception.getMessage());
+        request.getSession().setAttribute("AUTH_ERROR", exception.getMessage());
 
-        response.sendRedirect(request.getContextPath() + "/admin/login?error=true");
+        response.sendRedirect("/admin/login");
     }
 }

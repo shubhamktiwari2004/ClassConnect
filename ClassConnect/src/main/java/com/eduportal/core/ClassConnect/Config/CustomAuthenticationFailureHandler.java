@@ -21,6 +21,11 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         System.out.println("in failure handler.");
         System.out.println("Authentication failed for user: " + exception.getMessage());
 
-        response.sendRedirect(request.getContextPath() + "/teachers/login?error=true");
+        // Encode the error message for URL safety
+        String errorMessage = exception.getMessage().replace(" ", "+");
+        request.getSession().setAttribute("AUTH_ERROR", exception.getMessage());
+
+        // Redirect to login page with specific error message
+        response.sendRedirect("/teachers/login");
     }
 }

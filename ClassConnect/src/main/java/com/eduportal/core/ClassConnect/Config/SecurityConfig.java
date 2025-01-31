@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -20,6 +21,7 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 
 @EnableWebSecurity
@@ -59,6 +61,17 @@ public class SecurityConfig {
         this.customAuthenticationFailureAdmin = customAuthenticationFailureAdmin;
     }
 
+    @Bean
+    public AuthenticationManager authenticationManager() {
+        return new ProviderManager(
+                List.of(
+                        studentAuthenticationProvider(),
+                        teacherAuthenticationProvider(),
+                        adminAuthenticationProvider()
+                )
+        );
+    }
+
 
     //For student panel
     @Bean
@@ -76,7 +89,7 @@ public class SecurityConfig {
                 .loginProcessingUrl("/students/login")
                 .successHandler(customSuccessHandlerStudent)
                 .failureHandler(customAuthenticationFailureStudent)
-                .failureUrl("/students/login?error=true") // Redirect after failed login
+//                .failureUrl("/students/login?error=true") // Redirect after failed login
                 .permitAll()
         );
         http.rememberMe(rememberMe -> rememberMe
@@ -127,7 +140,7 @@ public class SecurityConfig {
         http.securityMatcher("/teachers/**");
         http.csrf(customizer -> customizer.disable());
         http.authorizeHttpRequests(request -> request
-                .requestMatchers("/","/teachers/signup" ,"/teachers/api/**" , "/teachers/forgetPassword" , "/teachers/resetPassword" ,"/teachers/resetPasswordLink" , "/teachers/reset-password*" , "/teachers/resetPasswordConfirm").permitAll()
+                .requestMatchers("/","/teachers/api/**" , "/teachers/forgetPassword" , "/teachers/resetPassword" ,"/teachers/resetPasswordLink" , "/teachers/reset-password*" , "/teachers/resetPasswordConfirm").permitAll()
                 .requestMatchers("/teachers/**").hasRole("TEACHER")
                 .anyRequest().authenticated()); // Allow these files
         http.httpBasic(Customizer.withDefaults());
@@ -136,7 +149,7 @@ public class SecurityConfig {
                 .loginProcessingUrl("/teachers/login") // URL to submit the login form
                 .successHandler(customSuccessHandler)
                 .failureHandler(customAuthenticationFailureHandler)
-                .failureUrl("/teachers/login?error=true") // Redirect after failed login
+//                .failureUrl("/teachers/login?error=true") // Redirect after failed login
                 .permitAll()
         );
         http.rememberMe(rememberMe -> rememberMe
@@ -170,11 +183,11 @@ public class SecurityConfig {
         return provider;
     }
 
-    @Bean
+   /* @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
-
+*/
     @Bean
     public PersistentTokenRepository teacherTokenRepository() {
         return new CustomJdbcTokenRepositoryImpl(dataSource, "persistent_logins_teacher");
@@ -201,7 +214,7 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/admin/home")
                 .successHandler(customSuccessHandlerAdmin)
                 .failureHandler(customAuthenticationFailureAdmin)
-                .failureUrl("/admin/login?error=true") // Redirect after failed login
+//                .failureUrl("/admin/login?error=true") // Redirect after failed login
                 .permitAll()
         );
         http.rememberMe(rememberMe -> rememberMe

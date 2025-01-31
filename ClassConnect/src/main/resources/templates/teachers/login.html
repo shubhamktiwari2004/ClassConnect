@@ -20,6 +20,15 @@
               <div th:if="${successMessage}" class="alert alert-success">
                 <p th:text="${successMessage}"></p>
               </div>
+              <p th:if="${session.AUTH_ERROR}" style="color: red;">
+                Authentication Failed: <span th:text="${session.AUTH_ERROR}"></span>
+              </p>
+              <!-- Clear the error after displaying it -->
+              <th:block th:if="${session.AUTH_ERROR}">
+                <script>
+                  fetch('/teachers/logout', { method: 'POST' });
+                </script>
+              </th:block>
               <div th:if="${errorMessage}" class="alert alert-danger">
                 <p th:text="${errorMessage}"></p>
               </div>
