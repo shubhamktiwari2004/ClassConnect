@@ -1,12 +1,16 @@
 package com.eduportal.core.ClassConnect.Teacher.teacherModel;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Table(name = "teacher_user")
-public class LoginModel {
+public class LoginModel{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -114,5 +118,6 @@ public class LoginModel {
     public void setTokenNo(String tokenNo) {
         this.tokenNo = tokenNo;
     }
+
 
 }

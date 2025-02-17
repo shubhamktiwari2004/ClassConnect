@@ -1,5 +1,6 @@
 package com.eduportal.core.ClassConnect.Api;
 
+import com.eduportal.core.ClassConnect.Teacher.teacherModel.LoginModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.ProfileModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherRepository.ProfileRepo;
 import com.eduportal.core.ClassConnect.Teacher.teacherService.LoginService;
@@ -10,6 +11,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -80,7 +82,7 @@ public class TeacherRegistrationController{
     }*/
 
 
-    @PostMapping("/login")
+    /*@PostMapping("/login")
     public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password) {
         System.out.println("In login API");
         HashMap<String , String> message =  new HashMap<>();
@@ -125,7 +127,7 @@ public class TeacherRegistrationController{
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(message);
         }
-    }
+    }*/
 
 
 
@@ -176,5 +178,27 @@ public class TeacherRegistrationController{
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(message);
         }
+    }
+
+
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(LoginModel user) {
+        HashMap<String , String> message =  new HashMap<>();
+        HashMap<String, Object> response =  new HashMap<>();
+        Optional<ProfileModel> profileOptional = profileRepo.findByUsername(user.getUsername());
+        if (profileOptional.isEmpty()) {
+            System.out.println("User not found: " + user.getUsername());
+            message.put("msg" , "User not found with username: "+ user.getUsername());
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(message);
+        }
+        System.out.println("here");
+        String token = loginService.verifyToken(user);
+        response.put("profile", profileOptional.get());
+        response.put("token", token);
+
+        return ResponseEntity.ok(response);
     }
 }

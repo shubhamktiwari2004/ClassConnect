@@ -1,8 +1,10 @@
 package com.eduportal.core.ClassConnect.Config;
 
 import com.eduportal.core.ClassConnect.Admin.AdminService.AdminLoginService;
+import com.eduportal.core.ClassConnect.Api.JwtFilter;
 import com.eduportal.core.ClassConnect.Students.studentService.StudentLoginService;
 import com.eduportal.core.ClassConnect.Teacher.teacherService.LoginService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -17,6 +19,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -30,6 +33,7 @@ public class SecurityConfig {
 
     // Inject DataSource for Remember Me
     private final DataSource dataSource;
+    private final JwtFilter jwtFilter;
 
 
     private final LoginService loginService;
@@ -45,8 +49,9 @@ public class SecurityConfig {
     private final CustomAuthenticationFailureStudent customAuthenticationFailureStudent;
     private final CustomAuthenticationFailureAdmin customAuthenticationFailureAdmin;
 
-    public SecurityConfig(DataSource dataSource, LoginService loginService, StudentLoginService studentLoginService, AdminLoginService adminLoginService, CustomSuccessHandler customSuccessHandler, CustomSuccessHandlerStudent customSuccessHandlerStudent, CustomSuccessHandlerAdmin customSuccessHandlerAdmin, CustomLogoutSuccessHandler customLogoutSuccessHandler, CustomLogoutHandlerStudent customLogoutHandlerStudent, CustomLogoutHandlerAdmin customLogoutHandlerAdmin, CustomAuthenticationFailureHandler customAuthenticationFailureHandler, CustomAuthenticationFailureStudent customAuthenticationFailureStudent, CustomAuthenticationFailureAdmin customAuthenticationFailureAdmin) {
+    public SecurityConfig(DataSource dataSource, JwtFilter jwtFilter, LoginService loginService, StudentLoginService studentLoginService, AdminLoginService adminLoginService, CustomSuccessHandler customSuccessHandler, CustomSuccessHandlerStudent customSuccessHandlerStudent, CustomSuccessHandlerAdmin customSuccessHandlerAdmin, CustomLogoutSuccessHandler customLogoutSuccessHandler, CustomLogoutHandlerStudent customLogoutHandlerStudent, CustomLogoutHandlerAdmin customLogoutHandlerAdmin, CustomAuthenticationFailureHandler customAuthenticationFailureHandler, CustomAuthenticationFailureStudent customAuthenticationFailureStudent, CustomAuthenticationFailureAdmin customAuthenticationFailureAdmin) {
         this.dataSource = dataSource;
+        this.jwtFilter = jwtFilter;
         this.loginService = loginService;
         this.studentLoginService = studentLoginService;
         this.adminLoginService = adminLoginService;
@@ -62,15 +67,16 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager() {
+    public AuthenticationManager authenticationManager(
+            AuthenticationProvider studentAuthenticationProvider,
+            AuthenticationProvider teacherAuthenticationProvider,
+            AuthenticationProvider adminAuthenticationProvider) {
+
         return new ProviderManager(
-                List.of(
-                        studentAuthenticationProvider(),
-                        teacherAuthenticationProvider(),
-                        adminAuthenticationProvider()
-                )
+                List.of(studentAuthenticationProvider, teacherAuthenticationProvider, adminAuthenticationProvider)
         );
     }
+
 
 
     //For student panel
@@ -171,6 +177,7 @@ public class SecurityConfig {
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
         http.authenticationProvider(teacherAuthenticationProvider()); // Use teacher authentication provider
 
+        http.addFilterBefore(jwtFilter , UsernamePasswordAuthenticationFilter.class);
         return http.build();
 
     }

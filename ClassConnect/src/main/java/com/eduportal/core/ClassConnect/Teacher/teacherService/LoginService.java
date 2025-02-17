@@ -1,29 +1,40 @@
 package com.eduportal.core.ClassConnect.Teacher.teacherService;
-import com.eduportal.core.ClassConnect.Api.ApiResponse;
+import com.eduportal.core.ClassConnect.Api.JWTService;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.LoginModel;
 import com.eduportal.core.ClassConnect.Teacher.teacherModel.RegistrationProfileDetails;
 import com.eduportal.core.ClassConnect.Teacher.teacherRepository.LoginRepo;
 import com.eduportal.core.ClassConnect.Teacher.teacherRepository.RegistrationProfileDetailsRepo;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.time.Instant;
+
 import java.time.LocalDateTime;
 
 @Service
 public class LoginService implements UserDetailsService {
 
     private final LoginRepo loginRepo;
+    private final JWTService jwtService;
     private final RegistrationProfileDetailsRepo profileDetailsRepo;
+
+    @Autowired
+    @Lazy
+    private AuthenticationManager authenticationManager;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
 
-    public LoginService(LoginRepo loginRepo ,RegistrationProfileDetailsRepo profileDetailsRepo) {
+    public LoginService(LoginRepo loginRepo, JWTService jwtService, RegistrationProfileDetailsRepo profileDetailsRepo) {
         this.loginRepo = loginRepo;
+        this.jwtService = jwtService;
         this.profileDetailsRepo = profileDetailsRepo;
     }
 
@@ -74,6 +85,15 @@ public class LoginService implements UserDetailsService {
     //storing logout timestamp when logout.
     public void saveUser(LoginModel user) {
         loginRepo.save(user);
+    }
+
+    public String verifyToken(LoginModel user) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername() , user.getPassword()));
+
+        if(authentication.isAuthenticated()){
+            return jwtService.generateToken(user);
+        }
+        return "fail";
     }
 }
 
