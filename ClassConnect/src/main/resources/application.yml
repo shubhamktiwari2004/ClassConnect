@@ -1,8 +1,0 @@
-spring:
-  redis:
-    host: localhost
-    port: 6379
-  session:
-    store-type: redis
-    timeout: 3600  # Session expiry time in seconds (e.g., 1 hour)
-
